@@ -5,10 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>教學課程｜初晴之森托嬰中心</title>
 <style>
-:root{--bg:#fbf6ea;--card:#fffdf7;--text:#4a3d2b;--sub:#8a7d68;--line:#eadfc8;--nav:#5f7a2e;--accent:#7fa03a;--tint:#eef3dc;--chip:#fde8c8;--chipt:#c8700f;
+:root{--bg:#ffffff;--card:#ffffff;--text:#4a3d2b;--sub:#8a7d68;--line:#eadfc8;--nav:#5f7a2e;--accent:#7fa03a;--tint:#eef3dc;--chip:#fde8c8;--chipt:#c8700f;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1f14;--card:#272b1d;--text:#f3efe2;--sub:#b3ad98;--line:#3a3f2b;--tint:#2f3a1d;--chip:#4a3a22;--chipt:#f0b070}}
-:root[data-theme="dark"]{--bg:#1c1f14;--card:#272b1d;--text:#f3efe2;--sub:#b3ad98;--line:#3a3f2b;--tint:#2f3a1d;--chip:#4a3a22;--chipt:#f0b070}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}
@@ -34,7 +32,7 @@ main{max-width:640px;margin:0 auto;padding:16px}
 .detail dt{color:var(--accent);font-weight:700;font-size:13px;margin-top:8px}
 .detail dd{margin:0}
 .cls{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-.cls button{display:flex;align-items:center;gap:6px;border:2px solid var(--c,var(--line));background:var(--card);color:var(--text);font:700 14px inherit;font-family:inherit;padding:4px 12px 4px 4px;border-radius:99px;cursor:pointer}
+.cls button{display:flex;align-items:center;gap:6px;border:2px solid var(--c,var(--line));background:var(--card);color:var(--text);font:700 14px inherit;font-family:inherit;padding:8px 14px;border-radius:99px;cursor:pointer}
 .cls button.on{background:var(--c);color:#fff}
 .cls img{width:30px;height:30px;border-radius:50%;object-fit:cover}
 .cls .all{padding-left:12px}
@@ -103,7 +101,7 @@ function render(){
   var p=P[cur];
   document.getElementById("tabs").innerHTML=P.map(function(x,i){return '<button class="'+(i==cur?'on':'')+'" data-i="'+i+'">'+x.name+'</button>'}).join("");
   document.getElementById("bar").textContent=p.desc;
-  document.getElementById("cls").innerHTML='<button class="all'+(cc<0?' on':'')+'" data-c="-1" style="--c:#f6992a">全部班級</button>'+C.map(function(k,j){return '<button class="'+(cc==j?'on':'')+'" data-c="'+j+'" style="--c:'+k.c+'"><img src="'+k.i+'" alt="">'+k.n+'</button>'}).join("");
+  document.getElementById("cls").innerHTML='<button class="all'+(cc<0?' on':'')+'" data-c="-1" style="--c:#f6992a">全部班級</button>'+C.map(function(k,j){return '<button class="'+(cc==j?'on':'')+'" data-c="'+j+'" style="--c:'+k.c+'">'+k.n+'</button>'}).join("");
   var g="";
   for(var i=0;i<p.items.length;i++){
     var t=p.items[i],n=BASE[cur]+i;
