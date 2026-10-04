@@ -37,11 +37,105 @@ main{max-width:640px;margin:0 auto;padding:16px}
 .cls img{width:30px;height:30px;border-radius:50%;object-fit:cover}
 .cls .all{padding-left:12px}
 .cb{border-radius:12px;padding:10px 12px;margin-top:8px;font-size:14px;color:#fff}
+.wp{display:flex;gap:8px;margin:8px 0}
+.wp button{flex:1;border:1px solid var(--line);background:var(--card);color:var(--sub);font:700 14px inherit;font-family:inherit;padding:8px 0;border-radius:99px;cursor:pointer}
+.wp button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.wr{font-size:14px;color:var(--sub);margin:4px 0 8px}
+.cs{border-radius:18px;border:1px solid var(--line);margin-top:14px;overflow:hidden}
+.ch{background:color-mix(in srgb,var(--c) 16%,#fff);color:var(--c);font-weight:700;font-size:18px;padding:12px 14px}
+.ch small{margin-left:8px;font-size:12px;color:var(--sub);font-weight:600}
+.dc{margin:12px;border-radius:14px;border-left:5px solid var(--c);background:color-mix(in srgb,var(--c) 11%,#fff);padding:12px 14px}
+.dd{color:var(--c);font-weight:700;font-size:15px}
+.dn{color:var(--sub);font-size:12px;font-weight:700;margin-top:2px}
+.dt{font-size:17px;font-weight:700;margin:4px 0 8px}
+.dc p{margin:0;background:#fff;border-radius:10px;padding:10px 12px;font-size:14px;line-height:1.7}
+.dr{color:var(--c);font-size:12px;font-weight:700;margin:10px 0 6px}
+.dc .rc{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:8px;padding:3px 10px;font-size:12px;margin:0 6px 4px 0}
+.pb{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px;font-size:14px;color:var(--sub)}
+.pb button{border:1px solid var(--line);background:var(--card);color:var(--text);font:700 14px inherit;font-family:inherit;padding:8px 14px;border-radius:99px;cursor:pointer}
+#pr{display:none}
+#pr.open{display:block;position:fixed;top:0;left:0;right:0;bottom:0;background:#fff;color:#222;overflow:auto;z-index:999;padding:0 12px 40px;-webkit-overflow-scrolling:touch}
+#pr .pbarx{position:sticky;top:0;background:#fff;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top,0px) + 10px) 0 10px;border-bottom:1px solid #ddd;margin-bottom:10px;z-index:2}
+#pr .pbarx button{border:0;background:#5f7a2e;color:#fff;font:700 15px inherit;font-family:inherit;padding:9px 16px;border-radius:10px;cursor:pointer}
+#pr .pbarx button.bk{background:#eee;color:#333}
+#pr .pbarx span{font-size:12px;color:#777;flex-basis:100%}
+#pr .pcont{overflow-x:auto}
+#pr table{min-width:640px}
+#pr h1{font-size:18px;margin:0 0 4px}
+#pr .sub{font-size:12px;margin-bottom:8px}
+#pr table{width:100%;border-collapse:collapse;table-layout:fixed}
+#pr th,#pr td{border:1px solid #888;padding:5px;font-size:10px;line-height:1.5;vertical-align:top;word-break:break-all}
+#pr th{background:var(--pc);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+#pr td b{display:block;font-size:11px}
+#pr td i{font-style:normal;color:#666}
+
+#pr .ct{display:block;font-size:12px}
+#pr .cx{font-size:11px;line-height:1.5}
+#pr .ci{font-size:10px;color:#555;margin-top:3px}
+#pr .cr{font-size:10px;color:#444}
+.fl{font-size:12px;font-weight:700;color:var(--sub);margin:8px 0 3px}
+.dn{border:1px solid var(--c);background:#fff;color:var(--c);font:700 13px inherit;font-family:inherit;padding:5px 12px;border-radius:99px;cursor:pointer}
+.ti,.ta{width:100%;border:1px solid var(--line);border-radius:10px;padding:9px 10px;font:14px/1.5 inherit;font-family:inherit;background:#fff;color:var(--text)}
+.ta{resize:vertical}
+.fill{margin-top:8px;border:0;background:none;color:var(--c);font:700 13px inherit;font-family:inherit;cursor:pointer;padding:4px 0;text-decoration:underline}
+.ind{display:inline-block;background:rgba(0,0,0,.07);border-radius:8px;padding:5px 10px;font-size:13px;font-weight:700;margin-bottom:8px}
+#pr th{background:#f3f3f3}
+#pr .ph{color:#fff;padding:8px 12px;border-radius:8px;font-size:15px;margin-bottom:8px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+#pr .ph small{display:block;font-size:11px;opacity:.9;margin-top:2px}
+#pr .pw{margin-bottom:12px;break-inside:avoid}
+#pr .pwh{font-weight:700;font-size:13px;border-left:4px solid;padding-left:8px;margin-bottom:4px}
+#pr .pwh span{font-weight:400;color:#555;font-size:11px}
+#pr .pt{display:inline-block;color:#fff;border-radius:6px;padding:1px 6px;font-size:9px;margin-bottom:2px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+#pr td{font-size:9px}
+#pr ul{margin:0;padding-left:16px}
+#pr li{font-size:10px;line-height:1.6;margin-bottom:4px}
+#pr li i{color:#666;font-style:normal}
+#pr .pth{font-size:14px;font-weight:700;margin:10px 0 6px;border-bottom:2px solid #999;padding-bottom:2px}
+#pbar .pb{margin:0 0 16px}
+#pr .pm{break-after:page}
+#pr .pm:last-child{break-after:auto}
+#pr .pi{font-size:11px;line-height:1.7;border:1px solid #bbb;border-radius:6px;padding:6px 10px;margin-bottom:8px}
+#pr th .pwf{font-weight:400;font-size:9px;color:#555}
+#pr .cd{font-weight:700;font-size:11px;margin-bottom:2px}
+#pr td b{font-size:10px}
+#pr td i{font-style:normal;color:#666;font-size:9px}
+#pr .pl{margin-top:8px;font-size:10px}
+#pr .pl ul{columns:2;column-gap:14px;margin:4px 0 0;padding-left:16px}
+#pr .pl li{font-size:9px;line-height:1.5;margin:0 0 2px;break-inside:avoid}
+.ind{border:0;font-family:inherit;color:inherit;text-align:left;cursor:pointer;max-width:100%}
+#pk{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);z-index:1000}
+#pk.open{display:flex;align-items:flex-end}
+.pks{background:#fff;width:100%;max-width:640px;margin:0 auto;max-height:82%;overflow:auto;border-radius:18px 18px 0 0;padding:0 16px calc(env(safe-area-inset-bottom,0px) + 24px)}
+.pkh{position:sticky;top:0;background:#fff;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:14px 0 10px;border-bottom:1px solid var(--line)}
+.pkh button{border:1px solid var(--line);background:#fff;font:700 13px inherit;font-family:inherit;padding:6px 12px;border-radius:99px;margin-left:6px;cursor:pointer;color:var(--text)}
+.pkb{font-weight:700;font-size:13px;color:var(--accent);margin:14px 0 6px}
+.pkb em{font-style:normal;background:var(--chip);color:var(--chipt);border-radius:99px;padding:1px 8px;font-size:11px;margin-left:4px}
+.pki{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;color:var(--text);font:14px/1.5 inherit;font-family:inherit;padding:9px 12px;border-radius:10px;margin-bottom:6px;cursor:pointer}
+.pki.on{border-color:var(--accent);background:var(--tint)}
+.pki b{color:var(--accent);margin-right:4px}
 .wk{border-top:1px solid var(--line);margin-top:10px;padding-top:8px}
 .wk summary{font-weight:700;cursor:pointer;padding:6px 0}
 .day{display:flex;gap:10px;padding:6px 0;font-size:14px;line-height:1.6}
 .day i{flex:none;font-style:normal;width:44px;font-weight:700;color:var(--accent)}
 .day span{color:var(--sub)}
+#pr *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+#pr .rh{color:#fff;border-radius:12px;padding:12px 16px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+#pr .rh b{font-size:22px}
+#pr .rh span{font-size:13px;opacity:.95}
+#pr .rw{border-left:6px solid;margin:10px 0 0;padding:10px 12px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+#pr .rw b{font-size:20px}
+#pr .rw span{font-size:13px;color:#555}
+#pr .rw em{margin-left:auto;font-style:normal;font-size:12px;color:#666}
+#pr table.wt{width:100%;border-collapse:collapse;table-layout:fixed}
+#pr table.wt th{background:var(--hc);color:#fff;text-align:left;font-size:13px;padding:8px 10px;border:1px solid rgba(255,255,255,.4)}
+#pr table.wt td{border:1px solid #cfd6e4;padding:8px 10px;vertical-align:top;font-size:12px;line-height:1.6;color:#222}
+#pr table.wt tr.r1 td{background:var(--t)}
+#pr .dp{display:inline-block;border:1.5px solid;border-radius:99px;padding:2px 10px;font-size:11px;font-weight:700;white-space:nowrap}
+#pr .dd2{font-size:10px;color:#777;margin-top:5px}
+#pr .tt{font-size:14px;color:#2b2d55;display:block;margin-bottom:6px;min-height:1em}
+#pr .ci2{font-size:10.5px;color:#888;line-height:1.5}
+#pr .cc{min-height:2em}
+@media print{@page{size:A4 portrait;margin:10mm}html,body{height:auto}body>*:not(#pr){display:none!important}#pr.open{position:static;display:block!important;overflow:visible;padding:0}#pr .pbarx{display:none!important}#pr .pcont{overflow:visible}#pr table.wt{min-width:0}#pr table.wt td{height:44mm}#pr .cl{display:-webkit-box;-webkit-line-clamp:7;-webkit-box-orient:vertical;overflow:hidden}#pr .tt{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
 </style>
 </head>
 <body>
@@ -50,9 +144,12 @@ main{max-width:640px;margin:0 auto;padding:16px}
 <main>
   <div class="bar" id="bar"></div>
   <div class="cls" id="cls"></div>
+  <div id="pbar"></div>
   <div class="grid" id="grid"></div>
   <div class="detail" id="detail" hidden></div>
 </main>
+<div id="pr"></div>
+<div id="pk"></div>
 <script>
 var N=["一","二","三","四","五","六","七","八","九","十","十一","十二"];
 var M=[11,12,1,2,3,4,5,6,7,8,9,10],ORDER=[0,10,4,11,3,7,1,5,6,8,2,9],BASE=[0,2,8];
@@ -70,7 +167,8 @@ var T=[
 {zh:"早安晚安",en:"Good Morning, Good Night",es:"Twinkle Twinkle Little Star",cs:"小星星",ew:"morning、moon、sleep",cw:"早安、晚安、睡覺"},
 {zh:"開心情緒",en:"Happy Feelings",es:"If You're Happy and You Know It",cs:"如果幸福你就拍拍手",ew:"happy、sad、smile",cw:"開心、難過、笑笑"}
 ];
-var O=ORDER.map(function(i,k){var t=Object.assign({},T[i]);t.m=M[k];return t});
+var FO=[["認識家人","抱抱我愛你","家人的聲音","親子共讀"],["認識車子","車輪滾滾","車子的聲音","車車出發"],["認識食物","吃飯香噴噴","食物的味道","小小廚師"],["認識動物","動物叫叫","動物的動作","動物遊行"],["我的小手","我的小腳","摸摸五官","身體律動"],["紅色世界","藍色世界","黃色與綠色","彩虹大集合"],["水的感覺","小船漂漂","水花嘩啦","鴨子游泳"],["太陽公公","下雨了","雲和風","天氣歌"],["認識水果","水果的味道","水果的形狀","水果派對"],["球球滾滾","積木疊疊","小熊抱抱","玩具分享"],["早安問候","月亮星星","睡前故事","晚安儀式"],["開心笑笑","難過抱抱","表情模仿","拍手同樂"]];
+var O=ORDER.map(function(i,k){var t=Object.assign({},T[i]);t.m=M[k];t.f=FO[i];return t});
 var P=[
 {name:"115年下半年",desc:"115年11月–12月(2026)・開幕學期",items:O.slice(0,2)},
 {name:"116年上半年",desc:"116年1月–6月(2027)・每月一個主題",items:O.slice(2,8)},
@@ -81,26 +179,133 @@ var C=[
 {n:"花曦班",a:"中寶・11–18個月",s:"在陪伴中,自信綻放",c:"#e0708a",i:"c2.jpg",w:["跟著哼唱、簡單手勢","跟著哼唱、簡單手勢","指認圖卡、模仿發音","指認圖卡、模仿發音","手勢律動、歌曲複習"]},
 {n:"晴空班",a:"大寶・18個月以上",s:"向著晴空,自在成長",c:"#4f8fcf",i:"c3.jpg",w:["跟唱、搭配動作","跟唱、搭配動作","說出字詞、配對圖卡","說出字詞、配對圖卡","自由律動、輪流唱歌"]}
 ];
-var cur=0,sel=-1,cc=-1;
+var cur=0,sel=-1,cc=-1,wk=0;
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function pad(n){return n<10?"0"+n:n}
-function weeks(t){
-  var y=t.m>=11?2026:2027,d=new Date(y,t.m-1,1),h='<h3 style="margin-top:16px">每週課程(週一至週五)</h3>';
-  var k=C[cc];if(k)h+='<div class="cb" style="background:'+k.c+'"><b>'+k.n+'</b>・'+k.a+'<br>'+k.s+'</div>';
+var DM=[{n:"語言溝通",c:"#f6992a"},{n:"社會情緒",c:"#e0708a"},{n:"認知探索",c:"#4f8fcf"},{n:"生活自理",c:"#2fa89a"},{n:"身體動作",c:"#7fa03a"}];
+var DS=[
+["托育人員輕抱寶寶,播放並輕唱《{es}》,搭配輕柔搖擺,讓寶寶聆聽並感受節奏。","托育人員輕聲哼唱《{cs}》,搭配輕撫與眼神互動,讓寶寶感受到被愛與安心。","本週主題「{f}」。托育人員拿出「{fw}」的圖卡,慢慢展示並清楚說出,觀察寶寶的視線追視與反應。","托育人員用溫柔的聲音反覆說「{fc}」,搭配圖卡或實物,鼓勵寶寶發出聲音回應。","進行「{f}」的感官律動:托育人員抱著寶寶輕輕擺動、輕觸手腳,搭配《{es}》的音樂。"],
+["托育人員帶著寶寶一起唱《{es}》,搭配簡單手勢,鼓勵寶寶模仿拍手、搖擺。","一起哼唱《{cs}》,托育人員示範動作,寶寶跟著做,並互相對看微笑。","本週主題「{f}」。托育人員展示「{fw}」的圖卡,請寶寶指一指,並鼓勵模仿發音。","托育人員拿出「{fc}」的圖卡或實物,引導寶寶指認並模仿說出,給予熱情回應。","「{f}」律動遊戲:寶寶跟著音樂走一走、搖一搖,托育人員在旁陪伴並引導動作。"],
+["跟著音樂大聲唱《{es}》,搭配動作,鼓勵寶寶開口跟唱並輪流當小領唱。","唱《{cs}》並加入動作,請寶寶輪流示範自己喜歡的動作,培養與同伴互動。","本週主題「{f}」。玩圖卡配對遊戲,認識「{fw}」,鼓勵寶寶找出相同的圖卡。","玩說說看遊戲,學習「{fc}」,請寶寶說出或指給老師看,並與同伴分享。","「{f}」體能遊戲:寶寶跟著音樂跑一跑、跳一跳、停一停,練習控制身體。"]
+];
+var IND={"1": [["俯臥時可抬起頭及頸部", "能雙手碰在一起", "能抓握放在手心的物品", "能試圖伸手拿眼前物品", "能伸展肢體"], ["俯臥時能以手臂撐起胸部", "能自己翻身", "能在協助下坐穩", "能伸手拉或耙抓物品", "能搖晃手中的物品", "能抬腿碰觸物品", "能匍匐移動"], ["能自己坐穩", "會撐起身體向前爬行", "能在協助下站立與行走", "能獨立站立幾秒", "能將物品由一手換到另一手", "能用拇指配合其他手指鉗握物品", "能以雙手拍手"], ["能獨立穩定行走", "能保持平衡撿拾地上物品", "會拿或拖拉物品行走", "能將玩具放入或倒出容器", "能翻硬紙板書", "能丟擲玩具", "能以兩指(拇指、食指)撿拾物品"], ["能獨立地走上樓梯", "能奔跑", "能原地跳起", "能踢球", "能堆疊數個小積木", "能拿筆塗鴉", "能一頁一頁地翻書"]], "2": [["能發出社會性微笑", "會回應成人的逗弄", "會使用如吸拇指或吃奶嘴的方式安撫自己"], ["會玩自己的手腳", "對鏡中的自己感興趣", "能表現愉悅的情緒", "對與人互動表現正向反應", "會用簡單方式吸引成人注意"], ["會揮手表示再見", "能和成人玩簡單重覆遊戲(如躲貓貓)", "能簡單表達自我需求及情緒", "能區辨照顧者的語氣及情緒", "能與照顧者建立情感依附(如主動伸手要抱)", "練習處理陌生人焦慮"], ["能與別的孩子坐在一起玩", "能在提示下做基本社交動作(如謝謝、拜拜)", "會對喜愛玩偶表現出疼愛或照顧的行為", "會對熟悉成人表達好感(如擁抱親吻)", "會用行為或語言表達自主性(如搖頭表示不要)", "練習處理分離焦慮"], ["能在照片中或鏡子中認出自己", "能參與團體性的活動", "能辨識並說出他人不同的情緒", "會以自己的名字稱呼自己", "會用動作去安慰他人", "會說出親友、同伴的名字或稱呼", "能認識自己、朋友或家庭成員的照片", "會與玩偶對話"]], "3": [["會朝發出聲音的方向轉頭", "能注視照顧者的口型變化", "會發出聲音自娛", "會回應成人的聲音"], ["會嘗試發出不同的聲音", "能發出聲音回應成人的話語", "對熟悉的童謠或音樂有反應", "會注視說話的人"], ["能模仿大人的簡單話語(如ㄅㄚㄅㄚ)", "在牙牙學語中出現聲量、高低和節奏的變化", "會以肢體動作進行溝通(如以手指物或搖頭、點頭)", "會與人輪流對話", "能理解簡單語彙的意思"], ["能講至少十個單字", "能結合二個字出現電報式的話語", "能用語言表達想要的東西", "能理解簡單日常生活用語", "能指認或說出熟悉物品/動物的名稱", "能回答簡單問題"], ["可說出20個以上的字彙", "能以短句與他人對話", "能說出簡單的身體部位名稱", "能自己閱讀圖畫書", "聽到喜歡的音樂或歌謠會跟著手舞足蹈或哼唱", "練習說疑問句"]], "4": [["眼睛能追隨物品移動", "對光線及聲量的變化有反應", "能對不同觸感有反應", "會模仿成人的臉部表情", "會探索自己雙手"], ["會重覆進行有目的性的行為", "能用眼睛搜尋聲音的來源", "能模仿簡單的動作", "會用嘴巴探索物品", "會注視顏色或圖案鮮明的圖片/玩具"], ["會分辨熟悉家人與陌生人", "會尋找完全被藏著的物品", "能預期事件的發生", "呼叫他的名字時會有反應", "能設法接近想要的事物", "能操作簡單玩具"], ["能遵從簡單的指令", "能指認常見物品與簡單身體部位", "能配對簡單形狀", "能了解常見物品的用途", "能以新的方式探索物品的特性", "能尋找出指定物品"], ["能分辨冷熱、軟硬、乾濕等", "會假裝餵洋娃娃吃東西", "能依形狀或顏色分類", "能分辨大小", "能拼簡單拼圖", "對塗顏色活動感興趣"]]};
+var BR=["I","II","III","IV","V"],CB=[[0,1,2],[2,3],[3,4]],DOM=[3,2,4,5,1];
+function pick(d,j,t,w,i){var pl=[];CB[j].forEach(function(b){IND[d][b].forEach(function(x,n){pl.push(BR[b]+"-"+d+"-"+(n+1)+" "+x)})});return pl[(t.m*2+w*3+i)%pl.length]}
+var D5=["週一","週二","週三","週四","週五"];
+var LS=[
+[{t:"吸吮好時光",d:"托育人員抱穩寶寶,餵奶或給予安撫奶嘴,觀察寶寶吸吮的反應,在輕鬆的氣氛中建立安心感。",i:"I-5-1 能吸吮奶嘴",r:["奶嘴","安撫巾"]},
+ {t:"一起拿奶瓶",d:"餵奶時,托育人員鼓勵寶寶伸出小手幫忙扶著奶瓶,一邊說「一起拿奶瓶」。",i:"II-5-1 會伸手幫忙拿奶瓶",r:["奶瓶"]},
+ {t:"用湯匙喝果汁",d:"托育人員用小湯匙餵少量果汁或副食品,讓寶寶練習接受湯匙,觀察寶寶的反應。",i:"II-5-2 能接受用湯匙餵食",r:["小湯匙","副食品"]},
+ {t:"自己拿奶瓶",d:"托育人員協助寶寶自己拿住奶瓶進食,並在旁邊陪伴,給予口語鼓勵。",i:"III-5-1 能自己拿住奶瓶進食",r:["奶瓶"]}],
+[{t:"洗手好習慣",d:"洗手時間:托育人員示範搓搓手、沖沖水,寶寶跟著做,練習洗手的技巧。",i:"IV-5-5 練習洗手的技巧",r:["洗手台","洗手歌音樂"]},
+ {t:"自己拿食物吃",d:"用餐時,鼓勵寶寶自己用手拿取手指食物,練習自己吃,托育人員在旁陪伴。",i:"III-5-3 能自己拿食物吃",r:["手指食物","餐盤"]},
+ {t:"學習杯喝水",d:"提供學習杯,讓寶寶練習自己拿杯子喝水,托育人員在旁協助並鼓勵。",i:"IV-5-1 能用學習杯喝水",r:["學習杯"]},
+ {t:"擦擦嘴巴",d:"用餐後,托育人員示範用毛巾擦嘴,寶寶跟著練習擦一擦,感受乾淨清爽。",i:"IV-5-6 能粗略以毛巾擦嘴",r:["小毛巾"]}],
+[{t:"洗手洗乾淨",d:"唱著洗手歌,寶寶跟著步驟搓手、沖水、擦乾,練習把手洗乾淨。",i:"IV-5-5 練習洗手的技巧",r:["洗手台","洗手歌音樂"]},
+ {t:"自己用湯匙吃",d:"用餐時,寶寶練習自己用湯匙吃飯,吃完自己把餐具放回餐盤。",i:"V-5-1 能用湯匙進食",r:["湯匙","餐盤"]},
+ {t:"收玩具歸位",d:"玩具玩完後,寶寶幫忙把玩具收回籃子,練習物歸原處。",i:"V-5-6 能幫忙收拾玩具及物品",r:["收納籃","玩具"]},
+ {t:"漱口與刷牙",d:"飯後練習漱口,在協助下練習刷牙,學習保護自己的牙齒。",i:"V-5-5 能在協助下練習刷牙",r:["兒童牙刷","漱口杯"]}]
+];
+function G0(t,j,w,i){
+  var W=t.ew.split("、"),V=t.cw.split("、"),f=t.f[w],fw=w<3?W[w]:t.ew,fc=w<3?V[w]:t.cw,M={es:t.es,cs:t.cs,f:f,fw:fw,fc:fc};
+  if(i==3){var l=LS[j][w];return {dm:DM[3],ind:l.i,tit:l.t,res:l.r,txt:l.d}}
+  var tit=["《"+t.es+"》"+["聆聽感受","手勢律動","樂器節奏","齊聲歡唱"][w],"《"+t.cs+"》"+["親子輕唱","互動遊戲","輪流表演","溫馨合唱"][w],f+":認識「"+fw+"」與「"+fc+"」","",f+"律動遊戲"][i];
+  var res=[["音樂《"+t.es+"》","音響"].concat(w==2?["樂器-沙鈴"]:[]),["音樂《"+t.cs+"》","音響"],["圖卡-"+fw+" / "+fc,"實物教具"],[],["音響","律動道具(絲巾)"]][i];
+  var txt=DS[j][i].replace(/\{(es|cs|fw|fc|f)\}/g,function(m,p){return M[p]});
+  if(i==2)txt+="同時搭配中文「"+fc+"」,讓寶寶聽一聽、看一看。";
+  return {dm:DM[i],ind:pick(DOM[i],j,t,w,i),tit:tit,res:res,txt:txt};
+}
+IND[5]=[["能吸吮奶嘴"],["會伸手幫忙拿奶瓶","能接受用湯匙餵食"],["能自己拿住奶瓶進食","能吞嚥糊狀副食品","能自己拿食物吃","能拉下頭上的帽子","會表示要吃東西"],["能用學習杯喝水","能用吸管喝水","練習用湯匙/叉子","會表示尿濕了或已排便","練習洗手的技巧","能粗略以毛巾擦嘴","練習咀嚼半固態食物"],["能用湯匙進食","能咀嚼固體食物","能自己脫褲子及鞋子","能在協助下練習穿衣服","能在協助下練習刷牙","能幫忙收拾玩具及物品","能練習做簡單家事","能練習如廁及表達需求"]];
+var MAP={},BL=["0-3個月","4-6個月","7-12個月","13-18個月","19-24個月"],OV={},PK=null;
+Object.keys(IND).forEach(function(d){IND[d].forEach(function(arr,b){arr.forEach(function(x,n){MAP[BR[b]+"-"+d+"-"+(n+1)]=x})})});
+try{OV=JSON.parse(localStorage.getItem("sf_ind")||"{}")}catch(e){OV={}}
+function saveOV(){try{localStorage.setItem("sf_ind",JSON.stringify(OV))}catch(e){}}
+var DN=[null,{n:"身體動作",c:"#7fa03a"},{n:"社會情緒",c:"#e0708a"},{n:"語言溝通",c:"#f6992a"},{n:"認知探索",c:"#4f8fcf"},{n:"生活自理",c:"#2fa89a"}],DOV={},ACT={};
+try{DOV=JSON.parse(localStorage.getItem("sf_dom")||"{}")}catch(e){DOV={}}
+try{ACT=JSON.parse(localStorage.getItem("sf_act")||"{}")}catch(e){ACT={}}
+function saveDOV(){try{localStorage.setItem("sf_dom",JSON.stringify(DOV))}catch(e){}}
+function saveACT(){try{localStorage.setItem("sf_act",JSON.stringify(ACT))}catch(e){}}
+function dk(t,j,w,i){return t.m+"-"+j+"-"+w+"-"+i}
+function G(t,j,w,i){
+  var key=dk(t,j,w,i),g=G0(t,j,w,i),D=DOV[key]||DOM[i];
+  g.sg=(D==DOM[i]);
+  if(!g.sg){g.dm=DN[D];g.ind=pick(D,j,t,w,i);g.tit="";g.txt="";g.res=[]}
+  var c=OV[key];if(c&&MAP[c]&&c.split("-")[1]==D)g.ind=c+" "+MAP[c];
+  return g;
+}
+function parseK(k){var a=k.split("-");PK={m:+a[0],j:+a[1],w:+a[2],i:+a[3],k:k}}
+function openPk(k){parseK(k);drawPk()}
+function openDk(k){parseK(k);drawDk()}
+function closePk(){document.getElementById("pk").className=""}
+function drawPk(){
+  var d=DOV[PK.k]||DOM[PK.i],th=O.filter(function(x){return x.m==PK.m})[0],cur=G(th,PK.j,PK.w,PK.i).ind.split(" ")[0];
+  var h='<div class="pks"><div class="pkh"><b>選擇學習指標・'+DN[d].n+'</b><span><button data-pkx="reset">還原預設</button><button data-pkx="close">關閉</button></span></div>';
+  IND[d].forEach(function(arr,b){
+    h+='<div class="pkb">'+BR[b]+'級・'+BL[b]+(CB[PK.j].indexOf(b)>=0?' <em>'+C[PK.j].n+'建議</em>':'')+'</div>';
+    arr.forEach(function(x,n){var c=BR[b]+"-"+d+"-"+(n+1);h+='<button class="pki'+(c==cur?' on':'')+'" data-pick="'+c+'"><b>'+c+'</b> '+esc(x)+'</button>'});
+  });
+  var pk=document.getElementById("pk");pk.innerHTML=h+'</div>';pk.className="open";
+}
+function drawDk(){
+  var cur=DOV[PK.k]||DOM[PK.i];
+  var h='<div class="pks"><div class="pkh"><b>選擇發展領域</b><span><button data-pkx="dreset">還原預設</button><button data-pkx="close">關閉</button></span></div><div class="pkb">五大發展領域(更換領域後,學習指標會重新選擇)</div>';
+  for(var n=1;n<=5;n++)h+='<button class="pki'+(n==cur?' on':'')+'" data-dpick="'+n+'" style="border-left:8px solid '+DN[n].c+'">'+DN[n].n+'</button>';
+  var pk=document.getElementById("pk");pk.innerHTML=h+'</div>';pk.className="open";
+}
+function wstart(t,w){
+  var y=t.m>=11?2026:2027,d=new Date(y,t.m-1,1);
   while(d.getDay()!=1)d.setDate(d.getDate()+1);
-  var D=["週一","週二","週三","週四","週五"],A=[["英文兒歌",t.es],["中文兒歌",t.cs],["英文字詞",t.ew],["中文字詞",t.cw],["律動複習",t.es+"+"+t.cs]];
-  for(var w=0;w<4;w++){
-    var s=new Date(d.getTime()+w*7*864e5),e=new Date(s.getTime()+4*864e5);
-    h+='<details class="wk"'+(w==0?' open':'')+'><summary>第'+(w+1)+'週 '+pad(s.getMonth()+1)+'/'+pad(s.getDate())+'～'+pad(e.getMonth()+1)+'/'+pad(e.getDate())+'</summary>';
-    for(var i=0;i<5;i++){var x=new Date(s.getTime()+i*864e5);h+='<div class="day"><i>'+D[i]+'</i><div>'+A[i][0]+'<br><span>'+pad(x.getMonth()+1)+'/'+pad(x.getDate())+'・'+esc(A[i][1])+'</span>'+(k?'<br><span style="color:'+k.c+'">做法:'+k.w[i]+'</span>':'')+'</div></div>'}
-    h+='</details>';
+  return new Date(d.getFullYear(),d.getMonth(),d.getDate()+w*7);
+}
+function dt(s,i){var x=new Date(s.getFullYear(),s.getMonth(),s.getDate()+i);return pad(x.getMonth()+1)+"/"+pad(x.getDate())}
+function nl(s){return esc(s||"").replace(/\n/g,"<br>")}
+function rgba(hx,a){var n=parseInt(hx.slice(1),16);return "rgba("+(n>>16)+","+((n>>8)&255)+","+(n&255)+","+a+")"}
+function printTable(j){
+  var p=P[cur],t=sel>=0?p.items[sel]:p.items[0],w=sel>=0?wk:0,k=C[j];
+  var yl=(t.m>=11?2026:2027)+"年"+t.m+"月",s=wstart(t,w);
+  var h='<div class="pm1"><div class="rh" style="background:'+k.c+'"><b>'+k.n+'</b><span>初晴之森托嬰中心・'+yl+'　課程活動總表</span></div>';
+  h+='<div class="rw" style="border-color:'+k.c+';background:'+rgba(k.c,.12)+'"><b style="color:'+k.c+'">第 '+(w+1)+' 週</b><span>'+dt(s,0)+' ～ '+dt(s,4)+' ｜ 本週重點:'+esc(t.f[w])+'</span><em>📖 主題:'+esc(t.zh)+' '+esc(t.en)+'</em></div>';
+  h+='<table class="wt" style="--hc:'+k.c+'"><tr><th style="width:14%">領域</th><th style="width:25%">活動名稱 / 學習指標</th><th style="width:45%">活動內容</th><th style="width:16%">教學資源</th></tr>';
+  for(var i=0;i<5;i++){
+    var g=G(t,j,w,i),a=ACT[dk(t,j,w,i)]||{};
+    h+='<tr class="r'+(i%2)+'" style="--t:'+rgba(k.c,.1)+'"><td><span class="dp" style="color:'+g.dm.c+';border-color:'+g.dm.c+';background:'+rgba(g.dm.c,.14)+'">'+g.dm.n+'</span><div class="dd2">'+dt(s,i)+' '+D5[i]+'</div></td>'
+      +'<td><b class="tt">'+nl(a.t)+'</b><div class="ci2">'+esc(g.ind)+'</div></td>'
+      +'<td><div class="cc"><div class="cl">'+nl(a.c)+'</div></div></td><td><div class="cc"><div class="cl">'+nl(a.r)+'</div></div></td></tr>';
   }
+  h+='</table></div>';
+  var pr=document.getElementById("pr");
+  pr.innerHTML='<div class="pbarx"><button class="bk" data-x="close">← 返回</button><button data-x="print">🖨️ 列印</button><span>列印目前選的這一週(直式一張)。需在 Safari 等瀏覽器開啟網站才能列印;若按了沒反應,表示目前在 App 內建預覽,請改用 Safari 開啟,或用「分享 → 列印」</span></div><div class="pcont">'+h+'</div>';
+  pr.className="open";pr.scrollTop=0;
+  try{window.print()}catch(e){}
+}
+function pbar(){return '<div class="pb">🖨️ 列印:'+C.map(function(k,j){return '<button data-p="'+j+'">'+k.n+'</button>'}).join("")+'</div>'}
+function weeks(t){
+  var s=wstart(t,wk);
+  var h='<div class="wp">';
+  for(var w=0;w<4;w++)h+='<button class="'+(w==wk?'on':'')+'" data-w="'+w+'">第'+(w+1)+'週</button>';
+  h+='</div><div class="wr">📅 '+dt(s,0)+' ～ '+dt(s,4)+'(週一至週五)・本週重點:'+esc(t.f[wk])+'</div>';
+  (cc<0?[0,1,2]:[cc]).forEach(function(j){
+    var k=C[j];
+    h+='<div class="cs" style="--c:'+k.c+'"><div class="ch">'+k.n+'<small>'+k.a+'</small></div>';
+    for(var i=0;i<5;i++){
+      var g=G(t,j,wk,i),key=dk(t,j,wk,i),a=ACT[key]||{};
+      h+='<div class="dc" style="--c:'+g.dm.c+'"><div class="dd">'+dt(s,i)+'('+D5[i]+')</div>'
+        +'<div class="fl">發展領域</div><button class="dn" data-dk="'+key+'">'+g.dm.n+' ▾</button>'
+        +'<div class="fl">學習指標</div><button class="ind" data-ik="'+key+'">'+esc(g.ind)+' ✎</button>'
+        +'<div class="fl">活動名稱</div><input class="ti" data-ak="'+key+'" data-f="t" value="'+esc(a.t||"")+'" placeholder="'+esc(g.sg?"建議:"+g.tit:"請輸入活動名稱")+'">'
+        +'<div class="fl">活動內容</div><textarea class="ta" rows="3" data-ak="'+key+'" data-f="c" placeholder="'+esc(g.sg?"建議:"+g.txt:"請輸入活動內容")+'">'+esc(a.c||"")+'</textarea>'
+        +'<div class="fl">教學資源</div><input class="ti" data-ak="'+key+'" data-f="r" value="'+esc(a.r||"")+'" placeholder="例如:音響、圖卡">'
+        +(g.sg?'<button class="fill" data-fill="'+key+'">帶入建議內容</button>':'')+'</div>';
+    }
+    h+='</div>';
+  });
   return h;
 }
 function render(){
   var p=P[cur];
   document.getElementById("tabs").innerHTML=P.map(function(x,i){return '<button class="'+(i==cur?'on':'')+'" data-i="'+i+'">'+x.name+'</button>'}).join("");
   document.getElementById("bar").textContent=p.desc;
+  document.getElementById("pbar").innerHTML=pbar();
   document.getElementById("cls").innerHTML='<button class="all'+(cc<0?' on':'')+'" data-c="-1" style="--c:#f6992a">全部班級</button>'+C.map(function(k,j){return '<button class="'+(cc==j?'on':'')+'" data-c="'+j+'" style="--c:'+k.c+'">'+k.n+'</button>'}).join("");
   var g="";
   for(var i=0;i<p.items.length;i++){
@@ -111,10 +316,21 @@ function render(){
   var d=document.getElementById("detail"),t=p.items[sel];
   if(t){d.hidden=false;d.innerHTML='<h3>第'+N[BASE[cur]+sel]+'主題|'+esc(t.zh)+' '+esc(t.en)+'</h3><dl><dt>英文兒歌</dt><dd>'+esc(t.es)+'</dd><dt>中文兒歌</dt><dd>'+esc(t.cs)+'</dd><dt>英文延伸</dt><dd>'+esc(t.ew)+'</dd><dt>中文延伸</dt><dd>'+esc(t.cw)+'</dd></dl>'+weeks(t)}else d.hidden=true;
 }
+document.addEventListener("input",function(e){var el=e.target;if(el.dataset&&el.dataset.ak){var o=ACT[el.dataset.ak]=ACT[el.dataset.ak]||{};o[el.dataset.f]=el.value;saveACT()}});
 document.addEventListener("click",function(e){
-  var b=e.target.closest("[data-i]");if(b){cur=+b.dataset.i;sel=-1;render();return}
+  var b=e.target.closest("[data-i]");if(b){cur=+b.dataset.i;sel=-1;wk=0;render();return}
+  if(e.target.id=="pk"){closePk();return}
+  var pi=e.target.closest("[data-pick]");if(pi&&PK){OV[PK.k]=pi.dataset.pick;saveOV();closePk();render();return}
+  var pq=e.target.closest("[data-pkx]");if(pq){if(pq.dataset.pkx=="dreset"&&PK){delete DOV[PK.k];delete OV[PK.k];saveDOV();saveOV();render()}if(pq.dataset.pkx=="reset"&&PK){delete OV[PK.k];saveOV();render()}closePk();return}
+  var dkb=e.target.closest("[data-dk]");if(dkb){openDk(dkb.dataset.dk);return}
+  var dp=e.target.closest("[data-dpick]");if(dp&&PK){var n=+dp.dataset.dpick;if(n==DOM[PK.i])delete DOV[PK.k];else DOV[PK.k]=n;delete OV[PK.k];saveDOV();saveOV();closePk();render();return}
+  var fb=e.target.closest("[data-fill]");if(fb){var a=fb.dataset.fill.split("-"),th=O.filter(function(x){return x.m==+a[0]})[0],g=G(th,+a[1],+a[2],+a[3]),o=ACT[fb.dataset.fill]=ACT[fb.dataset.fill]||{};if(!o.t)o.t=g.tit;if(!o.c)o.c=g.txt;if(!o.r)o.r=g.res.join("、");saveACT();render();return}
+  var ik=e.target.closest("[data-ik]");if(ik){openPk(ik.dataset.ik);return}
+  var px=e.target.closest("[data-x]");if(px){if(px.dataset.x=="print")window.print();else document.getElementById("pr").className="";return}
+  var pb=e.target.closest("[data-p]");if(pb){printTable(+pb.dataset.p);return}
+  var wb=e.target.closest("[data-w]");if(wb){wk=+wb.dataset.w;render();return}
   var q=e.target.closest("[data-c]");if(q){cc=+q.dataset.c;render();return}
-  var k=e.target.closest("[data-k]");if(k){var n=+k.dataset.k;sel=(sel==n?-1:n);render()}
+  var k=e.target.closest("[data-k]");if(k){var n=+k.dataset.k;sel=(sel==n?-1:n);wk=0;render();if(sel>=0)document.getElementById("detail").scrollIntoView({behavior:"smooth"})}
 });
 render();
 </script>
