@@ -5,334 +5,256 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>教學課程｜初晴之森托嬰中心</title>
 <style>
-:root{--bg:#ffffff;--card:#ffffff;--text:#4a3d2b;--sub:#8a7d68;--line:#eadfc8;--nav:#5f7a2e;--accent:#7fa03a;--tint:#eef3dc;--chip:#fde8c8;--chipt:#c8700f;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--bg:#fbf6ef;--card:#fffdf9;--ink:#4d4a47;--sub:#8c857d;--teal:#b07f20;--o:#dc8f80;--line:#eadfd2;
+--c1:#e2f0e6;--b1:#9cc5a8;--c2:#fbe4e4;--b2:#eba8a8;--c3:#e0eef6;--b3:#9bc2db;--c4:#fbf1d3;--b4:#e6c36a;--c5:#ece4f5;--b5:#b9a2d6;--c6:#eeeae6;--b6:#c0b8ae;
+box-sizing:border-box;padding-bottom:env(safe-area-inset-bottom,0px)}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}
-.top{background:var(--nav);color:#fff;display:flex;align-items:center;gap:12px;padding:14px 16px}
-.top a{color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);padding:8px 14px;border-radius:10px;font-weight:600;font-size:15px}
-.top b{font-size:18px}
-.tabs{display:flex;background:var(--card);border-bottom:2px solid var(--line);overflow-x:auto}
-.tabs button{flex:none;border:0;background:none;color:var(--sub);font:700 16px inherit;font-family:inherit;padding:16px 20px;border-bottom:3px solid transparent;margin-bottom:-2px;cursor:pointer}
-.tabs button.on{color:var(--accent);border-color:var(--accent)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
 main{max-width:640px;margin:0 auto;padding:16px}
-.bar{border-left:5px solid var(--accent);background:var(--card);color:var(--sub);font-size:14px;padding:14px 16px;border-radius:14px;margin-bottom:16px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.t{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:14px;text-align:left;color:var(--text);font-family:inherit;cursor:pointer;min-height:130px}
-.t.on{border-color:var(--accent);background:var(--tint)}
-.t small{display:block;color:var(--sub);font-size:12px;font-weight:700}
-.t b{display:block;font-size:18px;margin:6px 0 2px}
-.t em{display:block;font-style:normal;color:var(--sub);font-size:13px;margin-bottom:8px}
-.chip{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--chip);color:var(--chipt);margin:0 4px 4px 0}
-.t.wait{opacity:.6;cursor:default}
-.t.wait b{color:var(--sub)}
-.detail{background:var(--card);border-radius:18px;padding:16px;margin-top:16px;border:2px solid var(--accent);line-height:1.8;font-size:15px}
-.detail h3{margin:0 0 8px;font-size:18px}
-.detail dt{color:var(--accent);font-weight:700;font-size:13px;margin-top:8px}
-.detail dd{margin:0}
-.cls{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-.cls button{display:flex;align-items:center;gap:6px;border:2px solid var(--c,var(--line));background:var(--card);color:var(--text);font:700 14px inherit;font-family:inherit;padding:8px 14px;border-radius:99px;cursor:pointer}
-.cls button.on{background:var(--c);color:#fff}
-.cls img{width:30px;height:30px;border-radius:50%;object-fit:cover}
-.cls .all{padding-left:12px}
-.cb{border-radius:12px;padding:10px 12px;margin-top:8px;font-size:14px;color:#fff}
-.wp{display:flex;gap:8px;margin:8px 0}
-.wp button{flex:1;border:1px solid var(--line);background:var(--card);color:var(--sub);font:700 14px inherit;font-family:inherit;padding:8px 0;border-radius:99px;cursor:pointer}
-.wp button.on{background:var(--accent);border-color:var(--accent);color:#fff}
-.wr{font-size:14px;color:var(--sub);margin:4px 0 8px}
-.cs{border-radius:18px;border:1px solid var(--line);margin-top:14px;overflow:hidden}
-.ch{background:color-mix(in srgb,var(--c) 16%,#fff);color:var(--c);font-weight:700;font-size:18px;padding:12px 14px}
-.ch small{margin-left:8px;font-size:12px;color:var(--sub);font-weight:600}
-.dc{margin:12px;border-radius:14px;border-left:5px solid var(--c);background:color-mix(in srgb,var(--c) 11%,#fff);padding:12px 14px}
-.dd{color:var(--c);font-weight:700;font-size:15px}
-.dn{color:var(--sub);font-size:12px;font-weight:700;margin-top:2px}
-.dt{font-size:17px;font-weight:700;margin:4px 0 8px}
-.dc p{margin:0;background:#fff;border-radius:10px;padding:10px 12px;font-size:14px;line-height:1.7}
-.dr{color:var(--c);font-size:12px;font-weight:700;margin:10px 0 6px}
-.dc .rc{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:8px;padding:3px 10px;font-size:12px;margin:0 6px 4px 0}
-.pb{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px;font-size:14px;color:var(--sub)}
-.pb button{border:1px solid var(--line);background:var(--card);color:var(--text);font:700 14px inherit;font-family:inherit;padding:8px 14px;border-radius:99px;cursor:pointer}
-#pr{display:none}
-#pr.open{display:block;position:fixed;top:0;left:0;right:0;bottom:0;background:#fff;color:#222;overflow:auto;z-index:999;padding:0 12px 40px;-webkit-overflow-scrolling:touch}
-#pr .pbarx{position:sticky;top:0;background:#fff;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top,0px) + 10px) 0 10px;border-bottom:1px solid #ddd;margin-bottom:10px;z-index:2}
-#pr .pbarx button{border:0;background:#5f7a2e;color:#fff;font:700 15px inherit;font-family:inherit;padding:9px 16px;border-radius:10px;cursor:pointer}
-#pr .pbarx button.bk{background:#eee;color:#333}
-#pr .pbarx span{font-size:12px;color:#777;flex-basis:100%}
-#pr .pcont{overflow-x:auto}
-#pr table{min-width:640px}
-#pr h1{font-size:18px;margin:0 0 4px}
-#pr .sub{font-size:12px;margin-bottom:8px}
-#pr table{width:100%;border-collapse:collapse;table-layout:fixed}
-#pr th,#pr td{border:1px solid #888;padding:5px;font-size:10px;line-height:1.5;vertical-align:top;word-break:break-all}
-#pr th{background:var(--pc);-webkit-print-color-adjust:exact;print-color-adjust:exact}
-#pr td b{display:block;font-size:11px}
-#pr td i{font-style:normal;color:#666}
+a{color:var(--teal);text-decoration:none;font-size:14px}
+h1{font-size:22px;margin:8px 0 2px}
+.meta{color:var(--sub);font-size:14px;margin:0 0 12px}
+.book{background:var(--card);border-left:5px solid var(--teal);border-radius:18px;padding:10px 14px;font-size:14px;margin-bottom:14px}
+.tabs{display:flex;gap:8px;margin-bottom:6px}
+.tabs button{flex:1;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:8px 4px;font:inherit;font-size:14px;cursor:pointer}
+.tabs button[aria-pressed=true]{background:var(--o);border-color:var(--o);color:#fff}
+.age{font-size:13px;color:var(--sub);margin:0 0 14px;text-align:center}
+.wk{font-weight:700;margin:18px 0 8px;font-size:15px}
+.card{border-radius:26px;padding:16px 16px 14px;margin-bottom:14px;border-left:6px solid var(--b);background:var(--c)}
+.d{color:var(--o);font-weight:700;font-size:17px}
+.dom{color:var(--sub);font-weight:700;font-size:14px;margin:2px 0}
+.t{font-size:20px;font-weight:800;margin:2px 0 10px}
+.ind{display:inline-block;background:rgba(0,0,0,.07);border-radius:8px;padding:2px 10px;font-weight:700;font-size:14px;margin:0 6px 10px 0}
+.txt{background:var(--card);border-radius:12px;padding:12px 14px;font-size:15px}
+.rl{color:var(--teal);font-weight:700;font-size:14px;margin:12px 0 6px}
+.edit-on [contenteditable]{outline:1.5px dashed var(--teal);border-radius:6px;padding:0 4px}
+.rx{margin-left:6px;color:#c33;cursor:pointer;font-weight:700}
+.addr{border:1px dashed var(--teal);color:var(--teal);background:var(--card);cursor:pointer;font:inherit;font-size:13px}
+.eb{display:flex;gap:8px;margin:0 0 10px}.eb button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;font-size:14px;cursor:pointer}
+.xl{color:#6f9a85;font-weight:800;font-size:14px;margin-top:8px}.xv{font-size:16px}
+.tag{display:inline-block;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:2px 10px;margin:0 6px 6px 0;font-size:13px}
+.fest{background:var(--card);border-radius:12px;padding:10px 14px;font-size:14px}
+.fest p{margin:4px 0}
+button.ind{border:0;font:inherit;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left}
+button.add{background:var(--card);border:1px dashed var(--teal);color:var(--teal)}
+#ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9}
+#sh{position:absolute;left:0;right:0;bottom:0;max-height:82%;overflow:auto;background:var(--bg);border-radius:24px 24px 0 0;padding:18px 16px calc(24px + env(safe-area-inset-bottom,0px))}
+.sh-h{display:flex;gap:8px;align-items:center;position:sticky;top:-18px;background:var(--bg);padding:6px 0 10px;margin-top:-6px}
+.sh-h b{flex:1;font-size:18px}
+.sh-h button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;font-size:14px;cursor:pointer}
+.lv{color:#6f9a85;font-weight:800;margin:14px 0 6px}
+.row{display:block;width:100%;text-align:left;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:18px;padding:10px 14px;margin-bottom:8px;font:inherit;font-size:15px;cursor:pointer}
+.row b{color:#6f9a85;margin-right:8px}
+.row.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.row.on b{color:#fff}
+.hd{background:#a897cc;color:#fff;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 12px;display:flex;align-items:center;gap:10px}
+.hd a{color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:10px;padding:4px 12px;font-size:14px}
+.hd b{font-size:18px}
+:root{color-scheme:light}
 
-#pr .ct{display:block;font-size:12px}
-#pr .cx{font-size:11px;line-height:1.5}
-#pr .ci{font-size:10px;color:#555;margin-top:3px}
-#pr .cr{font-size:10px;color:#444}
-.fl{font-size:12px;font-weight:700;color:var(--sub);margin:8px 0 3px}
-.dn{border:1px solid var(--c);background:#fff;color:var(--c);font:700 13px inherit;font-family:inherit;padding:5px 12px;border-radius:99px;cursor:pointer}
-.ti,.ta{width:100%;border:1px solid var(--line);border-radius:10px;padding:9px 10px;font:14px/1.5 inherit;font-family:inherit;background:#fff;color:var(--text)}
-.ta{resize:vertical}
-.fill{margin-top:8px;border:0;background:none;color:var(--c);font:700 13px inherit;font-family:inherit;cursor:pointer;padding:4px 0;text-decoration:underline}
-.ind{display:inline-block;background:rgba(0,0,0,.07);border-radius:8px;padding:5px 10px;font-size:13px;font-weight:700;margin-bottom:8px}
-#pr th{background:#f3f3f3}
-#pr .ph{color:#fff;padding:8px 12px;border-radius:8px;font-size:15px;margin-bottom:8px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-#pr .ph small{display:block;font-size:11px;opacity:.9;margin-top:2px}
-#pr .pw{margin-bottom:12px;break-inside:avoid}
-#pr .pwh{font-weight:700;font-size:13px;border-left:4px solid;padding-left:8px;margin-bottom:4px}
-#pr .pwh span{font-weight:400;color:#555;font-size:11px}
-#pr .pt{display:inline-block;color:#fff;border-radius:6px;padding:1px 6px;font-size:9px;margin-bottom:2px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-#pr td{font-size:9px}
-#pr ul{margin:0;padding-left:16px}
-#pr li{font-size:10px;line-height:1.6;margin-bottom:4px}
-#pr li i{color:#666;font-style:normal}
-#pr .pth{font-size:14px;font-weight:700;margin:10px 0 6px;border-bottom:2px solid #999;padding-bottom:2px}
-#pbar .pb{margin:0 0 16px}
-#pr .pm{break-after:page}
-#pr .pm:last-child{break-after:auto}
-#pr .pi{font-size:11px;line-height:1.7;border:1px solid #bbb;border-radius:6px;padding:6px 10px;margin-bottom:8px}
-#pr th .pwf{font-weight:400;font-size:9px;color:#555}
-#pr .cd{font-weight:700;font-size:11px;margin-bottom:2px}
-#pr td b{font-size:10px}
-#pr td i{font-style:normal;color:#666;font-size:9px}
-#pr .pl{margin-top:8px;font-size:10px}
-#pr .pl ul{columns:2;column-gap:14px;margin:4px 0 0;padding-left:16px}
-#pr .pl li{font-size:9px;line-height:1.5;margin:0 0 2px;break-inside:avoid}
-.ind{border:0;font-family:inherit;color:inherit;text-align:left;cursor:pointer;max-width:100%}
-#pk{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);z-index:1000}
-#pk.open{display:flex;align-items:flex-end}
-.pks{background:#fff;width:100%;max-width:640px;margin:0 auto;max-height:82%;overflow:auto;border-radius:18px 18px 0 0;padding:0 16px calc(env(safe-area-inset-bottom,0px) + 24px)}
-.pkh{position:sticky;top:0;background:#fff;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:14px 0 10px;border-bottom:1px solid var(--line)}
-.pkh button{border:1px solid var(--line);background:#fff;font:700 13px inherit;font-family:inherit;padding:6px 12px;border-radius:99px;margin-left:6px;cursor:pointer;color:var(--text)}
-.pkb{font-weight:700;font-size:13px;color:var(--accent);margin:14px 0 6px}
-.pkb em{font-style:normal;background:var(--chip);color:var(--chipt);border-radius:99px;padding:1px 8px;font-size:11px;margin-left:4px}
-.pki{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;color:var(--text);font:14px/1.5 inherit;font-family:inherit;padding:9px 12px;border-radius:10px;margin-bottom:6px;cursor:pointer}
-.pki.on{border-color:var(--accent);background:var(--tint)}
-.pki b{color:var(--accent);margin-right:4px}
-.wk{border-top:1px solid var(--line);margin-top:10px;padding-top:8px}
-.wk summary{font-weight:700;cursor:pointer;padding:6px 0}
-.day{display:flex;gap:10px;padding:6px 0;font-size:14px;line-height:1.6}
-.day i{flex:none;font-style:normal;width:44px;font-weight:700;color:var(--accent)}
-.day span{color:var(--sub)}
-#pr *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-#pr .rh{color:#fff;border-radius:12px;padding:12px 16px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-#pr .rh b{font-size:22px}
-#pr .rh span{font-size:13px;opacity:.95}
-#pr .rw{border-left:6px solid;margin:10px 0 0;padding:10px 12px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-#pr .rw b{font-size:20px}
-#pr .rw span{font-size:13px;color:#555}
-#pr .rw em{margin-left:auto;font-style:normal;font-size:12px;color:#666}
-#pr table.wt{width:100%;border-collapse:collapse;table-layout:fixed}
-#pr table.wt th{background:var(--hc);color:#fff;text-align:left;font-size:13px;padding:8px 10px;border:1px solid rgba(255,255,255,.4)}
-#pr table.wt td{border:1px solid #cfd6e4;padding:8px 10px;vertical-align:top;font-size:12px;line-height:1.6;color:#222}
-#pr table.wt tr.r1 td{background:var(--t)}
-#pr .dp{display:inline-block;border:1.5px solid;border-radius:99px;padding:2px 10px;font-size:11px;font-weight:700;white-space:nowrap}
-#pr .dd2{font-size:10px;color:#777;margin-top:5px}
-#pr .tt{font-size:14px;color:#2b2d55;display:block;margin-bottom:6px;min-height:1em}
-#pr .ci2{font-size:10.5px;color:#888;line-height:1.5}
-#pr .cc{min-height:2em}
-@media print{@page{size:A4 portrait;margin:10mm}html,body{height:auto}body>*:not(#pr){display:none!important}#pr.open{position:static;display:block!important;overflow:visible;padding:0}#pr .pbarx{display:none!important}#pr .pcont{overflow:visible}#pr table.wt{min-width:0}#pr table.wt td{height:44mm}#pr .cl{display:-webkit-box;-webkit-line-clamp:7;-webkit-box-orient:vertical;overflow:hidden}#pr .tt{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
+body{background-color:#fdf8ee!important;background-image:radial-gradient(#e9dcc3 1.3px,transparent 1.6px)!important;background-size:22px 22px!important}
+.sk{position:relative;margin:calc(10px + env(safe-area-inset-top,0px)) 10px 12px;height:86px;display:flex;align-items:center;justify-content:center}
+.sk .skb{position:absolute;inset:0;width:100%;height:100%}
+.sk .skt{position:absolute;width:64px;height:20px;opacity:.9;top:-4px}
+.sk .skt.l{left:-4px;transform:rotate(-12deg);background:repeating-linear-gradient(45deg,#e6c16a 0 6px,#f5e1a0 6px 12px)}
+.sk .skt.r{right:-4px;transform:rotate(10deg);background:repeating-linear-gradient(45deg,#9bc2db 0 6px,#c6dcec 6px 12px)}
+.sk .skback{position:absolute;left:18px;top:50%;margin-top:-17px;z-index:2;background:#fffdf9;color:#4d4a47!important;border:2.4px solid #4d4a47;border-radius:14px 12px 15px 11px;padding:3px 12px;font-size:14px;text-decoration:none;box-shadow:2px 3px 0 #e6c16a;line-height:1.5}
+.sk .skttl{position:relative;z-index:1;font-size:23px;letter-spacing:.08em;color:#4d4a47;text-shadow:2px 2px 0 #fff;transform:rotate(-1.2deg);width:100%;text-align:center}
+@media print{.sk{display:none!important}}
 </style>
 </head>
 <body>
-<div class="top"><a href="index.html">← 首頁</a><b>📚 教學課程</b></div>
-<nav class="tabs" id="tabs"></nav>
+<svg width="0" height="0" style="position:absolute"><filter id="skr"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter></svg><div class="sk"><svg class="skb" viewBox="0 0 390 86" preserveAspectRatio="none"><path d="M10 14C80 4 310 6 380 14 388 38 386 62 378 74 300 84 90 82 12 74 4 58 2 36 10 14Z" fill="#fbe8b0" stroke="#4d4a47" stroke-width="3" filter="url(#skr)"/></svg><div class="skt l"></div><div class="skt r"></div><a class="skback" href="index.html">← 首頁</a><b class="skttl">教學課程</b></div>
 <main>
-  <div class="bar" id="bar"></div>
-  <div class="cls" id="cls"></div>
-  <div id="pbar"></div>
-  <div class="grid" id="grid"></div>
-  <div class="detail" id="detail" hidden></div>
+
+<p class="meta">初晴之森托嬰中心 · 115年12月 · 週一身體動作／週二社會情緒／週三語言溝通／週四認知探索／週五生活自理</p>
+<div class="eb"><button id="eb">✏️ 編輯</button><button id="er" style="display:none">還原全部修改</button></div>
+<div class="book" style="border-left-color:#eba890">🏡 11月主題：<b id="th"></b></div>
+<div class="book" id="ext" style="border-left-color:#9dbfae"></div>
+<div class="book">📖 12月繪本：<span id="bk">《快樂小寶貝》（小康軒「寶寶情緒小書」系列硬頁書，書店標示適讀 0–3 歲；同系列還有《傷心小娃娃》）</span></div>
+<div class="tabs" id="tabs"></div>
+<div class="tabs" id="sub" style="margin-bottom:10px"></div>
+<p class="age" id="age" style="margin:0"></p>
+<div class="tabs" id="wkt"></div>
+<div class="wk" id="wkh"></div>
+<div id="list"></div>
+<div class="wk">注意事項</div>
+<div class="fest" id="notes"></div>
 </main>
-<div id="pr"></div>
-<div id="pk"></div>
+<div id="ov"><div id="sh"></div></div>
 <script>
-var N=["一","二","三","四","五","六","七","八","九","十","十一","十二"];
-var M=[11,12,1,2,3,4,5,6,7,8,9,10],ORDER=[0,10,4,11,3,7,1,5,6,8,2,9],BASE=[0,2,8];
-var T=[
-{zh:"家人愛我",en:"My Family",es:"Finger Family",cs:"世上只有媽媽好",ew:"mom、dad、hug",cw:"爸爸、媽媽、抱抱"},
-{zh:"小小車車",en:"Wheels Go Round",es:"The Wheels on the Bus",cs:"火車快飛",ew:"car、bus、go、stop",cw:"車車、嘟嘟、開、停"},
-{zh:"好吃食物",en:"Yummy Food",es:"Pat-a-Cake",cs:"買菜歌",ew:"milk、bread、eat",cw:"牛奶、麵包、吃"},
-{zh:"動物朋友",en:"Animal Friends",es:"Old MacDonald",cs:"兩隻老虎",ew:"dog、cat、duck",cw:"狗狗、貓咪、鴨鴨"},
-{zh:"我的身體",en:"My Body",es:"Head, Shoulders, Knees and Toes",cs:"頭兒肩膀膝腳趾",ew:"head、eyes、hands",cw:"頭、眼睛、手"},
-{zh:"彩虹顏色",en:"Colorful World",es:"I Can Sing a Rainbow",cs:"彩虹歌",ew:"red、blue、yellow",cw:"紅、藍、黃"},
-{zh:"玩水趣",en:"Water Play",es:"Row, Row, Row Your Boat",cs:"數鴨子",ew:"water、splash、boat",cw:"水、嘩啦、小船"},
-{zh:"天氣變變變",en:"Weather Day",es:"Itsy Bitsy Spider",cs:"小小蜘蛛",ew:"sun、rain、cloud",cw:"太陽、下雨、雲"},
-{zh:"水果派對",en:"Fruit Party",es:"Apples and Bananas",cs:"水果歌",ew:"apple、banana、grape",cw:"蘋果、香蕉、葡萄"},
-{zh:"玩具時間",en:"Toy Time",es:"Teddy Bear, Teddy Bear",cs:"洋娃娃和小熊跳舞",ew:"ball、block、teddy",cw:"球、積木、小熊"},
-{zh:"早安晚安",en:"Good Morning, Good Night",es:"Twinkle Twinkle Little Star",cs:"小星星",ew:"morning、moon、sleep",cw:"早安、晚安、睡覺"},
-{zh:"開心情緒",en:"Happy Feelings",es:"If You're Happy and You Know It",cs:"如果幸福你就拍拍手",ew:"happy、sad、smile",cw:"開心、難過、笑笑"}
-];
-var FO=[["認識家人","抱抱我愛你","家人的聲音","親子共讀"],["認識車子","車輪滾滾","車子的聲音","車車出發"],["認識食物","吃飯香噴噴","食物的味道","小小廚師"],["認識動物","動物叫叫","動物的動作","動物遊行"],["我的小手","我的小腳","摸摸五官","身體律動"],["紅色世界","藍色世界","黃色與綠色","彩虹大集合"],["水的感覺","小船漂漂","水花嘩啦","鴨子游泳"],["太陽公公","下雨了","雲和風","天氣歌"],["認識水果","水果的味道","水果的形狀","水果派對"],["球球滾滾","積木疊疊","小熊抱抱","玩具分享"],["早安問候","月亮星星","睡前故事","晚安儀式"],["開心笑笑","難過抱抱","表情模仿","拍手同樂"]];
-var O=ORDER.map(function(i,k){var t=Object.assign({},T[i]);t.m=M[k];t.f=FO[i];return t});
-var P=[
-{name:"115年下半年",desc:"115年11月–12月(2026)・開幕學期",items:O.slice(0,2)},
-{name:"116年上半年",desc:"116年1月–6月(2027)・每月一個主題",items:O.slice(2,8)},
-{name:"116年下半年",desc:"116年7月–10月(2027)・每月一個主題",items:O.slice(8)}
-];
-var C=[
-{n:"嫩芽班",a:"小寶・0–10個月",s:"在愛裡,安心萌芽",c:"#7fa03a",i:"c1.jpg",w:["聆聽歌曲、擁抱搖擺","聆聽歌曲、輕撫節奏","看圖卡、聽字詞","看圖卡、聽字詞","聽歌曲、感受律動"]},
-{n:"花曦班",a:"中寶・11–18個月",s:"在陪伴中,自信綻放",c:"#e0708a",i:"c2.jpg",w:["跟著哼唱、簡單手勢","跟著哼唱、簡單手勢","指認圖卡、模仿發音","指認圖卡、模仿發音","手勢律動、歌曲複習"]},
-{n:"晴空班",a:"大寶・18個月以上",s:"向著晴空,自在成長",c:"#4f8fcf",i:"c3.jpg",w:["跟唱、搭配動作","跟唱、搭配動作","說出字詞、配對圖卡","說出字詞、配對圖卡","自由律動、輪流唱歌"]}
-];
-var cur=0,sel=-1,cc=-1,wk=0;
-function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-function pad(n){return n<10?"0"+n:n}
-var DM=[{n:"語言溝通",c:"#f6992a"},{n:"社會情緒",c:"#e0708a"},{n:"認知探索",c:"#4f8fcf"},{n:"生活自理",c:"#2fa89a"},{n:"身體動作",c:"#7fa03a"}];
-var DS=[
-["托育人員輕抱寶寶,播放並輕唱《{es}》,搭配輕柔搖擺,讓寶寶聆聽並感受節奏。","托育人員輕聲哼唱《{cs}》,搭配輕撫與眼神互動,讓寶寶感受到被愛與安心。","本週主題「{f}」。托育人員拿出「{fw}」的圖卡,慢慢展示並清楚說出,觀察寶寶的視線追視與反應。","托育人員用溫柔的聲音反覆說「{fc}」,搭配圖卡或實物,鼓勵寶寶發出聲音回應。","進行「{f}」的感官律動:托育人員抱著寶寶輕輕擺動、輕觸手腳,搭配《{es}》的音樂。"],
-["托育人員帶著寶寶一起唱《{es}》,搭配簡單手勢,鼓勵寶寶模仿拍手、搖擺。","一起哼唱《{cs}》,托育人員示範動作,寶寶跟著做,並互相對看微笑。","本週主題「{f}」。托育人員展示「{fw}」的圖卡,請寶寶指一指,並鼓勵模仿發音。","托育人員拿出「{fc}」的圖卡或實物,引導寶寶指認並模仿說出,給予熱情回應。","「{f}」律動遊戲:寶寶跟著音樂走一走、搖一搖,托育人員在旁陪伴並引導動作。"],
-["跟著音樂大聲唱《{es}》,搭配動作,鼓勵寶寶開口跟唱並輪流當小領唱。","唱《{cs}》並加入動作,請寶寶輪流示範自己喜歡的動作,培養與同伴互動。","本週主題「{f}」。玩圖卡配對遊戲,認識「{fw}」,鼓勵寶寶找出相同的圖卡。","玩說說看遊戲,學習「{fc}」,請寶寶說出或指給老師看,並與同伴分享。","「{f}」體能遊戲:寶寶跟著音樂跑一跑、跳一跳、停一停,練習控制身體。"]
-];
-var IND={"1": [["俯臥時可抬起頭及頸部", "能雙手碰在一起", "能抓握放在手心的物品", "能試圖伸手拿眼前物品", "能伸展肢體"], ["俯臥時能以手臂撐起胸部", "能自己翻身", "能在協助下坐穩", "能伸手拉或耙抓物品", "能搖晃手中的物品", "能抬腿碰觸物品", "能匍匐移動"], ["能自己坐穩", "會撐起身體向前爬行", "能在協助下站立與行走", "能獨立站立幾秒", "能將物品由一手換到另一手", "能用拇指配合其他手指鉗握物品", "能以雙手拍手"], ["能獨立穩定行走", "能保持平衡撿拾地上物品", "會拿或拖拉物品行走", "能將玩具放入或倒出容器", "能翻硬紙板書", "能丟擲玩具", "能以兩指(拇指、食指)撿拾物品"], ["能獨立地走上樓梯", "能奔跑", "能原地跳起", "能踢球", "能堆疊數個小積木", "能拿筆塗鴉", "能一頁一頁地翻書"]], "2": [["能發出社會性微笑", "會回應成人的逗弄", "會使用如吸拇指或吃奶嘴的方式安撫自己"], ["會玩自己的手腳", "對鏡中的自己感興趣", "能表現愉悅的情緒", "對與人互動表現正向反應", "會用簡單方式吸引成人注意"], ["會揮手表示再見", "能和成人玩簡單重覆遊戲(如躲貓貓)", "能簡單表達自我需求及情緒", "能區辨照顧者的語氣及情緒", "能與照顧者建立情感依附(如主動伸手要抱)", "練習處理陌生人焦慮"], ["能與別的孩子坐在一起玩", "能在提示下做基本社交動作(如謝謝、拜拜)", "會對喜愛玩偶表現出疼愛或照顧的行為", "會對熟悉成人表達好感(如擁抱親吻)", "會用行為或語言表達自主性(如搖頭表示不要)", "練習處理分離焦慮"], ["能在照片中或鏡子中認出自己", "能參與團體性的活動", "能辨識並說出他人不同的情緒", "會以自己的名字稱呼自己", "會用動作去安慰他人", "會說出親友、同伴的名字或稱呼", "能認識自己、朋友或家庭成員的照片", "會與玩偶對話"]], "3": [["會朝發出聲音的方向轉頭", "能注視照顧者的口型變化", "會發出聲音自娛", "會回應成人的聲音"], ["會嘗試發出不同的聲音", "能發出聲音回應成人的話語", "對熟悉的童謠或音樂有反應", "會注視說話的人"], ["能模仿大人的簡單話語(如ㄅㄚㄅㄚ)", "在牙牙學語中出現聲量、高低和節奏的變化", "會以肢體動作進行溝通(如以手指物或搖頭、點頭)", "會與人輪流對話", "能理解簡單語彙的意思"], ["能講至少十個單字", "能結合二個字出現電報式的話語", "能用語言表達想要的東西", "能理解簡單日常生活用語", "能指認或說出熟悉物品/動物的名稱", "能回答簡單問題"], ["可說出20個以上的字彙", "能以短句與他人對話", "能說出簡單的身體部位名稱", "能自己閱讀圖畫書", "聽到喜歡的音樂或歌謠會跟著手舞足蹈或哼唱", "練習說疑問句"]], "4": [["眼睛能追隨物品移動", "對光線及聲量的變化有反應", "能對不同觸感有反應", "會模仿成人的臉部表情", "會探索自己雙手"], ["會重覆進行有目的性的行為", "能用眼睛搜尋聲音的來源", "能模仿簡單的動作", "會用嘴巴探索物品", "會注視顏色或圖案鮮明的圖片/玩具"], ["會分辨熟悉家人與陌生人", "會尋找完全被藏著的物品", "能預期事件的發生", "呼叫他的名字時會有反應", "能設法接近想要的事物", "能操作簡單玩具"], ["能遵從簡單的指令", "能指認常見物品與簡單身體部位", "能配對簡單形狀", "能了解常見物品的用途", "能以新的方式探索物品的特性", "能尋找出指定物品"], ["能分辨冷熱、軟硬、乾濕等", "會假裝餵洋娃娃吃東西", "能依形狀或顏色分類", "能分辨大小", "能拼簡單拼圖", "對塗顏色活動感興趣"]]};
-var BR=["I","II","III","IV","V"],CB=[[0,1,2],[2,3],[3,4]],DOM=[3,2,4,5,1];
-function pick(d,j,t,w,i){var pl=[];CB[j].forEach(function(b){IND[d][b].forEach(function(x,n){pl.push(BR[b]+"-"+d+"-"+(n+1)+" "+x)})});return pl[(t.m*2+w*3+i)%pl.length]}
-var D5=["週一","週二","週三","週四","週五"];
-var LS=[
-[{t:"吸吮好時光",d:"托育人員抱穩寶寶,餵奶或給予安撫奶嘴,觀察寶寶吸吮的反應,在輕鬆的氣氛中建立安心感。",i:"I-5-1 能吸吮奶嘴",r:["奶嘴","安撫巾"]},
- {t:"一起拿奶瓶",d:"餵奶時,托育人員鼓勵寶寶伸出小手幫忙扶著奶瓶,一邊說「一起拿奶瓶」。",i:"II-5-1 會伸手幫忙拿奶瓶",r:["奶瓶"]},
- {t:"用湯匙喝果汁",d:"托育人員用小湯匙餵少量果汁或副食品,讓寶寶練習接受湯匙,觀察寶寶的反應。",i:"II-5-2 能接受用湯匙餵食",r:["小湯匙","副食品"]},
- {t:"自己拿奶瓶",d:"托育人員協助寶寶自己拿住奶瓶進食,並在旁邊陪伴,給予口語鼓勵。",i:"III-5-1 能自己拿住奶瓶進食",r:["奶瓶"]}],
-[{t:"洗手好習慣",d:"洗手時間:托育人員示範搓搓手、沖沖水,寶寶跟著做,練習洗手的技巧。",i:"IV-5-5 練習洗手的技巧",r:["洗手台","洗手歌音樂"]},
- {t:"自己拿食物吃",d:"用餐時,鼓勵寶寶自己用手拿取手指食物,練習自己吃,托育人員在旁陪伴。",i:"III-5-3 能自己拿食物吃",r:["手指食物","餐盤"]},
- {t:"學習杯喝水",d:"提供學習杯,讓寶寶練習自己拿杯子喝水,托育人員在旁協助並鼓勵。",i:"IV-5-1 能用學習杯喝水",r:["學習杯"]},
- {t:"擦擦嘴巴",d:"用餐後,托育人員示範用毛巾擦嘴,寶寶跟著練習擦一擦,感受乾淨清爽。",i:"IV-5-6 能粗略以毛巾擦嘴",r:["小毛巾"]}],
-[{t:"洗手洗乾淨",d:"唱著洗手歌,寶寶跟著步驟搓手、沖水、擦乾,練習把手洗乾淨。",i:"IV-5-5 練習洗手的技巧",r:["洗手台","洗手歌音樂"]},
- {t:"自己用湯匙吃",d:"用餐時,寶寶練習自己用湯匙吃飯,吃完自己把餐具放回餐盤。",i:"V-5-1 能用湯匙進食",r:["湯匙","餐盤"]},
- {t:"收玩具歸位",d:"玩具玩完後,寶寶幫忙把玩具收回籃子,練習物歸原處。",i:"V-5-6 能幫忙收拾玩具及物品",r:["收納籃","玩具"]},
- {t:"漱口與刷牙",d:"飯後練習漱口,在協助下練習刷牙,學習保護自己的牙齒。",i:"V-5-5 能在協助下練習刷牙",r:["兒童牙刷","漱口杯"]}]
-];
-function G0(t,j,w,i){
-  var W=t.ew.split("、"),V=t.cw.split("、"),f=t.f[w],fw=w<3?W[w]:t.ew,fc=w<3?V[w]:t.cw,M={es:t.es,cs:t.cs,f:f,fw:fw,fc:fc};
-  if(i==3){var l=LS[j][w];return {dm:DM[3],ind:l.i,tit:l.t,res:l.r,txt:l.d}}
-  var tit=["《"+t.es+"》"+["聆聽感受","手勢律動","樂器節奏","齊聲歡唱"][w],"《"+t.cs+"》"+["親子輕唱","互動遊戲","輪流表演","溫馨合唱"][w],f+":認識「"+fw+"」與「"+fc+"」","",f+"律動遊戲"][i];
-  var res=[["音樂《"+t.es+"》","音響"].concat(w==2?["樂器-沙鈴"]:[]),["音樂《"+t.cs+"》","音響"],["圖卡-"+fw+" / "+fc,"實物教具"],[],["音響","律動道具(絲巾)"]][i];
-  var txt=DS[j][i].replace(/\{(es|cs|fw|fc|f)\}/g,function(m,p){return M[p]});
-  if(i==2)txt+="同時搭配中文「"+fc+"」,讓寶寶聽一聽、看一看。";
-  return {dm:DM[i],ind:pick(DOM[i],j,t,w,i),tit:tit,res:res,txt:txt};
-}
-IND[5]=[["能吸吮奶嘴"],["會伸手幫忙拿奶瓶","能接受用湯匙餵食"],["能自己拿住奶瓶進食","能吞嚥糊狀副食品","能自己拿食物吃","能拉下頭上的帽子","會表示要吃東西"],["能用學習杯喝水","能用吸管喝水","練習用湯匙/叉子","會表示尿濕了或已排便","練習洗手的技巧","能粗略以毛巾擦嘴","練習咀嚼半固態食物"],["能用湯匙進食","能咀嚼固體食物","能自己脫褲子及鞋子","能在協助下練習穿衣服","能在協助下練習刷牙","能幫忙收拾玩具及物品","能練習做簡單家事","能練習如廁及表達需求"]];
-var MAP={},BL=["0-3個月","4-6個月","7-12個月","13-18個月","19-24個月"],OV={},PK=null;
-Object.keys(IND).forEach(function(d){IND[d].forEach(function(arr,b){arr.forEach(function(x,n){MAP[BR[b]+"-"+d+"-"+(n+1)]=x})})});
-try{OV=JSON.parse(localStorage.getItem("sf_ind")||"{}")}catch(e){OV={}}
-function saveOV(){try{localStorage.setItem("sf_ind",JSON.stringify(OV))}catch(e){}}
-var DN=[null,{n:"身體動作",c:"#7fa03a"},{n:"社會情緒",c:"#e0708a"},{n:"語言溝通",c:"#f6992a"},{n:"認知探索",c:"#4f8fcf"},{n:"生活自理",c:"#2fa89a"}],DOV={},ACT={};
-try{DOV=JSON.parse(localStorage.getItem("sf_dom")||"{}")}catch(e){DOV={}}
-try{ACT=JSON.parse(localStorage.getItem("sf_act")||"{}")}catch(e){ACT={}}
-function saveDOV(){try{localStorage.setItem("sf_dom",JSON.stringify(DOV))}catch(e){}}
-function saveACT(){try{localStorage.setItem("sf_act",JSON.stringify(ACT))}catch(e){}}
-function dk(t,j,w,i){return t.m+"-"+j+"-"+w+"-"+i}
-function G(t,j,w,i){
-  var key=dk(t,j,w,i),g=G0(t,j,w,i),D=DOV[key]||DOM[i];
-  g.sg=(D==DOM[i]);
-  if(!g.sg){g.dm=DN[D];g.ind=pick(D,j,t,w,i);g.tit="";g.txt="";g.res=[]}
-  var c=OV[key];if(c&&MAP[c]&&c.split("-")[1]==D)g.ind=c+" "+MAP[c];
-  return g;
-}
-function parseK(k){var a=k.split("-");PK={m:+a[0],j:+a[1],w:+a[2],i:+a[3],k:k}}
-function openPk(k){parseK(k);drawPk()}
-function openDk(k){parseK(k);drawDk()}
-function closePk(){document.getElementById("pk").className=""}
-function drawPk(){
-  var d=DOV[PK.k]||DOM[PK.i],th=O.filter(function(x){return x.m==PK.m})[0],cur=G(th,PK.j,PK.w,PK.i).ind.split(" ")[0];
-  var h='<div class="pks"><div class="pkh"><b>選擇學習指標・'+DN[d].n+'</b><span><button data-pkx="reset">還原預設</button><button data-pkx="close">關閉</button></span></div>';
-  IND[d].forEach(function(arr,b){
-    h+='<div class="pkb">'+BR[b]+'級・'+BL[b]+(CB[PK.j].indexOf(b)>=0?' <em>'+C[PK.j].n+'建議</em>':'')+'</div>';
-    arr.forEach(function(x,n){var c=BR[b]+"-"+d+"-"+(n+1);h+='<button class="pki'+(c==cur?' on':'')+'" data-pick="'+c+'"><b>'+c+'</b> '+esc(x)+'</button>'});
-  });
-  var pk=document.getElementById("pk");pk.innerHTML=h+'</div>';pk.className="open";
-}
-function drawDk(){
-  var cur=DOV[PK.k]||DOM[PK.i];
-  var h='<div class="pks"><div class="pkh"><b>選擇發展領域</b><span><button data-pkx="dreset">還原預設</button><button data-pkx="close">關閉</button></span></div><div class="pkb">五大發展領域(更換領域後,學習指標會重新選擇)</div>';
-  for(var n=1;n<=5;n++)h+='<button class="pki'+(n==cur?' on':'')+'" data-dpick="'+n+'" style="border-left:8px solid '+DN[n].c+'">'+DN[n].n+'</button>';
-  var pk=document.getElementById("pk");pk.innerHTML=h+'</div>';pk.className="open";
-}
-function wstart(t,w){
-  var y=t.m>=11?2026:2027,d=new Date(y,t.m-1,1);
-  while(d.getDay()!=1)d.setDate(d.getDate()+1);
-  return new Date(d.getFullYear(),d.getMonth(),d.getDate()+w*7);
-}
-function dt(s,i){var x=new Date(s.getFullYear(),s.getMonth(),s.getDate()+i);return pad(x.getMonth()+1)+"/"+pad(x.getDate())}
-function nl(s){return esc(s||"").replace(/\n/g,"<br>")}
-function rgba(hx,a){var n=parseInt(hx.slice(1),16);return "rgba("+(n>>16)+","+((n>>8)&255)+","+(n&255)+","+a+")"}
-function printTable(j){
-  var p=P[cur],t=sel>=0?p.items[sel]:p.items[0],w=sel>=0?wk:0,k=C[j];
-  var yl=(t.m>=11?2026:2027)+"年"+t.m+"月",s=wstart(t,w);
-  var h='<div class="pm1"><div class="rh" style="background:'+k.c+'"><b>'+k.n+'</b><span>初晴之森托嬰中心・'+yl+'　課程活動總表</span></div>';
-  h+='<div class="rw" style="border-color:'+k.c+';background:'+rgba(k.c,.12)+'"><b style="color:'+k.c+'">第 '+(w+1)+' 週</b><span>'+dt(s,0)+' ～ '+dt(s,4)+' ｜ 本週重點:'+esc(t.f[w])+'</span><em>📖 主題:'+esc(t.zh)+' '+esc(t.en)+'</em></div>';
-  h+='<table class="wt" style="--hc:'+k.c+'"><tr><th style="width:14%">領域</th><th style="width:25%">活動名稱 / 學習指標</th><th style="width:45%">活動內容</th><th style="width:16%">教學資源</th></tr>';
-  for(var i=0;i<5;i++){
-    var g=G(t,j,w,i),a=ACT[dk(t,j,w,i)]||{};
-    h+='<tr class="r'+(i%2)+'" style="--t:'+rgba(k.c,.1)+'"><td><span class="dp" style="color:'+g.dm.c+';border-color:'+g.dm.c+';background:'+rgba(g.dm.c,.14)+'">'+g.dm.n+'</span><div class="dd2">'+dt(s,i)+' '+D5[i]+'</div></td>'
-      +'<td><b class="tt">'+nl(a.t)+'</b><div class="ci2">'+esc(g.ind)+'</div></td>'
-      +'<td><div class="cc"><div class="cl">'+nl(a.c)+'</div></div></td><td><div class="cc"><div class="cl">'+nl(a.r)+'</div></div></td></tr>';
-  }
-  h+='</table></div>';
-  var pr=document.getElementById("pr");
-  pr.innerHTML='<div class="pbarx"><button class="bk" data-x="close">← 返回</button><button data-x="print">🖨️ 列印</button><span>列印目前選的這一週(直式一張)。需在 Safari 等瀏覽器開啟網站才能列印;若按了沒反應,表示目前在 App 內建預覽,請改用 Safari 開啟,或用「分享 → 列印」</span></div><div class="pcont">'+h+'</div>';
-  pr.className="open";pr.scrollTop=0;
-  try{window.print()}catch(e){}
-}
-function pbar(){return '<div class="pb">🖨️ 列印:'+C.map(function(k,j){return '<button data-p="'+j+'">'+k.n+'</button>'}).join("")+'</div>'}
-function weeks(t){
-  var s=wstart(t,wk);
-  var h='<div class="wp">';
-  for(var w=0;w<4;w++)h+='<button class="'+(w==wk?'on':'')+'" data-w="'+w+'">第'+(w+1)+'週</button>';
-  h+='</div><div class="wr">📅 '+dt(s,0)+' ～ '+dt(s,4)+'(週一至週五)・本週重點:'+esc(t.f[wk])+'</div>';
-  (cc<0?[0,1,2]:[cc]).forEach(function(j){
-    var k=C[j];
-    h+='<div class="cs" style="--c:'+k.c+'"><div class="ch">'+k.n+'<small>'+k.a+'</small></div>';
-    for(var i=0;i<5;i++){
-      var g=G(t,j,wk,i),key=dk(t,j,wk,i),a=ACT[key]||{};
-      h+='<div class="dc" style="--c:'+g.dm.c+'"><div class="dd">'+dt(s,i)+'('+D5[i]+')</div>'
-        +'<div class="fl">發展領域</div><button class="dn" data-dk="'+key+'">'+g.dm.n+' ▾</button>'
-        +'<div class="fl">學習指標</div><button class="ind" data-ik="'+key+'">'+esc(g.ind)+' ✎</button>'
-        +'<div class="fl">活動名稱</div><input class="ti" data-ak="'+key+'" data-f="t" value="'+esc(a.t||"")+'" placeholder="'+esc(g.sg?"建議:"+g.tit:"請輸入活動名稱")+'">'
-        +'<div class="fl">活動內容</div><textarea class="ta" rows="3" data-ak="'+key+'" data-f="c" placeholder="'+esc(g.sg?"建議:"+g.txt:"請輸入活動內容")+'">'+esc(a.c||"")+'</textarea>'
-        +'<div class="fl">教學資源</div><input class="ti" data-ak="'+key+'" data-f="r" value="'+esc(a.r||"")+'" placeholder="例如:音響、圖卡">'
-        +(g.sg?'<button class="fill" data-fill="'+key+'">帶入建議內容</button>':'')+'</div>';
-    }
-    h+='</div>';
-  });
-  return h;
-}
+// 課程資料：以每週週一日期為 key，再依月齡組 s1(0-3) s2(4-6) h1(7-12) h2(13-18) q(19-24)
+// 每筆：[活動名稱, 指標, 活動內容, 教學資源[]]，依序為週一至週五
+window.CUR={"2026-11-30":{"s1":[["找一找笑臉","I-1-1 俯臥時可抬起頭及頸部","托育人員拿出黃色笑臉布球，讓寶寶趴著抬頭看笑臉。",["笑臉布球","軟墊"]],["12月歡樂慶生會","I-2-1 能發出社會性微笑","本月第一週的週二是慶生會！托育人員佈置溫馨環境並播放生日快樂歌，對寶寶微笑，引出寶寶的社會性微笑。",["音響","音樂（生日快樂歌）","生日布置"]],["開心的臉","I-3-1 會朝發出聲音的方向轉頭","托育人員共讀《快樂小寶貝》，在寶寶側邊輕聲說「開心」，觀察是否轉頭。",["繪本《快樂小寶貝》"]],["找一找笑臉卡","I-4-1 眼睛能追隨物品移動","托育人員準備笑臉圖卡與鏡子，在寶寶眼前緩緩移動笑臉卡，觀察追視。",["笑臉圖卡","鏡子","笑臉手搖鈴"]],["開心吃喝","I-5-1 能吸吮奶嘴","托育人員在用餐與喝水時，抱穩寶寶，微笑引導吸吮奶嘴。",["奶瓶","學習杯","湯匙"]]],"s2":[["找一找笑臉","II-1-1 俯臥時能以手臂撐起胸部","托育人員拿出黃色笑臉布球，讓寶寶趴著用手臂撐起看笑臉。",["笑臉布球","軟墊"]],["12月歡樂慶生會","II-2-4 對與人互動表現正向反應","本月第一週的週二是慶生會！托育人員佈置溫馨環境並播放生日快樂歌，輕抱寶寶拍手，感受歡樂的氣氛。",["音響","音樂（生日快樂歌）","生日布置"]],["開心的臉","II-3-1 會嘗試發出不同的聲音","托育人員共讀《快樂小寶貝》，翻到笑臉時說「開心」，等寶寶發聲回應。",["繪本《快樂小寶貝》"]],["找一找笑臉卡","II-4-1 會重覆進行有目的性的行為","托育人員準備笑臉圖卡與鏡子，讓寶寶搖笑臉手搖鈴，重複搖動。",["笑臉圖卡","鏡子","笑臉手搖鈴"]],["開心吃喝","II-5-1 會伸手幫忙拿奶瓶","托育人員在用餐與喝水時，引導寶寶伸手一起扶奶瓶。",["奶瓶","學習杯","湯匙"]]],"h1":[["找一找笑臉","III-1-1 能自己坐穩","托育人員拿出黃色笑臉布球，引導寶寶坐穩，伸手拿笑臉。",["笑臉布球","軟墊"]],["12月歡樂慶生會","III-2-1 會揮手表示再見","本月第一週的週二是慶生會！托育人員佈置溫馨環境並播放生日快樂歌，帶寶寶向小壽星揮手說生日快樂。",["音響","音樂（生日快樂歌）","生日布置"]],["開心的臉","III-3-1 能模仿大人的簡單話語(如ㄅㄚㄅㄚ)","托育人員共讀《快樂小寶貝》，指著笑臉說「開心」，鼓勵寶寶模仿。",["繪本《快樂小寶貝》"]],["找一找笑臉卡","III-4-1 會分辨熟悉家人與陌生人","托育人員準備笑臉圖卡與鏡子，對寶寶微笑，觀察寶寶認出熟悉老師的笑容。",["笑臉圖卡","鏡子","笑臉手搖鈴"]],["開心吃喝","III-5-1 能自己拿住奶瓶進食","托育人員在用餐與喝水時，示範雙手拿奶瓶，鼓勵自己拿著喝。",["奶瓶","學習杯","湯匙"]]],"h2":[["找一找笑臉","IV-1-1 能獨立穩定行走｜IV-1-2 能保持平衡撿拾地上物品","托育人員拿出黃色笑臉布球，邀請寶寶走去拿笑臉、蹲下撿起。",["笑臉布球","軟墊"]],["12月歡樂慶生會","IV-2-1 能與別的孩子坐在一起玩｜IV-2-2 能在提示下做基本社交動作","本月第一週的週二是慶生會！托育人員佈置溫馨環境並播放生日快樂歌，帶寶寶圍坐一起，提示揮手說生日快樂。",["音響","音樂（生日快樂歌）","生日布置"]],["開心的臉","IV-3-1 能講至少十個單字","托育人員共讀《快樂小寶貝》，請寶寶指出笑臉，說出「開心」。",["繪本《快樂小寶貝》"]],["找一找笑臉卡","IV-4-1 能遵從簡單的指令","托育人員準備笑臉圖卡與鏡子，說「把笑臉拿給老師」，觀察是否聽懂。",["笑臉圖卡","鏡子","笑臉手搖鈴"]],["開心吃喝","IV-5-1 能用學習杯喝水｜IV-5-2 能用吸管喝水","托育人員在用餐與喝水時，示範用杯子或吸管喝水，鼓勵自己喝。",["奶瓶","學習杯","湯匙"]]],"q":[["找一找笑臉","V-1-1 能獨立地走上樓梯","托育人員拿出黃色笑臉布球，請孩子走上小階梯拿到笑臉。",["笑臉布球","軟墊"]],["12月歡樂慶生會","V-2-2 能參與團體性的活動","本月第一週的週二是慶生會！托育人員佈置溫馨環境並播放生日快樂歌，帶孩子一起唱歌、拍手，給小壽星擁抱。",["音響","音樂（生日快樂歌）","生日布置"]],["開心的臉","V-3-1 可說出20個以上的字彙","托育人員共讀《快樂小寶貝》，請孩子說出書中的表情，並說「我開心」。",["繪本《快樂小寶貝》"]],["找一找笑臉卡","V-4-1 能分辨冷熱、軟硬、乾濕等","托育人員準備笑臉圖卡與鏡子，請孩子摸軟的笑臉布和硬的笑臉積木，說說感覺。",["笑臉圖卡","鏡子","笑臉手搖鈴"]],["開心吃喝","V-5-1 能用湯匙進食","托育人員在用餐與喝水時，邀請孩子自己用湯匙吃，並微笑稱讚。",["奶瓶","學習杯","湯匙"]]]},"2026-12-07":{"s1":[["抱抱枕去哪裡","I-1-2 能雙手碰在一起","托育人員準備軟軟的抱抱枕，讓寶寶仰躺，引導雙手碰抱抱枕。",["抱抱枕","軟墊","音響"]],["安慰小娃娃","I-2-2 會回應成人的逗弄","托育人員拿出會哭的娃娃，輕聲逗弄寶寶，觀察寶寶回應。",["娃娃","鏡子","小被子"]],["難過的時候","I-3-2 能注視照顧者的口型變化","托育人員共讀《快樂小寶貝》，靠近寶寶說「難過、抱抱」，讓寶寶看口型。",["繪本《快樂小寶貝》"]],["笑臉和哭臉","I-4-2 對光線及聲量的變化有反應","托育人員準備笑臉與哭臉面具，把燈光調暗再亮起，觀察寶寶對光的反應。",["笑臉哭臉面具","手電筒","鈴鐺","形狀盒"]],["安心睡前","I-5-1 能吸吮奶嘴","托育人員在睡前與用餐時，抱穩寶寶，輕聲說「不哭不哭」，引導吸吮。",["小被子","湯匙","奶瓶"]]],"s2":[["抱抱枕去哪裡","II-1-2 能自己翻身｜II-1-3 能在協助下坐穩","托育人員準備軟軟的抱抱枕，引導寶寶翻身去抱，再扶坐穩。",["抱抱枕","軟墊","音響"]],["安慰小娃娃","II-2-2 對鏡中的自己感興趣｜II-2-3 能表現愉悅的情緒","托育人員拿出會哭的娃娃，拿鏡子讓寶寶看自己的表情，說「寶寶笑笑」。",["娃娃","鏡子","小被子"]],["難過的時候","II-3-2 能發出聲音回應成人的話語","托育人員共讀《快樂小寶貝》，說完停一下，等寶寶發聲回應。",["繪本《快樂小寶貝》"]],["笑臉和哭臉","II-4-2 能用眼睛搜尋聲音的來源｜II-4-3 能模仿簡單的動作","托育人員準備笑臉與哭臉面具，在寶寶旁搖鈴，引導找聲音並模仿動作。",["笑臉哭臉面具","手電筒","鈴鐺","形狀盒"]],["安心睡前","II-5-2 能接受用湯匙餵食","托育人員在睡前與用餐時，用湯匙餵少量副食品，輕聲安撫。",["小被子","湯匙","奶瓶"]]],"h1":[["抱抱枕去哪裡","III-1-2 會撐起身體向前爬行｜III-1-3 能在協助下站立與行走","托育人員準備軟軟的抱抱枕，引導寶寶爬過去抱抱枕，並扶著站一站。",["抱抱枕","軟墊","音響"]],["安慰小娃娃","III-2-2 能和成人玩簡單重覆遊戲｜III-2-3 能簡單表達自我需求及情緒","托育人員拿出會哭的娃娃，和寶寶玩安慰娃娃的重覆遊戲，鼓勵表達需求。",["娃娃","鏡子","小被子"]],["難過的時候","III-3-2 在牙牙學語中出現聲量、高低和節奏的變化","托育人員共讀《快樂小寶貝》，用輕柔和高低不同的聲音說「抱抱」，鼓勵寶寶回應。",["繪本《快樂小寶貝》"]],["笑臉和哭臉","III-4-2 會尋找完全被藏著的物品｜III-4-3 能預期事件的發生","托育人員準備笑臉與哭臉面具，把哭臉藏在被子下，問「哭臉呢？」，引導找出來。",["笑臉哭臉面具","手電筒","鈴鐺","形狀盒"]],["安心睡前","III-5-2 能吞嚥糊狀副食品","托育人員在睡前與用餐時，用湯匙餵糊狀副食品，觀察寶寶吞嚥。",["小被子","湯匙","奶瓶"]]],"h2":[["抱抱枕去哪裡","IV-1-3 會拿或拖拉物品行走","托育人員準備軟軟的抱抱枕，讓寶寶拖著抱抱枕在地墊上走一走。",["抱抱枕","軟墊","音響"]],["安慰小娃娃","IV-2-3 會對喜愛玩偶表現出疼愛或照顧的行為｜IV-2-4 會對熟悉成人表達好感","托育人員拿出會哭的娃娃，請寶寶拍拍娃娃，也抱抱熟悉的老師。",["娃娃","鏡子","小被子"]],["難過的時候","IV-3-3 能用語言表達想要的東西｜IV-3-4 能理解簡單日常生活用語","托育人員共讀《快樂小寶貝》，問「要抱抱嗎？」，鼓勵寶寶說出想要的東西。",["繪本《快樂小寶貝》"]],["笑臉和哭臉","IV-4-3 能配對簡單形狀｜IV-4-4 能了解常見物品的用途","托育人員準備笑臉與哭臉面具，請寶寶把笑臉和哭臉放進對應的形狀盒。",["笑臉哭臉面具","手電筒","鈴鐺","形狀盒"]],["安心睡前","IV-5-3 練習用湯匙/叉子｜IV-5-4 會表示尿濕了或已排便","托育人員在睡前與用餐時，示範用湯匙吃點心，並說「尿濕了要告訴老師」。",["小被子","湯匙","奶瓶"]]],"q":[["抱抱枕去哪裡","V-1-2 能奔跑｜V-1-3 能原地跳起","托育人員準備軟軟的抱抱枕，請孩子抱著抱抱枕跑一跑、跳一跳。",["抱抱枕","軟墊","音響"]],["安慰小娃娃","V-2-3 能辨識並說出他人不同的情緒｜V-2-4 會以自己的名字稱呼自己","托育人員拿出會哭的娃娃，請孩子說出娃娃的心情，並用名字稱呼自己安慰娃娃。",["娃娃","鏡子","小被子"]],["難過的時候","V-3-2 能以短句與他人對話｜V-3-3 能說出簡單的身體部位名稱","托育人員共讀《快樂小寶貝》，請孩子用短句說「他難過」，並指出自己的眼睛。",["繪本《快樂小寶貝》"]],["笑臉和哭臉","V-4-2 會假裝餵洋娃娃吃東西｜V-4-3 能依形狀或顏色分類","托育人員準備笑臉與哭臉面具，請孩子餵娃娃吃點心，並把笑臉和哭臉分類。",["笑臉哭臉面具","手電筒","鈴鐺","形狀盒"]],["安心睡前","V-5-3 能自己脫褲子及鞋子｜V-5-4 能在協助下練習穿衣服","托育人員在睡前與用餐時，請孩子自己脫鞋子、褲子，在協助下穿睡衣。",["小被子","湯匙","奶瓶"]]]},"2026-12-14":{"s1":[["拍拍手動一動","I-1-3 能抓握放在手心的物品","托育人員播放「如果幸福你就拍拍手」，把布球放進寶寶手心，引導抓握。",["笑臉球","籃子","積木","音響","音樂（如果幸福你就拍拍手）"]],["笑笑朋友","I-2-3 會使用如吸拇指或吃奶嘴的方式安撫自己","托育人員和孩子一起笑一笑，溫柔抱起寶寶，讓寶寶用吸吮安撫自己。",["鏡子","玩偶","音響"]],["拍拍手唱唱歌","I-3-3 會發出聲音自娛","托育人員唱「如果幸福你就拍拍手」並共讀，讓寶寶聽歌聲發聲自娛。",["繪本《快樂小寶貝》","音響","音樂（如果幸福你就拍拍手）"]],["我的表情","I-4-3 能對不同觸感有反應｜I-4-4 會模仿成人的臉部表情","托育人員準備各種表情圖卡，讓寶寶摸絲巾，並微笑引導模仿表情。",["表情圖卡","笑臉拼圖","絲巾","手電筒"]],["笑著做生活","I-5-1 能吸吮奶嘴","托育人員在早餐與生活時間，抱穩寶寶喝奶，微笑說「吃飽飽」。",["餐點","毛巾","帽子"]]],"s2":[["拍拍手動一動","II-1-4 能伸手拉或耙抓物品｜II-1-5 能搖晃手中的物品","托育人員播放「如果幸福你就拍拍手」，吊起笑臉讓寶寶伸手抓、搖一搖。",["笑臉球","籃子","積木","音響","音樂（如果幸福你就拍拍手）"]],["笑笑朋友","II-2-4 對與人互動表現正向反應","托育人員和孩子一起笑一笑，微笑逗寶寶，觀察笑或發聲的反應。",["鏡子","玩偶","音響"]],["拍拍手唱唱歌","II-3-3 對熟悉的童謠或音樂有反應","托育人員唱「如果幸福你就拍拍手」並共讀，觀察寶寶對熟悉歌曲的反應。",["繪本《快樂小寶貝》","音響","音樂（如果幸福你就拍拍手）"]],["我的表情","II-4-4 會用嘴巴探索物品","托育人員準備各種表情圖卡，提供安全的笑臉布書讓寶寶用嘴巴探索。",["表情圖卡","笑臉拼圖","絲巾","手電筒"]],["笑著做生活","II-5-1 會伸手幫忙拿奶瓶","托育人員在早餐與生活時間，引導寶寶伸手拿奶瓶。",["餐點","毛巾","帽子"]]],"h1":[["拍拍手動一動","III-1-4 能獨立站立幾秒｜III-1-5 能將物品由一手換到另一手","托育人員播放「如果幸福你就拍拍手」，扶寶寶站幾秒，並把笑臉球換手。",["笑臉球","籃子","積木","音響","音樂（如果幸福你就拍拍手）"]],["笑笑朋友","III-2-4 能區辨照顧者的語氣及情緒｜III-2-5 能與照顧者建立情感依附","托育人員和孩子一起笑一笑，用開心和溫柔的語氣說話，觀察寶寶反應並抱抱。",["鏡子","玩偶","音響"]],["拍拍手唱唱歌","III-3-3 會以肢體動作進行溝通(如以手指物或搖頭、點頭)","托育人員唱「如果幸福你就拍拍手」並共讀，示範拍手、點頭，鼓勵寶寶用動作溝通。",["繪本《快樂小寶貝》","音響","音樂（如果幸福你就拍拍手）"]],["我的表情","III-4-4 呼叫他的名字時會有反應｜III-4-5 能設法接近想要的事物","托育人員準備各種表情圖卡，叫寶寶名字，引導爬向想要的笑臉玩具。",["表情圖卡","笑臉拼圖","絲巾","手電筒"]],["笑著做生活","III-5-3 能自己拿食物吃｜III-5-4 能拉下頭上的帽子","托育人員在早餐與生活時間，讓寶寶自己拿小餅乾，示範拉下帽子。",["餐點","毛巾","帽子"]]],"h2":[["拍拍手動一動","IV-1-4 能將玩具放入或倒出容器｜IV-1-5 能翻硬紙板書","托育人員播放「如果幸福你就拍拍手」，讓寶寶把笑臉球放進籃子再倒出，翻翻硬頁書。",["笑臉球","籃子","積木","音響","音樂（如果幸福你就拍拍手）"]],["笑笑朋友","IV-2-5 會用行為或語言表達自主性","托育人員和孩子一起笑一笑，讓寶寶選要玩的玩具，用搖頭或「不要」表達。",["鏡子","玩偶","音響"]],["拍拍手唱唱歌","IV-3-5 能指認或說出熟悉物品/動物的名稱","托育人員唱「如果幸福你就拍拍手」並共讀，請寶寶指出並說出書中的笑臉與小動物。",["繪本《快樂小寶貝》","音響","音樂（如果幸福你就拍拍手）"]],["我的表情","IV-4-5 能以新的方式探索物品的特性","托育人員準備各種表情圖卡，讓寶寶用手電筒光玩笑臉影子，探索光影。",["表情圖卡","笑臉拼圖","絲巾","手電筒"]],["笑著做生活","IV-5-5 練習洗手的技巧｜IV-5-6 能粗略以毛巾擦嘴","托育人員在早餐與生活時間，示範飯前洗手，吃完用毛巾擦嘴。",["餐點","毛巾","帽子"]]],"q":[["拍拍手動一動","V-1-4 能踢球｜V-1-5 能堆疊數個小積木","托育人員播放「如果幸福你就拍拍手」，請孩子踢笑臉球，堆疊積木。",["笑臉球","籃子","積木","音響","音樂（如果幸福你就拍拍手）"]],["笑笑朋友","V-2-5 會用動作去安慰他人｜V-2-6 會說出親友、同伴的名字或稱呼","托育人員和孩子一起笑一笑，請孩子叫出朋友名字，笑著說「你好」並安慰難過的朋友。",["鏡子","玩偶","音響"]],["拍拍手唱唱歌","V-3-4 能自己閱讀圖畫書｜V-3-5 聽到喜歡的音樂或歌謠會跟著手舞足蹈或哼唱","托育人員唱「如果幸福你就拍拍手」並共讀，讓孩子自己翻書，跟著歌曲拍手跺腳。",["繪本《快樂小寶貝》","音響","音樂（如果幸福你就拍拍手）"]],["我的表情","V-4-4 能分辨大小｜V-4-5 能拼簡單拼圖","托育人員準備各種表情圖卡，請孩子分大笑臉、小笑臉，拼簡單的笑臉拼圖。",["表情圖卡","笑臉拼圖","絲巾","手電筒"]],["笑著做生活","V-5-5 能在協助下練習刷牙｜V-5-6 能幫忙收拾玩具及物品","托育人員在早餐與生活時間，協助孩子刷牙，並一起把玩具收好。",["餐點","毛巾","帽子"]]]},"2026-12-21":{"s1":[["派對動一動","I-1-4 能試圖伸手拿眼前物品｜I-1-5 能伸展肢體","托育人員播放派對音樂，把氣球掛在寶寶眼前，引導伸手，並輕輕伸展手腳。",["氣球","彩球","籃子","蠟筆","音響"]],["開心派對","I-2-3 會使用如吸拇指或吃奶嘴的方式安撫自己","托育人員佈置小小派對角落，抱著寶寶聽歌，安心感受氣氛。",["派對布置","家人照片","玩偶","音響"]],["開心說一說","I-3-4 會回應成人的聲音","托育人員共讀《快樂小寶貝》並唱歌，說完停一下，等寶寶回應聲音。",["繪本《快樂小寶貝》","音響"]],["彩色笑臉蓋印畫","I-4-5 會探索自己雙手","托育人員準備黃色顏料與海綿，把顏料塗在寶寶小手，蓋印在紙上，看自己的雙手。",["黃色顏料","海綿","圖畫紙","托盤"]],["點心時間","I-5-1 能吸吮奶嘴","托育人員在派對點心時間，抱穩寶寶，輕聲唱歌，引導吸吮奶嘴。",["餐碗","軟水果塊","湯匙","收納盒"]]],"s2":[["派對動一動","II-1-6 能抬腿碰觸物品｜II-1-7 能匍匐移動","托育人員播放派對音樂，把氣球放寶寶腳邊，引導抬腿碰，再匍匐去拿。",["氣球","彩球","籃子","蠟筆","音響"]],["開心派對","II-2-5 會用簡單方式吸引成人注意","托育人員佈置小小派對角落，等寶寶用聲音或動作吸引注意並開心回應。",["派對布置","家人照片","玩偶","音響"]],["開心說一說","II-3-4 會注視說話的人","托育人員共讀《快樂小寶貝》並唱歌，靠近說話，觀察寶寶是否注視老師。",["繪本《快樂小寶貝》","音響"]],["彩色笑臉蓋印畫","II-4-5 會注視顏色或圖案鮮明的圖片/玩具","托育人員準備黃色顏料與海綿，展示彩色笑臉蓋印畫，讓寶寶注視鮮明顏色。",["黃色顏料","海綿","圖畫紙","托盤"]],["點心時間","II-5-2 能接受用湯匙餵食","托育人員在派對點心時間，用湯匙餵副食品，說「吃飽了，開心」。",["餐碗","軟水果塊","湯匙","收納盒"]]],"h1":[["派對動一動","III-1-6 能用拇指配合其他手指鉗握物品｜III-1-7 能以雙手拍手","托育人員播放派對音樂，帶寶寶拍手，並用手指捏小彩球。",["氣球","彩球","籃子","蠟筆","音響"]],["開心派對","III-2-6 練習處理陌生人焦慮","托育人員佈置小小派對角落，帶寶寶和新朋友一起拍手，在老師懷裡熟悉。",["派對布置","家人照片","玩偶","音響"]],["開心說一說","III-3-4 會與人輪流對話｜III-3-5 能理解簡單語彙的意思","托育人員共讀《快樂小寶貝》並唱歌，和寶寶輪流說「開心」「拍拍手」，理解簡單詞。",["繪本《快樂小寶貝》","音響"]],["彩色笑臉蓋印畫","III-4-6 能操作簡單玩具","托育人員準備黃色顏料與海綿，讓寶寶拿海綿蘸顏料，蓋出笑臉。",["黃色顏料","海綿","圖畫紙","托盤"]],["點心時間","III-5-5 會表示要吃東西","托育人員在派對點心時間，問「要吃嗎？」，鼓勵用聲音或動作表示。",["餐碗","軟水果塊","湯匙","收納盒"]]],"h2":[["派對動一動","IV-1-6 能丟擲玩具｜IV-1-7 拿以兩指(拇指、食指)撿拾物品","托育人員播放派對音樂，讓寶寶丟彩球進籃子，用兩指撿起小彩球。",["氣球","彩球","籃子","蠟筆","音響"]],["開心派對","IV-2-6 練習處理分離焦慮","托育人員佈置小小派對角落，陪寶寶參加派對，和家人揮手後抱抱安撫。",["派對布置","家人照片","玩偶","音響"]],["開心說一說","IV-3-6 能回答簡單問題","托育人員共讀《快樂小寶貝》並唱歌，問「笑臉在哪裡？」，鼓勵寶寶回答。",["繪本《快樂小寶貝》","音響"]],["彩色笑臉蓋印畫","IV-4-6 能尋找出指定物品","托育人員準備黃色顏料與海綿，請寶寶找出海綿，蓋在紙上完成笑臉畫。",["黃色顏料","海綿","圖畫紙","托盤"]],["點心時間","IV-5-7 練習咀嚼半固態食物","托育人員在派對點心時間，提供軟軟的水果塊，讓寶寶練習咀嚼。",["餐碗","軟水果塊","湯匙","收納盒"]]],"q":[["派對動一動","V-1-6 能拿筆塗鴉｜V-1-7 能一頁一頁地翻書","托育人員播放派對音樂，讓孩子拿蠟筆畫笑臉，並翻書找笑臉。",["氣球","彩球","籃子","蠟筆","音響"]],["開心派對","V-2-7 能認識自己、朋友或家庭成員的照片｜V-2-8 會與玩偶對話","托育人員佈置小小派對角落，請孩子看家人照片說是誰，並和玩偶說話。",["派對布置","家人照片","玩偶","音響"]],["開心說一說","V-3-6 練習說疑問句","托育人員共讀《快樂小寶貝》並唱歌，鼓勵孩子問「誰開心？」「他怎麼了？」。",["繪本《快樂小寶貝》","音響"]],["彩色笑臉蓋印畫","V-4-6 對塗顏色活動感興趣","托育人員準備黃色顏料與海綿，請孩子用顏料蓋笑臉、畫表情，完成自己的笑臉畫。",["黃色顏料","海綿","圖畫紙","托盤"]],["點心時間","V-5-7 能練習做簡單家事(如擦桌子、收碗)","托育人員在派對點心時間，請孩子把餐碗拿去放，並收好玩具。",["餐碗","軟水果塊","湯匙","收納盒"]]]}};
+window.FOCUS={"2026-11-30":"認識開心","2026-12-07":"難過也沒關係","2026-12-14":"笑笑拍拍手","2026-12-21":"開心派對與創作"};
+// 月主題（照年度課程規劃計畫表：以日曆月份為準，新增月份請在這裡加一行）
+window.THEME={"2026-12":"開心情緒","2027-01":"家人愛我","2027-02":"小小車車","2027-03":"好吃食物","2027-04":"動物朋友","2027-05":"我的身體","2027-06":"彩虹顏色","2027-07":"玩水趣","2027-08":"天氣變變變","2027-09":"水果派對","2027-10":"玩具時間","2027-11":"早安晚安","2027-12":"開心情緒"};
+// 年度課程延伸：英文主題|英文兒歌|中文兒歌|英文延伸|中文延伸
+window.EXT={"家人愛我":"My Family|Finger Family|世上只有媽媽好|mom、dad、hug|爸爸、媽媽、抱抱","小小車車":"Wheels Go Round|The Wheels on the Bus|火車快飛|car、bus、go、stop|車車、嘟嘟、開、停","好吃食物":"Yummy Food|Pat-a-Cake|買菜歌|milk、bread、eat、yummy|牛奶、麵包、吃、好吃","動物朋友":"Animal Friends|Old MacDonald|兩隻老虎|dog、cat、duck、cow|狗、貓咪、鴨鴨、牛","我的身體":"My Body|Head, Shoulders, Knees and Toes|頭兒肩膀膝腳趾|head、eyes、hands|頭、眼睛、手、腳","彩虹顏色":"Colorful World|I Can Sing a Rainbow|彩虹歌|red、blue、yellow、green|紅、藍、黃、綠","玩水趣":"Water Play|Row, Row, Row Your Boat|數鴨子|water、boat、duck|水、小船、鴨子","天氣變變變":"Weather Day|Rain, Rain go away|下雨歌|sun、rain、cloud、wind|太陽、下雨、雲、風","水果派對":"Fruit Party|Apples and Bananas|水果歌|Apple、banana、grape|蘋果、香蕉、葡萄","玩具時間":"Toy Time|Teddy Bear, Teddy Bear|洋娃娃和小熊跳舞|ball、TOY|球、積木、小熊、娃娃","早安晚安":"Good Morning, Good Night|Twinkle Twinkle Little Star|小星星|morning、moon、star、sleep|早安、晚安、月亮、睡覺","開心情緒":"Happy Feelings|If You're Happy and You Know It|如果幸福你就拍拍手|happy、sad、smile、clap|開心、難過、笑笑、拍手"};
+</script>
+<script>
+
+var G={s:{n:"嫩芽",a:"0–6 個月"},h:{n:"花曦",a:"7–18 個月"},q:{n:"晴空",a:"19–24 個月"}};
+var DOM=[["🏃 身體動作發展",1],["💞 社會情緒發展",2],["💬 語言溝通發展",3],["🔍 認知探索發展",4],["🍼 生活自理發展",5]];
+var DATES=[];function mkDates(){var d=new Date(WK+"T00:00:00"),W="一二三四五";DATES=[];for(var i=0;i<5;i++){var x=new Date(d);x.setDate(d.getDate()+i);DATES.push(("0"+(x.getMonth()+1)).slice(-2)+"/"+("0"+x.getDate()).slice(-2)+"（週"+W[i]+"）")}}
+// [標題, 指標, 內容, 資源[]]
+var D={
+s:[
+["我會趴","II-1-1 俯臥時能以手臂撐起胸部","托育人員讓寶寶在軟墊上俯趴，在前方搖動紅色落葉布書，鼓勵寶寶用手臂撐起胸部、抬頭看。全程在旁陪伴。",["落葉布書","軟墊","音響","音樂（小星星）"]],
+["11月歡樂慶生會","II-2-4 對與人互動表現正向反應","本月第一週的週二是慶生會！托育人員佈置溫馨安全的環境並播放生日快樂歌，輕抱寶寶對小壽星微笑、輕輕拍手。",["音響","音樂（生日快樂歌）","生日布置"]],
+["這是什麼聲音","II-3-1 會嘗試發出不同的聲音","托育人員抱著寶寶共讀《Thank You, Tree》，指著樹與葉子輕聲說話，並模仿寶寶發出的聲音，等待寶寶再發聲。",["繪本《Thank You, Tree》"]],
+["落葉搖一搖","II-4-1 會重覆進行有目的性的行為","托育人員將落葉造型手搖鈴放在寶寶手中，鼓勵寶寶重複搖動，聽見聲音時微笑回應。",["落葉手搖鈴","音響","音樂（小星星）"]],
+["一起拿奶瓶","II-5-1 會伸手幫忙拿奶瓶","立冬將至，托育人員餵奶時溫柔引導寶寶將小手放在奶瓶上，一起扶著奶瓶，並說「暖暖的奶」。",["奶瓶","哺乳枕"]]],
+h:[
+["我會坐、我會撿","III-1-1 能自己坐穩｜IV-1-2 能保持平衡撿拾地上物品","托育人員讓寶寶坐穩，前方擺放布製落葉鼓勵伸手拿取；13個月以上的寶寶可蹲下撿起落葉，放進籃子。",["布製落葉","籃子","音響","音樂（小星星）"]],
+["11月歡樂慶生會","III-2-1 會揮手表示再見｜IV-2-2 在提示下做基本社交動作","本月第一週的週二是慶生會！托育人員帶領寶寶唱生日快樂歌，並引導寶寶向小壽星揮手說「生日快樂、拜拜」。",["音響","音樂（生日快樂歌）","生日布置","抓週物品"]],
+["跟我一起說","III-3-1 能模仿大人的簡單話語｜IV-3-1 能講至少十個單字","托育人員共讀《Thank You, Tree》，指著圖片說「樹」「葉」「謝謝」，鼓勵寶寶模仿，較大寶寶試著自己說出來。",["繪本《Thank You, Tree》"]],
+["我認識的人","III-4-1 會分辨熟悉家人與陌生人｜IV-4-1 能遵從簡單的指令","托育人員展示寶寶帶來的家人照片，說「這是爸爸、媽媽」；較大寶寶聽指令「把照片拿給老師」，感謝家人。",["家人照片","音響","音樂（小星星）"]],
+["我會喝水","III-5-1 能自己拿住奶瓶進食｜IV-5-1 能用學習杯喝水","立冬將至，托育人員準備溫度適中的溫水，示範雙手扶好奶瓶或學習杯，鼓勵寶寶自己拿著喝。",["奶瓶","學習杯","溫水"]]],
+q:[
+["走上小階梯","V-1-1 能獨立地走上樓梯","托育人員在安全小階梯頂端放籃子，孩子在大人保護下獨立走上階梯，把紙落葉放進籃子，再走下來。",["感統小階梯","紙落葉","籃子","軟墊"]],
+["11月歡樂慶生會","V-2-2 能參與團體性的活動","本月第一週的週二是慶生會！托育人員帶領孩子圍坐，一起唱生日快樂歌，輪流對小壽星說「生日快樂」並擁抱。",["音響","音樂（生日快樂歌）","生日布置"]],
+["小小博士說樹","V-3-1 可說出20個以上的字彙","托育人員共讀《Thank You, Tree》，請孩子指圖說出「樹、葉子、花、果實」等詞語，並學說「謝謝」。",["繪本《Thank You, Tree》"]],
+["感覺一下","V-4-1 能分辨冷熱、軟硬、乾濕","托育人員準備乾落葉與微濕的布，請孩子觸摸後說出「沙沙、軟軟、濕濕」，比較不同的觸感。",["乾落葉","濕布","托盤","音響"]],
+["用湯匙吃東西","V-5-1 能用湯匙進食","立冬將至，托育人員準備溫熱適口的地瓜泥，引導孩子自己用湯匙舀起放入口中，並稱讚孩子的嘗試。",["湯匙","餐碗","圍兜","地瓜泥"]]]
+};
+D.s2=D.s;delete D.s;delete D.h;
+D.s1=[
+["抬頭小娃","I-1-1 俯臥時可抬起頭及頸部","托育人員讓寶寶在軟墊上短時間俯臥，在前方輕輕搖動紅色落葉布書，鼓勵寶寶抬起頭與頸部，全程在旁看護。",["落葉布書","軟墊","音響","音樂（小星星）"]],
+["11月歡樂慶生會","I-2-1 能發出社會性微笑","本月第一週的週二是慶生會！托育人員抱著寶寶坐在布置好的環境中，播放生日快樂歌，對寶寶溫柔微笑、輕聲說話，引出寶寶的微笑。",["音響","音樂（生日快樂歌）","生日布置"]],
+["聲音在哪裡","I-3-1 會朝發出聲音的方向轉頭","托育人員在寶寶側邊輕聲搖動鈴鐺並說「葉子、大樹」，觀察寶寶是否朝聲音方向轉頭，再抱著寶寶共讀《Thank You, Tree》。",["鈴鐺","繪本《Thank You, Tree》"]],
+["追視紅葉","I-4-1 眼睛能追隨物品移動","托育人員在寶寶眼前約20至30公分處，緩緩左右移動紅色落葉圖卡，觀察寶寶的眼睛是否追隨圖卡移動。",["落葉圖卡","音響","音樂（小星星）"]],
+["暖暖吸奶嘴","I-5-1 能吸吮奶嘴","立冬將至，托育人員抱穩寶寶，輕觸嘴邊引導寶寶吸吮奶嘴，並輕聲說「暖暖的奶」，感受被照顧的安心。",["奶嘴","奶瓶","哺乳枕"]]];
+D.h1=[
+["我會坐","III-1-1 能自己坐穩","托育人員讓寶寶坐穩，在前方擺放布製落葉，鼓勵寶寶伸手拿取，在旁保護並稱讚寶寶穩穩坐著。",["布製落葉","軟墊","音響","音樂（小星星）"]],
+["11月歡樂慶生會","III-2-1 會揮手表示再見","本月第一週的週二是慶生會！托育人員帶領寶寶唱生日快樂歌、拍手，並引導寶寶向小壽星揮手說「生日快樂、拜拜」。",["音響","音樂（生日快樂歌）","生日布置","抓週物品"]],
+["跟我一起說","III-3-1 能模仿大人的簡單話語(如ㄅㄚㄅㄚ)","托育人員共讀《Thank You, Tree》，指著圖片說「樹」「葉」，並說「ㄅㄚ ㄅㄚ」，鼓勵寶寶模仿。",["繪本《Thank You, Tree》"]],
+["我認識的人","III-4-1 會分辨熟悉家人與陌生人","托育人員展示寶寶帶來的家人照片，說「這是爸爸、媽媽」，觀察寶寶看到熟悉家人時的笑容與反應。",["家人照片","音響","音樂（小星星）"]],
+["幫忙拿奶瓶","III-5-1 能自己拿住奶瓶進食","立冬將至，托育人員準備溫熱適口的奶，示範雙手扶好奶瓶，鼓勵寶寶自己拿住奶瓶喝。",["奶瓶","哺乳枕"]]];
+D.h2=[
+["撿落葉","IV-1-1 能獨立穩定行走｜IV-1-2 能保持平衡撿拾地上物品","托育人員在地墊鋪上布製落葉，邀請寶寶獨立走到落葉旁，蹲下撿起落葉放進籃子，再走回來。",["布製落葉","籃子","軟墊","音響"]],
+["11月歡樂慶生會","IV-2-1 能與別的孩子坐在一起玩｜IV-2-2 能在提示下做基本社交動作","本月第一週的週二是慶生會！托育人員帶領寶寶圍坐，一起唱生日快樂歌，並提示寶寶向小壽星揮手說「生日快樂、拜拜」。",["音響","音樂（生日快樂歌）","生日布置"]],
+["說說看","IV-3-1 能講至少十個單字","托育人員共讀《Thank You, Tree》，指著圖片請寶寶說「樹」「葉」「謝謝」，鼓勵寶寶說出熟悉的單字。",["繪本《Thank You, Tree》"]],
+["葉子在哪裡","IV-4-1 能遵從簡單的指令","托育人員說出簡單指令「把葉子拿給老師」「葉子放進籃子」，觀察寶寶是否聽懂並完成動作。",["布製落葉","籃子","音響","音樂（小星星）"]],
+["我會喝水","IV-5-1 能用學習杯喝水｜IV-5-2 能用吸管喝水","立冬將至，托育人員準備溫度適中的溫水，示範用學習杯或吸管杯喝水，鼓勵寶寶自己拿著喝。",["學習杯","吸管杯","溫水"]]];
+var SUB={s:[["s1","0–3 個月"],["s2","4–6 個月"]],h:[["h1","7–12 個月"],["h2","13–18 個月"]],q:[["q","19–24 個月"]]};
+var tp="s";
+var cur="s1";
+var BK=["繪本《月亮晚安》"];
+function X(k,i,ti,tx,rs){D[k][i]=[ti,D[k][i][1],tx,rs]}
+X("s1",0,"抬頭看星星","托育人員讓寶寶俯臥，在前方搖動黃色星星布書，輕聲說「星星、早安」，鼓勵寶寶抬起頭與頸部，全程在旁看護。",["星星布書","軟墊","音響","音樂（小星星）"]);
+X("s2",0,"趴著找月亮","托育人員讓寶寶俯臥在軟墊上，在前方放月亮造型玩具，鼓勵寶寶用手臂撐起胸部看月亮，並說「月亮在這裡」。",["月亮玩具","軟墊","音響","音樂（小星星）"]);
+X("h1",0,"坐好看星星","托育人員讓寶寶坐穩，在前方吊起星星吊飾，鼓勵寶寶伸手拿取，穩穩坐著時給予稱讚。",["星星吊飾","軟墊","音響","音樂（小星星）"]);
+X("h2",0,"摘星星","托育人員在地墊撒上布製星星，邀請寶寶獨立走過去，蹲下撿起星星放進籃子，再走回來。",["布製星星","籃子","軟墊","音響"]);
+X("q",0,"走上階梯摘月亮","托育人員在安全小階梯頂端放月亮造型，孩子在大人保護下走上階梯拿月亮，再走下來並說「月亮」。",["感統小階梯","月亮造型","軟墊","音響"]);
+X("s1",2,"聽，晚安在哪裡","托育人員抱著寶寶共讀《月亮晚安》，在寶寶側邊輕聲說「晚安」，觀察寶寶是否朝聲音方向轉頭。",BK);
+X("s2",2,"月亮晚安","托育人員抱著寶寶共讀《月亮晚安》，翻頁時溫柔說「月亮晚安」，模仿寶寶發出的聲音，等待寶寶再次發聲。",BK);
+X("h1",2,"跟我說晚安","托育人員共讀《月亮晚安》，指著月亮說「晚安」，鼓勵寶寶模仿說話，再輕輕拍拍寶寶說晚安。",BK);
+X("h2",2,"說說看，月亮","托育人員共讀《月亮晚安》，請寶寶指出書中的月亮和小兔，鼓勵說出「月亮」「晚安」等單字。",BK);
+X("q",2,"跟月亮說晚安","托育人員共讀《月亮晚安》，邀請孩子找出書中的物品，說出名稱，並說「晚安」，也說說「早安」。",BK);
+X("s1",3,"追視月亮和星星","托育人員在寶寶眼前約20至30公分處，緩緩左右移動月亮與星星圖卡，觀察寶寶的眼睛是否追隨移動。",["月亮星星圖卡","音響","音樂（小星星）"]);
+X("s2",3,"搖一搖小星星","托育人員將星星手搖鈴放在寶寶手中，鼓勵寶寶重複搖動，並配合「小星星」的歌曲。",["星星手搖鈴","音響","音樂（小星星）"]);
+X("h1",3,"早安問候","托育人員用名字向每位寶寶說「早安」，觀察寶寶對熟悉老師與陌生人的不同反應，並給予擁抱與微笑。",["音響","音樂（小星星）"]);
+X("h2",3,"聽指令找星星","托育人員說出簡單指令「把星星拿給老師」「月亮放進籃子」，觀察寶寶是否聽懂並完成動作。",["布製星星","月亮造型","籃子","音響"]);
+X("q",3,"軟軟的晚安被被","托育人員準備軟被子、硬積木與涼涼的濕毛巾，請孩子摸一摸，說說「被被軟軟的、要睡覺了」，比較軟硬與冷熱。",["軟被子","積木","濕毛巾","托盤"]);
+X("s1",4,"睡前安心喝奶","托育人員抱穩寶寶，把燈光調暗，輕聲說「晚安」，引導寶寶吸吮奶嘴，感受安心。",["奶嘴","奶瓶","哺乳枕"]);
+X("s2",4,"睡前一起拿奶瓶","托育人員餵奶時溫柔引導寶寶將小手放在奶瓶上，一起扶著奶瓶，並輕聲說「晚安」。",["奶瓶","哺乳枕"]);
+X("h1",4,"我會拿奶瓶","托育人員準備溫熱適口的奶，示範雙手扶好奶瓶，鼓勵寶寶自己拿住喝，喝完輕聲說「晚安」。",["奶瓶","哺乳枕"]);
+X("h2",4,"早安，來喝水","托育人員向寶寶說「早安」，示範用學習杯或吸管杯喝水，鼓勵寶寶自己拿著喝溫水。",["學習杯","吸管杯","溫水"]);
+X("q",4,"早安，我自己吃","托育人員說「早安」後準備溫熱適口的早餐，邀請孩子自己用湯匙舀起來吃，並稱讚孩子的嘗試。",["湯匙","餐碗","圍兜"]);
+
+var WK="2026-11-30",MK="2026-12",EDIT=false,ADDI=-1,ED={c:{},theme:{},book:{},notes:{},ext:{}};
+try{var _e=JSON.parse(localStorage.getItem("ccEdits"));if(_e){ED.c=_e.c||{};ED.theme=_e.theme||{};ED.book=_e.book||{};ED.notes=_e.notes||{};ED.ext=_e.ext||{}}}catch(e){}
+function saveE(){try{localStorage.setItem("ccEdits",JSON.stringify(ED))}catch(e){}}
+Object.keys(ED.c).forEach(function(k){var p=k.split("|"),r=p[0]===WK&&D[p[1]]&&D[p[1]][+p[2]];if(r){r[0]=ED.c[k].t;r[2]=ED.c[k].x;r[3]=ED.c[k].r}});
+document.getElementById("th").textContent=ED.theme[MK]||(window.THEME||{})[MK]||"（尚未設定，按「編輯」可輸入）";
+if(ED.book[MK])document.getElementById("bk").textContent=ED.book[MK];
+function setEdit(){document.body.classList.toggle("edit-on",EDIT);["th","bk","wf"].forEach(function(i){document.getElementById(i).contentEditable=EDIT});document.getElementById("eb").textContent=EDIT?"✓ 完成編輯":"✏️ 編輯";document.getElementById("er").style.display=EDIT?"":"none";rnotes();rext();render()}
+function keepE(i){var r=D[cur][i];ED.c[WK+"|"+cur+"|"+i]={t:r[0],x:r[2],r:r[3].slice()};saveE()}
+document.getElementById("eb").onclick=function(){EDIT=!EDIT;setEdit()};
+var _er=0;document.getElementById("er").onclick=function(){if(!_er){_er=1;this.textContent="再按一次確認還原";return}try{localStorage.removeItem("ccEdits")}catch(e){}location.reload()};
+document.getElementById("th").onblur=function(){ED.theme[MK]=this.textContent.trim();saveE()};
+document.getElementById("bk").onblur=function(){ED.book[MK]=this.textContent.trim();saveE()};
+document.getElementById("list").addEventListener("focusout",function(e){var t=e.target,f=t.dataset&&t.dataset.f;if(!f)return;var i=+t.dataset.i,v=t.innerText.trim();D[cur][i][f==="t"?0:2]=v;keepE(i)});
+document.getElementById("list").addEventListener("click",function(e){var t=e.target;
+ if(t.classList.contains("rx")){D[cur][+t.dataset.i][3].splice(+t.dataset.ri,1);keepE(+t.dataset.i);render()}
+ else if(t.classList.contains("addr")){ADDI=+t.dataset.i;render()}
+ else if(t.classList.contains("addno")){ADDI=-1;render()}
+ else if(t.classList.contains("addok")){addRes()}});
+document.getElementById("list").addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.id==="addin"){e.preventDefault();addRes()}});
+function addRes(){var v=document.getElementById("addin").value.trim(),i=ADDI;if(v){D[cur][i][3].push(v);keepE(i)}ADDI=-1;render()}
+var XF=[["en","英文主題"],["es","英文兒歌"],["zs","中文兒歌"],["ee","英文延伸"],["ze","中文延伸"]];
+function thn(){return ED.theme[MK]||(window.THEME||{})[MK]||""}
+function rext(){var d=((window.EXT||{})[thn()]||"||||").split("|"),o=ED.ext[MK]||{};
+ document.getElementById("ext").innerHTML=XF.map(function(f,i){var v=o[f[0]]!==undefined?o[f[0]]:(d[i]||"");return'<div class="xl">'+f[1]+'</div><div class="xv" data-x="'+f[0]+'"'+(EDIT?' contenteditable="true"':'')+'>'+v+'</div>'}).join("");
+ var w=o["wf"+WK];document.getElementById("wf").textContent=w!==undefined?w:((window.FOCUS||{})[WK]||"")}
+document.getElementById("ext").addEventListener("focusout",function(e){var k=e.target.dataset&&e.target.dataset.x;if(!k)return;ED.ext[MK]=ED.ext[MK]||{};ED.ext[MK][k]=e.target.innerText.trim();saveE()});
+
+var DEFN=["每天閱讀一本繪本（當月主題繪本）","每天安排一項大肌肉活動","每個主題完成一件藝術創作","每天一首主題歌或律動，整個月重複聽","每月 3～5 個主題關鍵詞，在活動與生活中重複使用","每週一次感官探索（感官盆、麵糰、觸覺材料）","每天或每週固定安排戶外／自然時間","設置主題角落（例如 12 月：笑臉牆）","同一主題依嫩芽、花曦、晴空月齡調整做法","每週給家長一張照片加一句話"];
+function NT(){return ED.notes[MK]||DEFN.slice()}
+function rnotes(){var a=NT(),h=a.map(function(x,i){return'<p>・<span class="nt" data-n="'+i+'"'+(EDIT?' contenteditable="true"':'')+'>'+x+'</span>'+(EDIT?'<span class="rx" data-ni="'+i+'">✕</span>':'')+'</p>'}).join("");
+ if(EDIT)h+='<p><input id="ni" placeholder="新增注意事項" style="width:70%;font:inherit;font-size:14px;border:1px solid var(--teal);border-radius:8px;padding:2px 8px;background:var(--card);color:var(--ink)"> <button class="tag" id="nb">加入</button></p>';
+ document.getElementById("notes").innerHTML=h}
+function saveN(a){ED.notes[MK]=a;saveE()}
+function addN(){var v=document.getElementById("ni").value.trim();if(!v)return;var a=NT();a.push(v);saveN(a);rnotes()}
+var _n=document.getElementById("notes");
+_n.addEventListener("focusout",function(e){var t=e.target;if(t.dataset&&t.dataset.n!==undefined){var a=NT();a[+t.dataset.n]=t.innerText.trim();saveN(a.filter(Boolean))}});
+_n.addEventListener("click",function(e){var t=e.target;if(t.dataset.ni!==undefined){var a=NT();a.splice(+t.dataset.ni,1);saveN(a);rnotes()}else if(t.id==="nb")addN()});
+_n.addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.id==="ni"){e.preventDefault();addN()}});
+var LV=[["I","0-3個月"],["II","4-6個月"],["III","7-12個月"],["IV","13-18個月"],["V","19-24個月"]];
+var IND={
+1:{I:"俯臥時可抬起頭及頸部|能雙手碰在一起|能抓握放在手心的物品|能試圖伸手拿眼前物品|能伸展肢體",II:"俯臥時能以手臂撐起胸部|能自己翻身|能在協助下坐穩|能伸手拉或耙抓物品|能搖晃手中的物品|能抬腿碰觸物品|能匍匐移動",III:"能自己坐穩|會撐起身體向前爬行|能在協助下站立與行走|能獨立站立幾秒|能將物品由一手換到另一手|能用拇指配合其他手指鉗握物品|能以雙手拍手",IV:"能獨立穩定行走|能保持平衡撿拾地上物品|會拿或拖拉物品行走|能將玩具放入或倒出容器|能翻硬紙板書|能丟擲玩具|拿以兩指(拇指、食指)撿拾物品",V:"能獨立地走上樓梯|能奔跑|能原地跳起|能踢球|能堆疊數個小積木|能拿筆塗鴉|能一頁一頁地翻書"},
+2:{I:"能發出社會性微笑|會回應成人的逗弄|會使用如吸拇指或吃奶嘴的方式安撫自己",II:"會玩自己的手腳|對鏡中的自己感興趣|能表現愉悅的情緒|對與人互動表現正向反應|會用簡單方式吸引成人注意",III:"會揮手表示再見|能和成人玩簡單重覆遊戲|能簡單表達自我需求及情緒|能區辨照顧者的語氣及情緒|能與照顧者建立情感依附|練習處理陌生人焦慮",IV:"能與別的孩子坐在一起玩|能在提示下做基本社交動作|會對喜愛玩偶表現出疼愛或照顧的行為|會對熟悉成人表達好感|會用行為或語言表達自主性|練習處理分離焦慮",V:"能在照片中或鏡子中認出自己|能參與團體性的活動|能辨識並說出他人不同的情緒|會以自己的名字稱呼自己|會用動作去安慰他人|會說出親友、同伴的名字或稱呼|能認識自己、朋友或家庭成員的照片|會與玩偶對話"},
+3:{I:"會朝發出聲音的方向轉頭|能注視照顧者的口型變化|會發出聲音自娛|會回應成人的聲音",II:"會嘗試發出不同的聲音|能發出聲音回應成人的話語|對熟悉的童謠或音樂有反應|會注視說話的人",III:"能模仿大人的簡單話語(如ㄅㄚㄅㄚ)|在牙牙學語中出現聲量、高低和節奏的變化|會以肢體動作進行溝通(如以手指物或搖頭、點頭)|會與人輪流對話|能理解簡單語彙的意思",IV:"能講至少十個單字|能結合二個字出現電報式的話語|能用語言表達想要的東西|能理解簡單日常生活用語|能指認或說出熟悉物品/動物的名稱|能回答簡單問題",V:"可說出20個以上的字彙|能以短句與他人對話|能說出簡單的身體部位名稱|能自己閱讀圖畫書|聽到喜歡的音樂或歌謠會跟著手舞足蹈或哼唱|練習說疑問句"},
+4:{I:"眼睛能追隨物品移動|對光線及聲量的變化有反應|能對不同觸感有反應|會模仿成人的臉部表情|會探索自己雙手",II:"會重覆進行有目的性的行為|能用眼睛搜尋聲音的來源|能模仿簡單的動作|會用嘴巴探索物品|會注視顏色或圖案鮮明的圖片/玩具",III:"會分辨熟悉家人與陌生人|會尋找完全被藏著的物品|能預期事件的發生|呼叫他的名字時會有反應|能設法接近想要的事物|能操作簡單玩具",IV:"能遵從簡單的指令|能指認常見物品與簡單身體部位|能配對簡單形狀|能了解常見物品的用途|能以新的方式探索物品的特性|能尋找出指定物品",V:"能分辨冷熱、軟硬、乾濕等|會假裝餵洋娃娃吃東西|能依形狀或顏色分類|能分辨大小|能拼簡單拼圖|對塗顏色活動感興趣"},
+5:{I:"能吸吮奶嘴",II:"會伸手幫忙拿奶瓶|能接受用湯匙餵食",III:"能自己拿住奶瓶進食|能吞嚥糊狀副食品|能自己拿食物吃|能拉下頭上的帽子|會表示要吃東西",IV:"能用學習杯喝水|能用吸管喝水|練習用湯匙/叉子|會表示尿濕了或已排便|練習洗手的技巧|能粗略以毛巾擦嘴|練習咀嚼半固態食物",V:"能用湯匙進食|能咀嚼固體食物|能自己脫褲子及鞋子|能在協助下練習穿衣服|能在協助下練習刷牙|能幫忙收拾玩具及物品|能練習做簡單家事(如擦桌子、收碗)|能練習如廁及表達需求"}
+};
+function txt(c){var p=c.split("-");try{return IND[p[1]][p[0]].split("|")[p[2]-1]||""}catch(e){return""}}
+var SEL={},DEF={},OPEN=-1;
+Object.keys(D).forEach(function(g){SEL[g]=[];DEF[g]=[];D[g].forEach(function(r,i){var a=(r[1]||"").split("｜").map(function(x){return x.split(" ")[0]}).filter(Boolean);SEL[g][i]=a.slice();DEF[g][i]=a.slice()})});
+try{var sv=JSON.parse(localStorage.getItem("ccSel3|"+WK)||"null");if(sv)Object.keys(sv).forEach(function(g){if(SEL[g])sv[g].forEach(function(a,i){if(Array.isArray(a)&&SEL[g][i])SEL[g][i]=a})})}catch(e){}
+function save(){try{localStorage.setItem("ccSel3|"+WK,JSON.stringify(SEL))}catch(e){}}
+function draw(){var n=OPEN+1,h='<div class="sh-h"><b>選擇學習指標・'+DOM[OPEN][0].replace("發展","")+'</b><button id="rs">還原預設</button><button id="cl">關閉</button></div>';
+ LV.forEach(function(L){h+='<div class="lv">'+L[0]+'級・'+L[1]+'</div>';IND[n][L[0]].split("|").forEach(function(t,k){var c=L[0]+"-"+n+"-"+(k+1);h+='<button class="row'+(SEL[cur][OPEN].indexOf(c)>-1?' on':'')+'" data-c="'+c+'"><b>'+c+'</b>'+t+'</button>'})});
+ document.getElementById("sh").innerHTML=h}
+function openSheet(i){OPEN=i;draw();document.getElementById("ov").style.display="block"}
+function closeSheet(){document.getElementById("ov").style.display="none";OPEN=-1}
+document.getElementById("ov").onclick=function(e){var t=e.target;
+ if(t.id==="ov"||t.id==="cl"){closeSheet();return}
+ if(t.id==="rs"){SEL[cur][OPEN]=DEF[cur][OPEN].slice();save();draw();render();return}
+ var b=t.closest(".row");if(b){var a=SEL[cur][OPEN],c=b.dataset.c,k=a.indexOf(c);if(k>-1)a.splice(k,1);else a.push(c);save();draw();render()}};
+document.getElementById("list").onclick=function(e){var b=e.target.closest("button.ind");if(b)openSheet(+b.dataset.i)};
+
 function render(){
-  var p=P[cur];
-  document.getElementById("tabs").innerHTML=P.map(function(x,i){return '<button class="'+(i==cur?'on':'')+'" data-i="'+i+'">'+x.name+'</button>'}).join("");
-  document.getElementById("bar").textContent=p.desc;
-  document.getElementById("pbar").innerHTML=pbar();
-  document.getElementById("cls").innerHTML='<button class="all'+(cc<0?' on':'')+'" data-c="-1" style="--c:#f6992a">全部班級</button>'+C.map(function(k,j){return '<button class="'+(cc==j?'on':'')+'" data-c="'+j+'" style="--c:'+k.c+'">'+k.n+'</button>'}).join("");
-  var g="";
-  for(var i=0;i<p.items.length;i++){
-    var t=p.items[i],n=BASE[cur]+i;
-    g+='<button class="t'+(i==sel?' on':'')+'" data-k="'+i+'"><small>第'+N[n]+'主題</small><b>'+esc(t.zh)+'</b><em>'+esc(t.en)+'</em><span class="chip">'+t.m+'月</span></button>';
-  }
-  document.getElementById("grid").innerHTML=g;
-  var d=document.getElementById("detail"),t=p.items[sel];
-  if(t){d.hidden=false;d.innerHTML='<h3>第'+N[BASE[cur]+sel]+'主題|'+esc(t.zh)+' '+esc(t.en)+'</h3><dl><dt>英文兒歌</dt><dd>'+esc(t.es)+'</dd><dt>中文兒歌</dt><dd>'+esc(t.cs)+'</dd><dt>英文延伸</dt><dd>'+esc(t.ew)+'</dd><dt>中文延伸</dt><dd>'+esc(t.cw)+'</dd></dl>'+weeks(t)}else d.hidden=true;
+ var tabs=document.getElementById("tabs");tabs.innerHTML="";
+ Object.keys(G).forEach(function(k){var b=document.createElement("button");b.textContent=G[k].n;b.setAttribute("aria-pressed",k===tp);b.onclick=function(){tp=k;cur=SUB[k][0][0];render()};tabs.appendChild(b)});
+ var sb=document.getElementById("sub");sb.innerHTML="";SUB[tp].forEach(function(x){var b=document.createElement("button");b.textContent=x[1];b.setAttribute("aria-pressed",x[0]===cur);b.onclick=function(){cur=x[0];render()};sb.appendChild(b)});
+ document.getElementById("age").textContent="";
+ var out="";
+ D[cur].forEach(function(r,i){
+  var n=DOM[i][1],dm=DOM[i][0],hol=r[2]==="";
+  var st=hol?"--c:var(--c6);--b:var(--b6)":"--c:var(--c"+n+");--b:var(--b"+n+")";
+  out+='<div class="card" style="'+st+'"><div class="d">'+DATES[i]+'</div>';
+  if(hol){out+='<div class="t">🇹🇼 國慶日補假一天</div></div>';return}
+  out+='<div class="dom">'+dm+'</div><div class="t" data-f="t" data-i="'+i+'"'+(EDIT?' contenteditable="true"':'')+'>'+r[0]+'</div>';
+  out+=SEL[cur][i].map(function(c){return'<button class="ind" data-i="'+i+'">'+c+' '+txt(c)+'</button>'}).join('')+'<button class="ind add" data-i="'+i+'" aria-label="新增指標">＋</button><br>';
+  out+='<div class="txt" data-f="x" data-i="'+i+'"'+(EDIT?' contenteditable="true"':'')+'>'+r[2]+'</div><div class="rl">教學資源</div>'+r[3].map(function(x,ri){return'<span class="tag">'+x+(EDIT?'<span class="rx" data-i="'+i+'" data-ri="'+ri+'">✕</span>':'')+'</span>'}).join("")+(EDIT?(ADDI===i?'<span class="addbox"><input id="addin" placeholder="資源名稱" style="width:130px;font:inherit;font-size:13px;border:1px solid var(--teal);border-radius:8px;padding:2px 8px;background:var(--card);color:var(--ink)"> <button class="tag addok">加入</button><button class="tag addno">取消</button></span>':'<button class="tag addr" data-i="'+i+'">＋ 新增</button>'):'')+'</div>';
+ });
+ document.getElementById("list").innerHTML=out;var _a=document.getElementById("addin");if(_a)_a.focus();
 }
-document.addEventListener("input",function(e){var el=e.target;if(el.dataset&&el.dataset.ak){var o=ACT[el.dataset.ak]=ACT[el.dataset.ak]||{};o[el.dataset.f]=el.value;saveACT()}});
-document.addEventListener("click",function(e){
-  var b=e.target.closest("[data-i]");if(b){cur=+b.dataset.i;sel=-1;wk=0;render();return}
-  if(e.target.id=="pk"){closePk();return}
-  var pi=e.target.closest("[data-pick]");if(pi&&PK){OV[PK.k]=pi.dataset.pick;saveOV();closePk();render();return}
-  var pq=e.target.closest("[data-pkx]");if(pq){if(pq.dataset.pkx=="dreset"&&PK){delete DOV[PK.k];delete OV[PK.k];saveDOV();saveOV();render()}if(pq.dataset.pkx=="reset"&&PK){delete OV[PK.k];saveOV();render()}closePk();return}
-  var dkb=e.target.closest("[data-dk]");if(dkb){openDk(dkb.dataset.dk);return}
-  var dp=e.target.closest("[data-dpick]");if(dp&&PK){var n=+dp.dataset.dpick;if(n==DOM[PK.i])delete DOV[PK.k];else DOV[PK.k]=n;delete OV[PK.k];saveDOV();saveOV();closePk();render();return}
-  var fb=e.target.closest("[data-fill]");if(fb){var a=fb.dataset.fill.split("-"),th=O.filter(function(x){return x.m==+a[0]})[0],g=G(th,+a[1],+a[2],+a[3]),o=ACT[fb.dataset.fill]=ACT[fb.dataset.fill]||{};if(!o.t)o.t=g.tit;if(!o.c)o.c=g.txt;if(!o.r)o.r=g.res.join("、");saveACT();render();return}
-  var ik=e.target.closest("[data-ik]");if(ik){openPk(ik.dataset.ik);return}
-  var px=e.target.closest("[data-x]");if(px){if(px.dataset.x=="print")window.print();else document.getElementById("pr").className="";return}
-  var pb=e.target.closest("[data-p]");if(pb){printTable(+pb.dataset.p);return}
-  var wb=e.target.closest("[data-w]");if(wb){wk=+wb.dataset.w;render();return}
-  var q=e.target.closest("[data-c]");if(q){cc=+q.dataset.c;render();return}
-  var k=e.target.closest("[data-k]");if(k){var n=+k.dataset.k;sel=(sel==n?-1:n);wk=0;render();if(sel>=0)document.getElementById("detail").scrollIntoView({behavior:"smooth"})}
-});
-render();
+function loadWeek(w){WK=w;mkDates();D=JSON.parse(JSON.stringify(window.CUR[w]||{}));
+ Object.keys(ED.c).forEach(function(k){var p=k.split("|"),r=p[0]===WK&&D[p[1]]&&D[p[1]][+p[2]];if(r){r[0]=ED.c[k].t;r[2]=ED.c[k].x;r[3]=ED.c[k].r}});
+ SEL={};DEF={};Object.keys(D).forEach(function(g){SEL[g]=[];DEF[g]=[];D[g].forEach(function(r,i){var a=(r[1]||"").split("｜").map(function(x){return x.split(" ")[0]}).filter(Boolean);SEL[g][i]=a.slice();DEF[g][i]=a.slice()})});
+ try{var sv=JSON.parse(localStorage.getItem("ccSel3|"+WK)||"null");if(sv)Object.keys(sv).forEach(function(g){if(SEL[g])sv[g].forEach(function(a,i){if(Array.isArray(a)&&SEL[g][i])SEL[g][i]=a})})}catch(e){}
+ var ks=Object.keys(window.CUR).sort(),n=ks.indexOf(w)+1,s0=new Date(w+"T00:00:00"),f=new Date(s0);f.setDate(s0.getDate()+4);
+ var fm=function(d){return("0"+(d.getMonth()+1)).slice(-2)+"/"+("0"+d.getDate()).slice(-2)};
+ document.getElementById("wkh").innerHTML="第 "+n+" 週　"+fm(s0)+" ～ "+fm(f)+"・本週重點：<span id=\"wf\"></span>";
+ var x=document.getElementById("wf");x.contentEditable=EDIT;x.onblur=function(){ED.ext[MK]=ED.ext[MK]||{};ED.ext[MK]["wf"+WK]=this.textContent.trim();saveE()};
+ document.getElementById("wkt").innerHTML=ks.map(function(k,i){return'<button data-w="'+k+'" aria-pressed="'+(k===w)+'">第'+(i+1)+'週</button>'}).join("");
+ rext();render()}
+document.getElementById("wkt").onclick=function(e){var b=e.target.closest("button");if(b)loadWeek(b.dataset.w)};
+loadWeek(WK);rnotes();
 </script>
 </body>
 </html>

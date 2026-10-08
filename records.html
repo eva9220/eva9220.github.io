@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>適齡適性記錄｜初晴之森托嬰中心</title>
 <style>
-:root{--g:#86ab98;--o:#eba890;--ink:#4d4a47;--bg:#fbf6ef;--line:#eadfd2;--sub:#8c857d}
+:root{--g:#e39a7c;--o:#eba890;--ink:#4d4a47;--bg:#fbf6ef;--line:#eadfd2;--sub:#8c857d}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;padding-bottom:env(safe-area-inset-bottom,0px)}
 header{background:var(--g);color:#fff;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 12px;display:flex;align-items:center;gap:10px}
@@ -32,15 +32,25 @@ select,input{font:inherit;font-size:15px;border:1.5px solid var(--line);border-r
 .fm.show{display:flex}.fm input{flex:1;min-width:120px}
 .fm button{border:0;background:var(--g);color:#fff;border-radius:10px;padding:6px 16px;font:inherit}
 .hint{color:var(--sub);font-size:13px;margin:6px 0}
+
+body{background-color:#fdf8ee!important;background-image:radial-gradient(#e9dcc3 1.3px,transparent 1.6px)!important;background-size:22px 22px!important}
+.sk{position:relative;margin:calc(10px + env(safe-area-inset-top,0px)) 10px 12px;height:86px;display:flex;align-items:center;justify-content:center}
+.sk .skb{position:absolute;inset:0;width:100%;height:100%}
+.sk .skt{position:absolute;width:64px;height:20px;opacity:.9;top:-4px}
+.sk .skt.l{left:-4px;transform:rotate(-12deg);background:repeating-linear-gradient(45deg,#eba890 0 6px,#f7cfc0 6px 12px)}
+.sk .skt.r{right:-4px;transform:rotate(10deg);background:repeating-linear-gradient(45deg,#9bc2db 0 6px,#c6dcec 6px 12px)}
+.sk .skback{position:absolute;left:18px;top:50%;margin-top:-17px;z-index:2;background:#fffdf9;color:#4d4a47!important;border:2.4px solid #4d4a47;border-radius:14px 12px 15px 11px;padding:3px 12px;font-size:14px;text-decoration:none;box-shadow:2px 3px 0 #eba890;line-height:1.5}
+.sk .skttl{position:relative;z-index:1;font-size:23px;letter-spacing:.08em;color:#4d4a47;text-shadow:2px 2px 0 #fff;transform:rotate(-1.2deg);width:100%;text-align:center}
+@media print{.sk{display:none!important}}
 </style>
 </head>
 <body>
-<header><a href="index.html">← 首頁</a><b>📋 適齡適性記錄</b></header>
+<svg width="0" height="0" style="position:absolute"><filter id="skr"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter></svg><div class="sk"><svg class="skb" viewBox="0 0 390 86" preserveAspectRatio="none"><path d="M10 14C80 4 310 6 380 14 388 38 386 62 378 74 300 84 90 82 12 74 4 58 2 36 10 14Z" fill="#f9d6c5" stroke="#4d4a47" stroke-width="3" filter="url(#skr)"/></svg><div class="skt l"></div><div class="skt r"></div><a class="skback" href="index.html">← 首頁</a><b class="skttl">適齡適性記錄</b></div>
 <main id="m">
-<h2><span>👩‍🏫 托育人員</span><button id="ed">編輯名單</button></h2>
+<h2><span>托育人員</span><button id="ed">編輯名單</button></h2>
 <div class="grid" id="tg"></div>
 <div class="fm" id="ft"><input id="tn" placeholder="新增托育人員姓名"><button id="ta">新增</button></div>
-<h2><span id="kt">🧒 幼兒名冊</span><button id="all">看全部幼兒</button></h2>
+<h2><span id="kt">幼兒名冊</span><button id="all">看全部幼兒</button></h2>
 <div class="grid" id="kg"></div>
 <div class="fm" id="fk"><input id="kn" placeholder="幼兒姓名"><input id="kb" type="date" aria-label="出生日期"><button id="ka">新增</button></div>
 <p class="hint" id="kh"></p>
@@ -70,7 +80,7 @@ function cls(m){return m<=6?"嫩芽班":m<=18?"花曦班":"晴空班"}
 function rend(){
  $("tg").className="grid"+(document.body.classList.contains("edit")?"":"");
  $("tg").innerHTML=T.map(function(n,i){return'<button class="c'+(n===ST.t?' on':'')+'" data-t="'+i+'"><span class="x" data-dt="'+i+'">✕</span><div class="av">'+n.slice(-1)+'</div><b>'+n+'</b></button>'}).join("")+'<button class="c add" id="at">＋<small>新增人員</small></button>';
- $("kt").textContent="🧒 幼兒名冊"+(ST.t&&!ST.all?"　"+ST.t:"　全部幼兒");
+ $("kt").textContent="幼兒名冊"+(ST.t&&!ST.all?"　"+ST.t:"　全部幼兒");
  var list=K.map(function(k,i){k.i=i;return k}).filter(function(k){return ST.all||!ST.t||k.t===ST.t});
  var now=new Date();
  $("kg").innerHTML=list.map(function(k){var m=mon(k.b,now);return'<button class="c'+(ST.k===k.i?' on':'')+'" data-k="'+k.i+'"><span class="x" data-dk="'+k.i+'">✕</span><div class="av">'+k.n.slice(0,1)+'</div><b>'+k.n+'</b><small>'+m+' 個月・'+cls(m).replace("班","")+'</small></button>'}).join("")+'<button class="c add" id="ak">＋<small>新增幼兒</small></button>';
