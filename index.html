@@ -54,4 +54,4 @@ var LINKS=[
 ["VARIOUS FORMS","各式表單","請假交接單 ・ 事故單 ・ 清潔表單 ・ 電訪表","","forms.html","box","#d3b896","#f3eadc"]];
 document.getElementById("g").innerHTML=LINKS.map(function(l){return'<a class="card" href="'+l[4]+'" style="--k:'+l[6]+';--bg2:'+l[7]+'"><div class="ic">'+ic(l[5])+'</div><div class="tx"><small>'+l[0]+'</small><b>'+l[1]+'</b><span>'+l[2]+'</span>'+(l[3]?'<span>'+l[3]+'</span>':'')+'</div><div class="ar">›</div></a>'}).join("");
 
-</script></body></html>
+</script><script type="module">import { startApp } from "./cloud.js"; startApp();</script></body></html>
