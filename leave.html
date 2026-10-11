@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>請假交接單｜初晴之森托嬰中心</title>
+<style>
+:root{--bg:#fbf6ef;--ink:#4d4a47;--sub:#8a7d68;--line:#e3e0d6;--g:#86ab98;--red:#c96d5f}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;padding-bottom:40px}
+.top{background:#f3e6c2;border-bottom:3px solid #d8c48c;padding:12px 14px;display:flex;align-items:center;gap:12px}
+.top a{color:var(--ink);text-decoration:none;border:2px solid var(--ink);border-radius:99px;padding:4px 12px;background:#fff;font-size:14px;white-space:nowrap}
+.top b{font-size:18px;letter-spacing:.06em}
+main{max-width:760px;margin:0 auto;padding:14px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+select,input,textarea,button{font:inherit;font-size:15px}
+select,input,textarea{border:1.5px solid var(--line);border-radius:10px;padding:7px 9px;background:#fff;color:var(--ink);min-width:0;max-width:100%}
+textarea{width:100%;min-height:70px}
+button{border:1.5px solid var(--g);background:#fff;color:var(--ink);border-radius:99px;padding:7px 14px;cursor:pointer}
+button.primary{background:var(--g);color:#fff}
+button.mgr{border-color:#d2a35c;color:#7a5a1c}
+.sum{font-size:14px;color:var(--sub);margin-bottom:8px}
+.item{display:block;width:100%;text-align:left;background:#fff;border:0;border-left:7px solid var(--g);border-radius:16px;padding:12px 14px;margin-bottom:10px;box-shadow:0 3px 0 var(--line);cursor:pointer}
+.item b{font-size:16px}
+.item small{color:var(--sub);display:block}
+.tag{display:inline-block;font-size:12px;border-radius:99px;padding:0 8px;margin-left:6px;background:#eef0ea;color:#6b6457}
+.tag.sent{background:#dfe9f5;color:#3c5f86}
+.tag.rev{background:#e2f0e6;color:#2f6b45}
+.tag.new{background:#f8dcd5;color:#a4493a}
+.sec{background:#fff;border-radius:18px;padding:14px;margin-bottom:14px;box-shadow:0 3px 0 var(--line)}
+.sec h2{font-size:16px;margin:0 0 10px;color:#5f5a52}
+.sec.kid{border-left:7px solid #b9a3d3}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid .full{grid-column:1/-1}
+.grid label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--sub)}
+.grid label input,.grid label select,.grid label textarea{color:var(--ink);font-size:15px}
+.opts{display:flex;flex-wrap:wrap;gap:10px;font-size:14px;color:var(--ink)}
+.opts label{display:inline-flex;align-items:center;gap:4px}
+.lbl{font-size:13px;color:var(--sub);margin-bottom:4px}
+canvas.sig{width:100%;max-width:340px;height:140px;border:1.5px dashed #bbb;border-radius:12px;background:#fff;touch-action:none;display:block}
+.sigs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ro input,.ro select,.ro textarea{background:#f4f1ea;color:#555}
+.note{font-size:13px;color:var(--sub);background:#fff8e6;border-radius:12px;padding:8px 12px;margin-bottom:12px}
+@media (max-width:560px){.grid{grid-template-columns:1fr}.sigs{grid-template-columns:1fr}}
+@media print{
+  .top,.bar,.no-print,.note{display:none!important}
+  body{background:#fff}
+  .sec{box-shadow:none;border:1px solid #999}
+  main{max-width:none}
+}
+</style>
+</head>
+<body>
+<div class="top no-print"><a href="forms.html">← 各式表單</a><b>📝 請假交接單</b></div>
+<main>
+
+  <section id="listView">
+    <div class="bar no-print">
+      <select id="selCls"></select>
+      <select id="selTeacher"></select>
+      <button class="primary" id="btnNew">＋ 新增假單</button>
+    </div>
+    <div class="sum" id="sum"></div>
+    <div id="list"></div>
+  </section>
+
+  <section id="editView" hidden>
+    <div class="bar no-print">
+      <button id="btnBack">← 返回列表</button>
+      <span id="stateTag"></span>
+    </div>
+    <div class="note no-print" id="roNote" hidden></div>
+    <form id="form" onsubmit="return false"></form>
+    <div class="bar no-print">
+      <button id="btnDraft">儲存草稿</button>
+      <button class="primary" id="btnSubmit">送出</button>
+      <button class="mgr" id="btnReviewed" hidden>標示已閱</button>
+      <button id="btnPrint">列印 / 存成 PDF</button>
+    </div>
+  </section>
+
+</main>
+
+<script type="module">
+import { SF } from "./cloud.js";
+
+// ===== 設定：班級、老師、幼兒（之後新增班級或老師只要改這裡）=====
+const CLASSES = [
+  { name: "嫩芽班", teachers: ["陳慈敏"], kids: [{ id: "L01" }] }
+];
+const TYPES = ["事假", "病假", "特休", "其他"];
+const KID_FIELDS = [
+  { k: "meal", t: "radio", l: "飲食食慾狀況", o: ["正常", "量多", "量少"] },
+  { k: "sleep", t: "radio", l: "睡眠狀況", o: ["淺睡", "深睡"] },
+  { k: "allergy", t: "text", l: "過敏食物" },
+  { k: "sleepPref", t: "text", l: "睡眠特殊嗜好" },
+  { k: "diaper", t: "checks", l: "尿布更換", o: ["包尿布", "穿著學習褲", "自行表達如廁需求", "訓練如廁"] },
+  { k: "milkBreast", t: "text", l: "奶粉沖泡：母奶（cc）" },
+  { k: "milkFormula", t: "text", l: "奶粉沖泡：配方奶（cc）" },
+  { k: "afternoon", t: "text", l: "下課時間特殊需求" },
+  { k: "toilet", t: "checks", l: "排便狀況", o: ["會自行表達如廁需求"] },
+  { k: "toiletNote", t: "text", l: "排便其他說明" },
+  { k: "shoes", t: "radio", l: "穿鞋", o: ["是", "否"] },
+  { k: "note", t: "area", l: "其它說明" }
+];
+
+// ===== 狀態 =====
+let ME = null, IS_MGR = false, ITEMS = [], unsub = null, EDIT = null;
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const today = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+const setPath = (o, p, v) => { const a = p.split("."); let c = o; a.slice(0, -1).forEach((k) => { c[k] = c[k] || {}; c = c[k]; }); c[a[a.length - 1]] = v; };
+const getPath = (o, p) => p.split(".").reduce((c, k) => (c == null ? undefined : c[k]), o);
+const currentClass = () => CLASSES.find((c) => c.name === $("selCls").value) || CLASSES[0];
+
+// ===== 啟動：登入與權限 =====
+SF.gate((u) => {
+  ME = u;
+  IS_MGR = u.role === "admin" || u.role === "supervisor";
+  $("selCls").innerHTML = CLASSES.map((c) => `<option>${esc(c.name)}</option>`).join("");
+  fillTeachers();
+  $("selCls").onchange = () => { fillTeachers(); renderList(); };
+  $("selTeacher").onchange = renderList;
+  $("btnNew").onclick = () => openEdit(null);
+  $("btnBack").onclick = backToList;
+  $("btnDraft").onclick = () => save("草稿");
+  $("btnSubmit").onclick = () => { if (confirm("送出後將無法再修改，確定送出？")) save("已送出"); };
+  $("btnReviewed").onclick = toggleReviewed;
+  $("btnPrint").onclick = () => window.print();
+  subscribe();
+});
+
+function fillTeachers() {
+  const c = currentClass();
+  $("selTeacher").innerHTML = `<option value="">全部老師</option>` + c.teachers.map((t) => `<option>${esc(t)}</option>`).join("");
+}
+
+// 管理者看全部；一般成員只看自己建立的假單（規則也會限制）
+function subscribe() {
+  if (unsub) unsub();
+  unsub = IS_MGR
+    ? SF.watch("leaves", (items) => { ITEMS = items; renderList(); })
+    : SF.watchWhere("leaves", "owner", ME.email, (items) => { ITEMS = items; renderList(); });
+}
+
+function statusTag(it) {
+  if (it.status !== "已送出") return `<span class="tag new">草稿</span>`;
+  return it.reviewed ? `<span class="tag rev">已閱</span>` : `<span class="tag sent">已送出・未閱</span>`;
+}
+
+function renderList() {
+  const cls = $("selCls").value, t = $("selTeacher").value;
+  const rows = ITEMS
+    .filter((it) => (!cls || it.cls === cls) && (!t || it.teacher === t))
+    .sort((a, b) => String(b.updatedAt || "").localeCompare(String(a.updatedAt || "")));
+  const unread = rows.filter((it) => it.status === "已送出" && !it.reviewed).length;
+  $("sum").textContent = IS_MGR ? `共 ${rows.length} 筆，未閱 ${unread} 筆` : `共 ${rows.length} 筆`;
+  $("list").innerHTML = rows.map((it) => `
+    <button class="item" data-id="${esc(it.id)}">
+      <b>${esc(it.name || "（未填姓名）")}・${esc(it.type || "")}</b> ${statusTag(it)}
+      <small>${esc(it.teacher || "")}｜${esc(it.start || "")} ～ ${esc(it.end || "")}｜建立 ${esc((it.createdAt || "").slice(0, 10))}</small>
+    </button>`).join("") || `<p style="color:#8a7d68;text-align:center">還沒有假單，按「＋ 新增假單」開始。</p>`;
+  document.querySelectorAll("#list .item").forEach((b) => { b.onclick = () => openEdit(b.dataset.id); });
+}
+
+// ===== 編輯 =====
+function blank() {
+  return {
+    cls: $("selCls").value, teacher: $("selTeacher").value || currentClass().teachers[0],
+    owner: ME.email, status: "草稿", reviewed: false,
+    date: today(), name: "", start: "", end: "", area: "", type: "事假",
+    agent: "", agentQual: [], agentId: "", afterNote: "", generalNote: "",
+    kids: {}, sigAgent: "", sigChief: ""
+  };
+}
+
+function openEdit(id) {
+  if (id === null) {
+    EDIT = { id: null, data: blank() };
+  } else {
+    const it = ITEMS.find((x) => x.id === id);
+    if (!it) return;
+    const { id: _, ...rest } = it;
+    EDIT = { id, data: rest };
+  }
+  renderForm();
+  $("listView").hidden = true;
+  $("editView").hidden = false;
+  window.scrollTo(0, 0);
+}
+
+function backToList() {
+  $("editView").hidden = true;
+  $("listView").hidden = false;
+  renderList();
+}
+
+function editable() {
+  if (!EDIT) return false;
+  if (IS_MGR) return true;
+  return EDIT.data.owner === ME.email && EDIT.data.status === "草稿";
+}
+
+function inputHTML(path, f, val, ro) {
+  const dis = ro ? " disabled" : "";
+  if (f.t === "radio") {
+    return `<div class="opts">${f.o.map((o) => `<label><input type="radio" name="${path}" data-p="${path}" value="${esc(o)}"${val === o ? " checked" : ""}${dis}>${esc(o)}</label>`).join("")}</div>`;
+  }
+  if (f.t === "checks") {
+    const arr = Array.isArray(val) ? val : [];
+    return `<div class="opts">${f.o.map((o) => `<label><input type="checkbox" data-p="${path}" data-v="${esc(o)}"${arr.includes(o) ? " checked" : ""}${dis}>${esc(o)}</label>`).join("")}</div>`;
+  }
+  if (f.t === "area") return `<textarea data-p="${path}"${dis}>${esc(val)}</textarea>`;
+  return `<input type="text" data-p="${path}" value="${esc(val)}"${dis}>`;
+}
+
+function renderForm() {
+  const d = EDIT.data, ro = !editable();
+  const c = CLASSES.find((x) => x.name === d.cls) || currentClass();
+  const basic = `
+    <div class="sec">
+      <h2>基本資料</h2>
+      <div class="grid">
+        <label>交接日期<input type="date" data-p="date" value="${esc(d.date)}"${ro ? " disabled" : ""}></label>
+        <label>請假人姓名<input type="text" data-p="name" value="${esc(d.name)}"${ro ? " disabled" : ""}></label>
+        <label>班級<select data-p="cls"${ro ? " disabled" : ""}>${CLASSES.map((x) => `<option${x.name === d.cls ? " selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
+        <label>假別<select data-p="type"${ro ? " disabled" : ""}>${TYPES.map((x) => `<option${x === d.type ? " selected" : ""}>${x}</option>`).join("")}</select></label>
+        <label>請假日期（起）<input type="date" data-p="start" value="${esc(d.start)}"${ro ? " disabled" : ""}></label>
+        <label>請假日期（迄）<input type="date" data-p="end" value="${esc(d.end)}"${ro ? " disabled" : ""}></label>
+        <label class="full">打掃區域<input type="text" data-p="area" value="${esc(d.area)}"${ro ? " disabled" : ""}></label>
+        <label>代理人<input type="text" data-p="agent" value="${esc(d.agent)}"${ro ? " disabled" : ""}></label>
+        <label>代理人身分證字號或證號<input type="text" data-p="agentId" value="${esc(d.agentId)}"${ro ? " disabled" : ""}></label>
+        <div class="full"><div class="lbl">代理人資格</div>
+          <div class="opts">
+            <label><input type="checkbox" data-p="agentQual" data-v="相關科系畢"${(d.agentQual || []).includes("相關科系畢") ? " checked" : ""}${ro ? " disabled" : ""}>相關科系畢</label>
+            <label><input type="checkbox" data-p="agentQual" data-v="保母證號"${(d.agentQual || []).includes("保母證號") ? " checked" : ""}${ro ? " disabled" : ""}>保母證號</label>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  const kids = c.kids.map((kid) => {
+    const kd = (d.kids && d.kids[kid.id]) || {};
+    return `<div class="sec kid"><h2>幼兒 ${esc(kid.id)} 交接事項</h2><div class="grid">
+      ${KID_FIELDS.map((f) => {
+        const p = `kids.${kid.id}.${f.k}`;
+        const cls = f.t === "area" || f.t === "checks" || f.t === "radio" ? "full" : "";
+        return `<div class="${cls}"><div class="lbl">${esc(f.l)}</div>${inputHTML(p, f, kd[f.k], ro)}</div>`;
+      }).join("")}
+    </div></div>`;
+  }).join("");
+
+  const tail = `
+    <div class="sec">
+      <h2>其他交接事項</h2>
+      <div class="lbl">代理人代班事後交接</div>
+      ${inputHTML("afterNote", { t: "area" }, d.afterNote, ro)}
+      <div class="lbl" style="margin-top:10px">其他需交接事項</div>
+      ${inputHTML("generalNote", { t: "area" }, d.generalNote, ro)}
+    </div>
+    <div class="sec">
+      <h2>簽名</h2>
+      <div class="sigs">
+        <div><div class="lbl">代理人簽名</div><canvas class="sig" data-sig="sigAgent" width="480" height="200"></canvas></div>
+        <div><div class="lbl">主任簽名</div><canvas class="sig" data-sig="sigChief" width="480" height="200"></canvas></div>
+      </div>
+      ${ro ? "" : `<p class="lbl" style="margin-top:8px">請直接在方框內簽名（手機可用手指）</p>`}
+    </div>`;
+
+  $("form").innerHTML = basic + kids + tail;
+  $("form").classList.toggle("ro", ro);
+
+  document.querySelectorAll("canvas[data-sig]").forEach((cv) => initSig(cv, d[cv.dataset.sig], ro));
+
+  $("stateTag").innerHTML = EDIT.id === null
+    ? `<span class="tag new">新假單</span>`
+    : `${statusTag(d)}`;
+  $("roNote").hidden = !ro;
+  $("roNote").textContent = IS_MGR ? "" : (d.status === "已送出" ? "此假單已送出，目前為唯讀。" : "");
+  $("btnDraft").hidden = ro;
+  $("btnSubmit").hidden = ro;
+  $("btnReviewed").hidden = !(IS_MGR && EDIT.id);
+  $("btnReviewed").textContent = d.reviewed ? "取消已閱" : "標示已閱";
+}
+
+function initSig(cv, existing, ro) {
+  const ctx = cv.getContext("2d");
+  ctx.lineWidth = 3; ctx.lineCap = "round"; ctx.strokeStyle = "#2b3a4a";
+  if (existing) {
+    const img = new Image();
+    img.onload = () => ctx.drawImage(img, 0, 0, cv.width, cv.height);
+    img.src = existing;
+  }
+  if (ro) { cv.style.pointerEvents = "none"; return; }
+  let drawing = false;
+  const pos = (e) => {
+    const r = cv.getBoundingClientRect();
+    return [(e.clientX - r.left) * cv.width / r.width, (e.clientY - r.top) * cv.height / r.height];
+  };
+  cv.addEventListener("pointerdown", (e) => {
+    drawing = true; cv.setPointerCapture(e.pointerId);
+    const [x, y] = pos(e); ctx.beginPath(); ctx.moveTo(x, y);
+    cv.dataset.dirty = "1";
+  });
+  cv.addEventListener("pointermove", (e) => {
+    if (!drawing) return;
+    const [x, y] = pos(e); ctx.lineTo(x, y); ctx.stroke();
+  });
+  ["pointerup", "pointercancel"].forEach((ev) => cv.addEventListener(ev, () => { drawing = false; }));
+}
+
+// 收集表單內容（只有可編輯時才會用到）
+function collect() {
+  const out = {};
+  const form = $("form");
+  form.querySelectorAll("[data-p]").forEach((el) => {
+    const p = el.dataset.p;
+    if (el.type === "checkbox") {
+      if (!Array.isArray(getPath(out, p))) setPath(out, p, []);
+      if (el.checked) getPath(out, p).push(el.dataset.v);
+    } else if (el.type === "radio") {
+      if (getPath(out, p) === undefined) setPath(out, p, "");
+      if (el.checked) setPath(out, p, el.value);
+    } else {
+      setPath(out, p, el.value);
+    }
+  });
+  form.querySelectorAll("canvas[data-sig]").forEach((cv) => {
+    const key = cv.dataset.sig;
+    out[key] = cv.dataset.dirty === "1" ? cv.toDataURL("image/png") : (EDIT.data[key] || "");
+  });
+  return out;
+}
+
+async function save(status) {
+  const fields = collect();
+  const now = new Date().toISOString();
+  const data = {
+    ...EDIT.data, ...fields,
+    owner: EDIT.data.owner || ME.email,            // 建立者不會被改掉
+    reviewed: EDIT.data.reviewed || false,         // 只能由管理者標示已閱
+    status,
+    updatedAt: now,
+    createdAt: EDIT.data.createdAt || now
+  };
+  if (status === "已送出") data.submittedAt = now;
+  if (EDIT.id === null) {
+    const ref = await SF.add("leaves", data);
+    if (!ref) return;
+    EDIT.id = ref.id;
+  } else {
+    await SF.set("leaves", EDIT.id, data);
+  }
+  EDIT.data = data;
+  renderForm();
+  alert(status === "已送出" ? "已送出" : "已儲存草稿");
+}
+
+async function toggleReviewed() {
+  if (!EDIT.id) return;
+  const fields = collect();
+  const data = { ...EDIT.data, ...fields, reviewed: !EDIT.data.reviewed, updatedAt: new Date().toISOString() };
+  await SF.set("leaves", EDIT.id, data);
+  EDIT.data = data;
+  renderForm();
+}
+</script>
+</body>
+</html>

@@ -5,7 +5,7 @@ import {
   onAuthStateChanged, signOut
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import {
-  getFirestore, collection, doc, getDoc, getDocs, addDoc, setDoc, deleteDoc, onSnapshot
+  getFirestore, collection, doc, getDoc, getDocs, addDoc, setDoc, deleteDoc, onSnapshot, query, where
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 const app = initializeApp({
@@ -120,6 +120,12 @@ export const SF = {
   watchDoc(name, id, cb) {
     return onSnapshot(doc(db, name, id),
       (snap) => cb(snap.exists() ? snap.data() : null, snap.metadata.hasPendingWrites),
+      onErr);
+  },
+  // 依欄位值篩選（例如只看自己的假單）；Firestore 規則也會限制可讀範圍
+  watchWhere(name, field, value, cb) {
+    return onSnapshot(query(collection(db, name), where(field, "==", value)),
+      (snap) => cb(snap.docs.map((d) => ({ id: d.id, ...d.data() })), snap.metadata.hasPendingWrites),
       onErr);
   },
   add: (name, data) => safe(addDoc(collection(db, name), data)),
