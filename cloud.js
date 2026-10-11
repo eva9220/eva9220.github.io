@@ -192,39 +192,86 @@ export const KV = {
   removeItem(k) { delete cache[k]; enqueue(() => persist(k)); }
 };
 
-// 找出這台裝置上「還沒上傳」的舊資料，顯示上傳按鈕
+// 找出這台裝置上的舊資料：
+// pending＝雲端沒有、只存在這台裝置；conflicts＝雲端與這台裝置內容不同（需要你決定）
 function offerMigration() {
-  const pending = [];
+  const pending = [], conflicts = [];
   try {
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
-      if (k && !k.startsWith("adm:") && !Object.prototype.hasOwnProperty.call(cache, k)) pending.push(k);
+      if (!k || k.startsWith("adm:") || k.startsWith("bak:")) continue;
+      const local = localStorage.getItem(k) || "";
+      if (!Object.prototype.hasOwnProperty.call(cache, k)) pending.push(k);
+      else if (cache[k] !== local) conflicts.push(k);
     }
   } catch (e) { return; }
-  if (!pending.length) return;
+  if (!pending.length && !conflicts.length) return;
+
+  const stamp = () => new Date().toISOString().replace(/[:.]/g, "-");
+  const btnStyle = "margin-left:8px;border:0;border-radius:999px;padding:4px 14px;font:inherit;background:#86ab98;color:#fff;cursor:pointer";
   const bar = document.createElement("div");
   bar.style.cssText = "position:fixed;left:0;right:0;top:0;z-index:99998;background:#fff3c4;color:#4d4a47;padding:8px 12px;text-align:center;font:14px/1.6 'Noto Sans TC','PingFang TC',sans-serif;box-shadow:0 2px 6px rgba(0,0,0,.15)";
-  const txt = document.createElement("span");
-  txt.textContent = "這台裝置有舊資料（只存在這台裝置）。";
-  const b = document.createElement("button");
-  b.textContent = "上傳到雲端";
-  b.style.cssText = "margin-left:8px;border:0;border-radius:999px;padding:4px 14px;font:inherit;background:#86ab98;color:#fff;cursor:pointer";
-  b.onclick = async () => {
-    b.disabled = true; b.textContent = "上傳中…";
-    try {
-      for (const k of pending) {
-        cache[k] = localStorage.getItem(k) || "";
-        await persist(k);
-      }
-      bar.remove();
-      alert("舊資料已上傳到雲端");
-    } catch (e) {
-      console.error(e);
-      alert("上傳失敗，請確認網路後再試一次");
-      b.disabled = false; b.textContent = "上傳到雲端";
-    }
+  const mk = (label, fn) => {
+    const b = document.createElement("button");
+    b.textContent = label; b.style.cssText = btnStyle;
+    b.onclick = () => fn(b);
+    return b;
   };
-  bar.append(txt, b);
+
+  const parts = [];
+  if (pending.length) parts.push("這台裝置有尚未上傳的舊資料");
+  if (conflicts.length) parts.push("有 " + conflicts.length + " 項與雲端內容不同");
+  const txt = document.createElement("span");
+  txt.textContent = parts.join("；") + "。";
+  const nodes = [txt];
+
+  if (pending.length) {
+    nodes.push(mk("上傳到雲端", async (b) => {
+      b.disabled = true; b.textContent = "上傳中…";
+      try {
+        for (const k of pending) {
+          cache[k] = localStorage.getItem(k) || "";
+          await persist(k);
+        }
+        bar.remove();
+        alert("舊資料已上傳到雲端");
+      } catch (e) {
+        console.error(e);
+        alert("上傳失敗，請確認網路後再試一次");
+        b.disabled = false; b.textContent = "上傳到雲端";
+      }
+    }));
+  }
+
+  if (conflicts.length) {
+    nodes.push(mk("處理差異", async (b) => {
+      b.disabled = true; b.textContent = "處理中…";
+      try {
+        for (const k of conflicts) {
+          const local = localStorage.getItem(k) || "";
+          const cloudVal = cache[k];
+          const useLocal = confirm(
+            "「" + k + "」雲端與這台裝置的內容不同。\n\n" +
+            "確定：改用這台裝置的版本（雲端原版本會備份到雲端）\n" +
+            "取消：保留雲端版本（這台裝置的版本會備份到雲端）"
+          );
+          // 兩邊都先備份到雲端，確保不會因為選擇而遺失內容
+          KV.setItem("bak:" + k + ":" + stamp(), useLocal ? cloudVal : local);
+          if (useLocal) KV.setItem(k, local);
+        }
+        await queue;
+        bar.remove();
+        alert("差異已處理完成");
+      } catch (e) {
+        console.error(e);
+        alert("處理失敗，請確認網路後再試一次");
+        b.disabled = false; b.textContent = "處理差異";
+      }
+    }));
+  }
+
+  nodes.push(mk("稍後", () => bar.remove()));
+  bar.append(...nodes);
   document.body.appendChild(bar);
 }
 
