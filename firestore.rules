@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 已登入、Email 已驗證，且在 members 名單內
+    function isMember() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && exists(/databases/$(database)/documents/members/$(request.auth.token.email.lower()));
+    }
+
+    function memberRole() {
+      return get(/databases/$(database)/documents/members/$(request.auth.token.email.lower())).data.role;
+    }
+
+    // 管理者或主管
+    function isManager() {
+      return isMember() && memberRole() in ['admin', 'supervisor'];
+    }
+
+    function isAdmin() {
+      return isMember() && memberRole() == 'admin';
+    }
+
+    match /members/{email} {
+      allow read: if isMember();
+      allow write: if isAdmin();
+    }
+
+    match /records/{id} {
+      allow read, write: if isMember();
+    }
+
+    match /config/{id} {
+      allow read, write: if isMember();
+    }
+
+    match /docs/{id} {
+      allow read, write: if isMember();
+    }
+
+    // kv：一般資料所有成員可讀寫；課程內容（ccEdits 開頭）只有管理者與主管可寫
+    match /kv/{id} {
+      allow read: if isMember();
+      allow write: if (isMember() && !id.matches('ccEdits.*'))
+                   || (isManager() && id.matches('ccEdits.*'));
+    }
+  }
+}

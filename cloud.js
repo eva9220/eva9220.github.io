@@ -22,6 +22,9 @@ const provider = new GoogleAuthProvider();
 provider.setCustomParameters({ prompt: "select_account" });
 
 let started = false;
+let myRole = null;
+// 可以修改課程內容的角色：管理者與主管（其他成員只能查看）
+const isManager = () => myRole === "admin" || myRole === "supervisor";
 
 function panel() {
   let el = document.getElementById("sf-gate");
@@ -96,6 +99,7 @@ function gate(onAllowed) {
       role = null;
     }
     if (!role) return showDenied(email);
+    myRole = role;
     hidePanel();
     if (!started) {
       started = true;
@@ -134,7 +138,29 @@ const CHUNK = 250000;   // 每段字數上限，確保單一文件不超過 Fire
 const cache = {};       // key -> 字串（同步讀取用）
 const nChunks = {};     // key -> 目前存成幾段
 let queue = Promise.resolve();
-const enqueue = (fn) => { queue = queue.then(fn).catch((e) => console.error(e)); return queue; };
+// 寫入失敗（例如權限不足或網路中斷）要讓使用者知道，不能靜默失敗
+let warnedWrite = false;
+const enqueue = (fn) => {
+  queue = queue.then(fn).catch((e) => {
+    console.error(e);
+    if (!warnedWrite) {
+      warnedWrite = true;
+      alert("雲端儲存失敗，這次修改沒有存到雲端。請確認網路連線；若仍失敗，請聯絡管理者確認權限。");
+    }
+  });
+  return queue;
+};
+// 課程內容（ccEdits）只有管理者與主管能寫入，其他成員的修改不會送出
+const isProtected = (k) => k.indexOf("ccEdits") === 0;
+let warnedProtected = false;
+const blockedByRole = (k) => {
+  if (!isProtected(k) || isManager()) return false;
+  if (!warnedProtected) {
+    warnedProtected = true;
+    alert("只有管理者與主管可以修改課程內容。這次修改沒有存到雲端。");
+  }
+  return true;
+};
 
 function splitChunks(s) {
   const out = [];
@@ -188,8 +214,14 @@ async function preload() {
 
 export const KV = {
   getItem(k) { return Object.prototype.hasOwnProperty.call(cache, k) ? cache[k] : null; },
-  setItem(k, v) { cache[k] = String(v); enqueue(() => persist(k)); },
-  removeItem(k) { delete cache[k]; enqueue(() => persist(k)); }
+  setItem(k, v) {
+    if (blockedByRole(k)) return;
+    cache[k] = String(v); enqueue(() => persist(k));
+  },
+  removeItem(k) {
+    if (blockedByRole(k)) return;
+    delete cache[k]; enqueue(() => persist(k));
+  }
 };
 
 // 找出這台裝置上的舊資料：
@@ -292,5 +324,14 @@ export function startApp() {
       el.textContent = s.textContent;
       s.replaceWith(el);
     });
+    if (!isManager()) lockForViewers();
   });
+}
+
+// 非管理者與主管：隱藏編輯入口、關閉可編輯欄位（課程內容仍可查看）
+function lockForViewers() {
+  const css = document.createElement("style");
+  css.textContent = "#eb,#er,.eb{display:none!important}";
+  document.head.appendChild(css);
+  document.querySelectorAll('[contenteditable="true"]').forEach((el) => { el.contentEditable = "false"; });
 }
