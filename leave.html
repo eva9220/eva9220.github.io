@@ -136,7 +136,7 @@ const SUP_AREA = [
 ];
 
 // ===== 狀態 =====
-let ME = null, IS_MGR = false, ITEMS = [], unsub = null, EDIT = null;
+let ME = null, IS_MGR = false, ITEMS = [], unsub = null, EDIT = null, MY_SIG = "";
 const ROSTER = {};       // key -> kids 陣列（null = 雲端沒有這天的名單）
 const ROSTER_SUB = {};   // key -> 已訂閱
 const $ = (id) => document.getElementById(id);
@@ -168,9 +168,43 @@ SF.gate((u) => {
     const p = e.target.dataset && e.target.dataset.p;
     if (p === "start" || p === "identity" || p === "cls") refreshForm();
   });
+  $("form").addEventListener("click", onSigClick);
   setupRosterEditor();
   subscribe();
+  // 代理人固定簽名：存在自己的 profiles 文件，新假單會自動帶入
+  SF.watchDoc("profiles", ME.email, (val) => {
+    const next = (val && val.sig) || "";
+    const changed = next !== MY_SIG;
+    MY_SIG = next;
+    if (changed && EDIT && !$("editView").hidden && editable() && !EDIT.data.sigAgent) refreshForm();
+  });
 });
+
+async function onSigClick(e) {
+  const clr = e.target.closest("[data-sigclear]");
+  if (clr) {
+    const cv = document.querySelector(`canvas[data-sig="${clr.dataset.sigclear}"]`);
+    if (cv) { cv.getContext("2d").clearRect(0, 0, cv.width, cv.height); cv.dataset.dirty = "1"; }
+    return;
+  }
+  const sv = e.target.closest("[data-sigsave]");
+  if (sv) {
+    const cv = document.querySelector(`canvas[data-sig="${sv.dataset.sigsave}"]`);
+    if (!cv || cv.dataset.dirty !== "1") return alert("請先在方框內簽名");
+    try {
+      await SF.set("profiles", ME.email, { sig: cv.toDataURL("image/png"), updatedAt: new Date().toISOString() });
+      alert("已存為固定簽名，之後新假單會自動帶入");
+    } catch (err) {
+      alert("儲存失敗，請確認網路後再試");
+    }
+  }
+}
+
+function sigTools(ro) {
+  if (ro) return "";
+  return `<div class="bar" style="margin:6px 0 0"><button type="button" data-sigclear="sigAgent">清除簽名</button><button type="button" class="primary" data-sigsave="sigAgent">存為我的固定簽名</button></div>
+    <p class="lbl">存好後，之後新假單會自動帶入，不用每次重簽。</p>`;
+}
 
 function fillTeachers() {
   const c = currentClass();
@@ -369,6 +403,7 @@ function renderForm() {
       <h2>✍️ 簽名</h2>
       <div class="lbl">代理人簽名</div>
       <canvas class="sig" data-sig="sigAgent" width="480" height="200"></canvas>
+      ${sigTools(ro)}
       ${ro ? "" : `<p class="lbl" style="margin-top:8px">請直接在方框內簽名（手機可用手指）</p>`}
     </div>`;
   } else {
@@ -390,7 +425,7 @@ function renderForm() {
     <div class="sec">
       <h2>✍️ 簽名</h2>
       <div class="sigs">
-        <div><div class="lbl">代理人簽名</div><canvas class="sig" data-sig="sigAgent" width="480" height="200"></canvas></div>
+        <div><div class="lbl">代理人簽名</div><canvas class="sig" data-sig="sigAgent" width="480" height="200"></canvas>${sigTools(ro)}</div>
         <div><div class="lbl">主任簽名</div><canvas class="sig" data-sig="sigChief" width="480" height="200"></canvas></div>
       </div>
       ${ro ? "" : `<p class="lbl" style="margin-top:8px">請直接在方框內簽名（手機可用手指）</p>`}
@@ -401,7 +436,11 @@ function renderForm() {
   $("form").innerHTML = basic + rules + body;
   $("form").classList.toggle("ro", ro);
 
-  document.querySelectorAll("canvas[data-sig]").forEach((cv) => initSig(cv, d[cv.dataset.sig], ro));
+  document.querySelectorAll("canvas[data-sig]").forEach((cv) => {
+    const k = cv.dataset.sig;
+    const useMine = k === "sigAgent" && !d.sigAgent && !!MY_SIG && !ro;
+    initSig(cv, useMine ? MY_SIG : d[k], ro, useMine);
+  });
 
   $("stateTag").innerHTML = EDIT.id === null
     ? `<span class="tag new">新假單</span>`
@@ -414,12 +453,15 @@ function renderForm() {
   $("btnReviewed").textContent = d.reviewed ? "取消已閱" : "標示已閱";
 }
 
-function initSig(cv, existing, ro) {
+function initSig(cv, existing, ro, fromProfile) {
   const ctx = cv.getContext("2d");
   ctx.lineWidth = 3; ctx.lineCap = "round"; ctx.strokeStyle = "#2b3a4a";
   if (existing) {
     const img = new Image();
-    img.onload = () => ctx.drawImage(img, 0, 0, cv.width, cv.height);
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0, cv.width, cv.height);
+      if (fromProfile) cv.dataset.dirty = "1";   // 固定簽名會被一起存進這張假單
+    };
     img.src = existing;
   }
   if (ro) { cv.style.pointerEvents = "none"; return; }
