@@ -43,6 +43,8 @@ canvas.sig{width:100%;max-width:340px;height:140px;border:1.5px dashed #bbb;bord
 .sigs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .ro input,.ro select,.ro textarea{background:#f4f1ea;color:#555}
 .note{font-size:13px;color:var(--sub);background:#fff8e6;border-radius:12px;padding:8px 12px;margin-bottom:12px}
+.msg{font-size:14px;color:#2f6b45;background:#e2f0e6;border-radius:12px;padding:8px 12px;margin:8px 0}
+.msg:empty{display:none}
 details.roster{background:#fff;border-radius:16px;padding:12px 14px;margin-bottom:14px;box-shadow:0 3px 0 var(--line)}
 details.roster summary{cursor:pointer;font-weight:600;color:#7a5a1c}
 @media (max-width:560px){.grid{grid-template-columns:1fr}.sigs{grid-template-columns:1fr}}
@@ -73,6 +75,7 @@ details.roster summary{cursor:pointer;font-weight:600;color:#7a5a1c}
       <div class="lbl">每行一位：代號 姓名（例：L01 江尚騰）。沒有設定的日期會使用預設名單。</div>
       <textarea id="rText" style="min-height:120px"></textarea>
       <div class="bar" style="margin:8px 0 0"><button class="primary" id="rSave">儲存名單</button></div>
+      <p class="msg" id="rMsg" role="status"></p>
     </details>
     <div class="sum" id="sum"></div>
     <div id="list"></div>
@@ -85,6 +88,7 @@ details.roster summary{cursor:pointer;font-weight:600;color:#7a5a1c}
     </div>
     <div class="note no-print" id="roNote" hidden></div>
     <form id="form" onsubmit="return false"></form>
+    <p class="msg" id="msg" role="status"></p>
     <div class="bar no-print">
       <button id="btnDraft">儲存草稿</button>
       <button class="primary" id="btnSubmit">送出</button>
@@ -160,7 +164,21 @@ SF.gate((u) => {
   $("btnNew").onclick = () => openEdit(null);
   $("btnBack").onclick = backToList;
   $("btnDraft").onclick = () => save("草稿");
-  $("btnSubmit").onclick = () => { if (confirm("送出後將無法再修改，確定送出？")) save("已送出"); };
+  // 送出要按兩次：第一次只提示，5 秒內再按一次才真的送出（不用 confirm，部分瀏覽器會直接略過）
+  let armed = false, armT = null;
+  $("btnSubmit").onclick = () => {
+    if (!armed) {
+      armed = true;
+      $("btnSubmit").textContent = "確定送出";
+      toast("再按一次「確定送出」即送出，送出後無法再修改");
+      clearTimeout(armT);
+      armT = setTimeout(() => { armed = false; $("btnSubmit").textContent = "送出"; }, 5000);
+      return;
+    }
+    armed = false; clearTimeout(armT);
+    $("btnSubmit").textContent = "送出";
+    save("已送出");
+  };
   $("btnReviewed").onclick = toggleReviewed;
   $("btnPrint").onclick = () => window.print();
   // 表單內的日期、身分、班級變動時，重新排版（幼兒名單會依日期切換）
@@ -190,12 +208,12 @@ async function onSigClick(e) {
   const sv = e.target.closest("[data-sigsave]");
   if (sv) {
     const cv = document.querySelector(`canvas[data-sig="${sv.dataset.sigsave}"]`);
-    if (!cv || cv.dataset.dirty !== "1") return alert("請先在方框內簽名");
+    if (!cv || cv.dataset.dirty !== "1") return toast("請先在方框內簽名");
     try {
       await SF.set("profiles", ME.email, { sig: cv.toDataURL("image/png"), updatedAt: new Date().toISOString() });
-      alert("已存為固定簽名，之後新假單會自動帶入");
+      toast("已存為固定簽名，之後新假單會自動帶入");
     } catch (err) {
-      alert("儲存失敗，請確認網路後再試");
+      toast("儲存失敗，請確認網路後再試");
     }
   }
 }
@@ -254,16 +272,25 @@ function setupRosterEditor() {
   $("rCls").onchange = showRoster;
   $("rSave").onclick = async () => {
     const cls = $("rCls").value, date = $("rDate").value;
-    if (!date) return alert("請先選日期");
+    if (!date) return toast("請先選日期", "rMsg");
     const kids = $("rText").value.split("\n").map((l) => l.trim()).filter(Boolean).map((l) => {
       const [id, ...rest] = l.split(/\s+/);
       return { id, name: rest.join(" ") };
     });
-    if (!kids.length) return alert("名單不能是空的");
+    if (!kids.length) return toast("名單不能是空的", "rMsg");
     await SF.set("rosters", rosterKey(cls, date), { cls, date, kids, updatedAt: new Date().toISOString() });
-    alert("名單已儲存");
+    toast("名單已儲存", "rMsg");
   };
   showRoster();
+}
+
+// 畫面上的提示訊息（不用 alert，避免部分環境不顯示）
+let msgT = null;
+function toast(text, id = "msg") {
+  const el = $(id);
+  el.textContent = text;
+  clearTimeout(msgT);
+  msgT = setTimeout(() => { el.textContent = ""; }, 5000);
 }
 
 function statusTag(it) {
@@ -527,7 +554,7 @@ async function save(status) {
   }
   EDIT.data = data;
   renderForm();
-  alert(status === "已送出" ? "已送出" : "已儲存草稿");
+  toast(status === "已送出" ? "已送出" : "已儲存草稿");
 }
 
 async function toggleReviewed() {
