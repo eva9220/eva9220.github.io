@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>行事曆｜初晴之森托嬰中心</title>
+<style>
+:root{--p:#e8c766;--pd:#8a6a1c;--bg:#fffbee;--ink:#5b4a1f;--red:#c0392b;--line:#eadfc2;--head:#faedbf;--mute:#8a7440}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font:15px/1.6 "Noto Sans TC","PingFang TC",sans-serif;background:var(--bg) radial-gradient(#fbf0cc 2px,transparent 2.5px) 0 0/22px 22px;padding-bottom:40px}
+.hd{position:relative;text-align:center;padding:calc(16px + env(safe-area-inset-top,0px)) 16px 18px;background:#f3dd9a;border-radius:0 0 28px 28px}
+.hd a{position:absolute;left:14px;top:calc(14px + env(safe-area-inset-top,0px));color:#fff;text-decoration:none;font-size:14px;background:rgba(255,255,255,.35);padding:3px 12px;border-radius:99px}
+.hd h1{margin:14px 0 0;font-size:24px;letter-spacing:.1em;color:#fff;text-shadow:0 2px 0 rgba(130,100,30,.25)}
+main{max-width:880px;margin:0 auto;padding:14px max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
+.nav{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:6px;font-size:14px}
+.nav button{font:inherit;font-size:14px;border:1.5px solid var(--p);background:#fff;color:var(--ink);border-radius:99px;padding:6px 14px;cursor:pointer}
+.tip{font-size:13px;color:var(--mute);text-align:center;margin:6px 0 14px}
+.mon{background:#fff;border:1.5px solid var(--p);border-radius:22px;padding:12px 14px;margin-bottom:14px}
+.mon h2{margin:0 0 8px;font-size:18px;color:var(--pd)}
+.row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:14px;align-items:start}
+@media (max-width:620px){.row{grid-template-columns:minmax(0,1fr)}}
+table.cal{width:100%;border-collapse:collapse;font-size:13px;text-align:center}
+table.cal th,table.cal td{border:1px solid var(--line);padding:4px 0;height:30px}
+table.cal th{background:var(--head);font-weight:600}
+table.cal .we{color:var(--red)}
+label{display:block;font-size:13px;color:var(--pd);margin-bottom:10px}
+input,textarea{display:block;width:100%;margin-top:3px;font:inherit;font-size:15px;color:var(--ink);background:#fffdf6;border:1.5px solid var(--line);border-radius:12px;padding:6px 9px}
+textarea{min-height:96px;resize:vertical;white-space:pre-wrap}
+.msg{font-size:13px;color:var(--mute);text-align:center;min-height:1.6em;margin:0}
+@page{size:A4 landscape;margin:10mm}
+@media print{.hd,.nav,.tip,.msg,.no-print{display:none!important}body{background:#fff}main{max-width:none;padding:0}.mon{break-inside:avoid;border:1px solid #999;box-shadow:none;margin-bottom:8px}input,textarea{border:none;background:none;padding:0;resize:none;overflow:hidden}}
+</style>
+</head>
+<body>
+<div class="hd"><a href="guide.html">← 入園指南</a><h1>行事曆</h1></div>
+<main id="app"></main>
+<script type="module">import { startApp } from "./cloud.js"; startApp();</script>
+<script type="text/plain" data-app>
+var KEY = "calendar:v1";
+var WK = ["日", "一", "二", "三", "四", "五", "六"];
+// 月主題：與 teaching.html 的 window.THEME 相同（之後改主題，兩邊都要改）
+var THEME = {"2026-12":"開心情緒","2027-01":"家人愛我","2027-02":"小小車車","2027-03":"好吃食物","2027-04":"動物朋友","2027-05":"我的身體","2027-06":"彩虹顏色","2027-07":"玩水趣","2027-08":"天氣變變變","2027-09":"水果派對","2027-10":"玩具時間","2027-11":"早安晚安","2027-12":"開心情緒"};
+// 衛生安全：預設沿用，有改過就以改過的為準
+var DEF_SANI = {
+  "2026-11": "每週五寢具清潔清洗\n11/28安全設施設備自評\n11/28遊戲器材檢核\n11/26寶寶體位測量",
+  "2026-12": "每週五寢具清潔清洗\n12/5幼兒發展篩檢-初篩發通知單\n12/12幼兒發展篩檢-複篩發通知單\n12/19幼兒發展篩檢-通報\n12/31寶寶體位測量\n飲水機濾心更換(季/次)\n水質檢測(季/次)",
+  "2027-01": "每週五寢具清潔清洗\n二月份營養菜單分享\n1/28寶寶體位測量\n1/24遊戲器材檢核\n1/24設施設備安全自評\n1/15衛教(嬰幼兒)：我是洗手高手\n飲水機濾心更換(季/次)\n水質檢測(季/次)",
+  "2027-02": "每週五寢具清潔清洗\n二月份營養菜單分享\n2/13 年前提前一天休園\n2/23 開學日\n2/25 體位測量"
+};
+
+var S = { start: "2026-11", m: {} };
+try { var raw = KV.getItem(KEY); if (raw) S.m = (JSON.parse(raw).m) || {}; } catch (e) {}
+var T = null;
+
+function E(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+function mkOf(y, m) { return y + "-" + ("0" + m).slice(-2); }
+function addM(mk, n) { var d = new Date(+mk.slice(0, 4), +mk.slice(5, 7) - 1 + n, 1); return mkOf(d.getFullYear(), d.getMonth() + 1); }
+function labelOf(mk) { return +mk.slice(0, 4) + "年" + +mk.slice(5, 7) + "月"; }
+
+function val(mk, k) {
+  var o = S.m[mk];
+  if (o && typeof o[k] === "string") return o[k];
+  if (k === "theme") return THEME[mk] || "";
+  if (k === "sani") return DEF_SANI[mk] || "";
+  return "";
+}
+
+function calHTML(mk) {
+  var y = +mk.slice(0, 4), m = +mk.slice(5, 7);
+  var first = new Date(y, m - 1, 1).getDay(), n = new Date(y, m, 0).getDate();
+  var cells = [], i;
+  for (i = 0; i < first; i++) cells.push("");
+  for (i = 1; i <= n; i++) cells.push(i);
+  while (cells.length % 7) cells.push("");
+  var h = '<table class="cal"><thead><tr>' + WK.map(function (w, c) {
+    return '<th class="' + (c === 0 || c === 6 ? "we" : "") + '">' + w + "</th>";
+  }).join("") + "</tr></thead><tbody>";
+  for (var r = 0; r < cells.length; r += 7) {
+    h += "<tr>";
+    for (var c = 0; c < 7; c++) {
+      var d = cells[r + c];
+      h += '<td class="' + (c === 0 || c === 6 ? "we" : "") + '">' + (d === "" ? "" : d) + "</td>";
+    }
+    h += "</tr>";
+  }
+  return h + "</tbody></table>";
+}
+
+function card(mk) {
+  return '<section class="mon"><h2>' + labelOf(mk) + '</h2><div class="row"><div>' + calHTML(mk) + "</div><div>" +
+    '<label>主題<input data-m="' + mk + '" data-k="theme" value="' + E(val(mk, "theme")) + '"></label>' +
+    '<label>教保／親職活動<textarea data-m="' + mk + '" data-k="act">' + E(val(mk, "act")) + "</textarea></label>" +
+    '<label>衛生安全<textarea data-m="' + mk + '" data-k="sani">' + E(val(mk, "sani")) + "</textarea></label>" +
+    "</div></div></section>";
+}
+
+function render() {
+  var months = [0, 1, 2, 3].map(function (i) { return addM(S.start, i); });
+  document.getElementById("app").innerHTML =
+    '<div class="nav"><button data-s="-1">← 往前一個月</button><span>' + labelOf(months[0]) + " ～ " + labelOf(months[3]) +
+    '</span><button data-s="1">往後一個月 →</button></div>' +
+    '<div class="nav no-print"><button id="bp">列印／存成 PDF</button><button id="bw">下載 Word</button></div>' +
+    '<p class="tip no-print">主題會自動帶入教學頁設定的月主題，可以在這裡直接修改。文字會自動儲存。</p>' +
+    months.map(card).join("") + '<p class="msg" id="msg"></p>';
+}
+
+// 下載 Word：把目前畫面的 4 個月輸出成 .doc（Word 可直接開啟）
+function exportWord() {
+  var secs = document.querySelectorAll("#app .mon");
+  var body = [].map.call(secs, function (sec) {
+    var title = sec.querySelector("h2").textContent;
+    var cal = sec.querySelector("table.cal").outerHTML.replace("<table", '<table style="border-collapse:collapse;width:100%"');
+    var fields = [].map.call(sec.querySelectorAll("label"), function (l) {
+      var field = l.querySelector("input,textarea");
+      return '<p style="margin:4px 0"><b>' + E(l.childNodes[0].textContent) + '</b></p>' +
+        '<p style="margin:0 0 8px;white-space:pre-wrap">' + E(field.value) + "</p>";
+    }).join("");
+    return '<h2 style="color:#8a6a1c">' + E(title) + "</h2>" +
+      '<table style="width:100%"><tr><td style="width:45%;vertical-align:top">' + cal +
+      '</td><td style="vertical-align:top;padding-left:14px">' + fields + "</td></tr></table>";
+  }).join('<p style="page-break-before:always"></p>');
+  var html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">' +
+    '<head><meta charset="utf-8"><title>行事曆</title><style>' +
+    "@page{size:landscape;margin:1cm}" +
+    "table.cal th,table.cal td{border:1px solid #999;text-align:center;padding:3px}" +
+    "table.cal th{background:#faedbf}.we{color:#c0392b}" +
+    "</style></head><body>" +
+    '<h1 style="text-align:center;color:#8a6a1c">初晴之森托嬰中心 行事曆</h1>' + body + "</body></html>";
+  var blob = new Blob(["﻿", html], { type: "application/msword" });
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "行事曆.doc";
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+
+function msg(t) { var el = document.getElementById("msg"); if (el) el.textContent = t; }
+
+function save() {
+  try { KV.setItem(KEY, JSON.stringify({ m: S.m })); msg("已自動儲存"); }
+  catch (e) { msg("儲存失敗，請確認網路"); }
+}
+
+var app = document.getElementById("app");
+app.addEventListener("click", function (e) {
+  var b = e.target.closest("[data-s]");
+  if (b) { S.start = addM(S.start, +b.dataset.s); render(); return; }
+  if (e.target.closest("#bp")) { window.print(); return; }
+  if (e.target.closest("#bw")) { exportWord(); }
+});
+app.addEventListener("input", function (e) {
+  var t = e.target;
+  if (!t.dataset.m) return;
+  (S.m[t.dataset.m] = S.m[t.dataset.m] || {})[t.dataset.k] = t.value;
+  msg("");
+  clearTimeout(T);
+  T = setTimeout(save, 400);
+});
+render();
+</script>
+</body></html>
