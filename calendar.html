@@ -25,6 +25,8 @@ label{display:block;font-size:13px;color:var(--pd);margin-bottom:10px}
 input,textarea{display:block;width:100%;margin-top:3px;font:inherit;font-size:15px;color:var(--ink);background:#fffdf6;border:1.5px solid var(--line);border-radius:12px;padding:6px 9px}
 textarea{min-height:96px;resize:vertical;white-space:pre-wrap}
 .msg{font-size:13px;color:var(--mute);text-align:center;min-height:1.6em;margin:0}
+@page{size:A4 landscape;margin:10mm}
+@media print{.hd,.nav,.tip,.msg,.no-print{display:none!important}body{background:#fff}main{max-width:none;padding:0}.mon{break-inside:avoid;border:1px solid #999;box-shadow:none;margin-bottom:8px}input,textarea{border:none;background:none;padding:0;resize:none;overflow:hidden}}
 </style>
 </head>
 <body>
@@ -95,8 +97,40 @@ function render() {
   document.getElementById("app").innerHTML =
     '<div class="nav"><button data-s="-1">← 往前一個月</button><span>' + labelOf(months[0]) + " ～ " + labelOf(months[3]) +
     '</span><button data-s="1">往後一個月 →</button></div>' +
-    '<p class="tip">主題會自動帶入教學頁設定的月主題，可以在這裡直接修改。文字會自動儲存。</p>' +
+    '<div class="nav no-print"><button id="bp">列印／存成 PDF</button><button id="bw">下載 Word</button></div>' +
+    '<p class="tip no-print">主題會自動帶入教學頁設定的月主題，可以在這裡直接修改。文字會自動儲存。</p>' +
     months.map(card).join("") + '<p class="msg" id="msg"></p>';
+}
+
+// 下載 Word：把目前畫面的 4 個月輸出成 .doc（Word 可直接開啟）
+function exportWord() {
+  var secs = document.querySelectorAll("#app .mon");
+  var body = [].map.call(secs, function (sec) {
+    var title = sec.querySelector("h2").textContent;
+    var cal = sec.querySelector("table.cal").outerHTML.replace("<table", '<table style="border-collapse:collapse;width:100%"');
+    var fields = [].map.call(sec.querySelectorAll("label"), function (l) {
+      var field = l.querySelector("input,textarea");
+      return '<p style="margin:4px 0"><b>' + E(l.childNodes[0].textContent) + '</b></p>' +
+        '<p style="margin:0 0 8px;white-space:pre-wrap">' + E(field.value) + "</p>";
+    }).join("");
+    return '<h2 style="color:#8a6a1c">' + E(title) + "</h2>" +
+      '<table style="width:100%"><tr><td style="width:45%;vertical-align:top">' + cal +
+      '</td><td style="vertical-align:top;padding-left:14px">' + fields + "</td></tr></table>";
+  }).join('<p style="page-break-before:always"></p>');
+  var html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">' +
+    '<head><meta charset="utf-8"><title>行事曆</title><style>' +
+    "@page{size:landscape;margin:1cm}" +
+    "table.cal th,table.cal td{border:1px solid #999;text-align:center;padding:3px}" +
+    "table.cal th{background:#faedbf}.we{color:#c0392b}" +
+    "</style></head><body>" +
+    '<h1 style="text-align:center;color:#8a6a1c">初晴之森托嬰中心 行事曆</h1>' + body + "</body></html>";
+  var blob = new Blob(["﻿", html], { type: "application/msword" });
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "行事曆.doc";
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
 }
 
 function msg(t) { var el = document.getElementById("msg"); if (el) el.textContent = t; }
@@ -109,7 +143,9 @@ function save() {
 var app = document.getElementById("app");
 app.addEventListener("click", function (e) {
   var b = e.target.closest("[data-s]");
-  if (b) { S.start = addM(S.start, +b.dataset.s); render(); }
+  if (b) { S.start = addM(S.start, +b.dataset.s); render(); return; }
+  if (e.target.closest("#bp")) { window.print(); return; }
+  if (e.target.closest("#bw")) { exportWord(); }
 });
 app.addEventListener("input", function (e) {
   var t = e.target;
