@@ -46,6 +46,12 @@ service cloud.firestore {
                    || (isManager() && id.matches('ccEdits.*'));
     }
 
+    // 幼兒名單 rosters（依班級與日期）：成員可看，管理者與主管可設定
+    match /rosters/{id} {
+      allow read: if isMember();
+      allow write: if isManager();
+    }
+
     // 請假交接單 leaves：
     // 一般成員只能看、改自己建立的假單，且只能在「草稿」時修改；送出後唯讀
     // 管理者與主管可看全部；「已閱」由管理者與主管標示
