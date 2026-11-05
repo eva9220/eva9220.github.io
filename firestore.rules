@@ -35,8 +35,10 @@ service cloud.firestore {
       allow read, write: if isMember();
     }
 
+    // docs：人員招募・薪資資料（docs_staff 開頭）只有管理者與主管可讀寫，其餘文件所有成員可讀寫
     match /docs/{id} {
-      allow read, write: if isMember();
+      allow read, write: if (isMember() && !id.matches('docs_staff_.*'))
+                         || (isManager() && id.matches('docs_staff_.*'));
     }
 
     // kv：一般資料所有成員可讀寫；課程內容（ccEdits 開頭）只有管理者與主管可寫
