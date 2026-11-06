@@ -5,62 +5,80 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>入園須知｜初晴之森托嬰中心</title>
 <style>
-:root{--ink:#4d4a47;--sub:#8a7d68;--blue:#7d9cc4;--mint:#9fdccf;--pink:#f2b8c2;--cream:#fdf8ee}
+:root{--ink:#3f3b3a;--sub:#8a7d78;--blue:#7d9cc4;--mint:#a8e6da;--mintd:#4d6b63;--pink:#f3b6c0;--pinkd:#e58b8f;--sky:#eef3fa}
 *{box-sizing:border-box}
-body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.6 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;padding-bottom:40px}
-.bar{position:sticky;top:0;z-index:5;display:flex;gap:10px;align-items:center;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;background:#f3e6c2;border-bottom:3px solid #d8c48c}
-.bar a,.bar button{font:inherit;font-size:14px;color:#4d4a47;text-decoration:none;border:2px solid #4d4a47;border-radius:99px;padding:4px 14px;background:#fff}
-.bar b{font-size:18px;letter-spacing:.08em;flex:1}
-.bar button{background:#7d9cc4;border-color:#7d9cc4;color:#fff}
+body{margin:0;color:var(--ink);font:16px/1.6 "Yuppy TC","Hannotate TC","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;padding-bottom:40px;
+ background:
+  radial-gradient(60% 40% at 0% 0%,rgba(164,196,230,.55),transparent 70%),
+  radial-gradient(45% 30% at 45% -5%,rgba(244,182,196,.5),transparent 70%),
+  radial-gradient(50% 35% at 100% 100%,rgba(244,182,196,.45),transparent 70%),
+  radial-gradient(40% 30% at 85% 105%,rgba(164,196,230,.5),transparent 70%),
+  linear-gradient(#f1f5fb,#eaf0f8);min-height:100vh}
+.bar{position:sticky;top:0;z-index:5;display:flex;gap:10px;align-items:center;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;background:rgba(255,255,255,.75);backdrop-filter:blur(6px);border-bottom:3px dotted var(--pink)}
+.bar a,.bar button{font:inherit;font-size:14px;color:#4d4a47;text-decoration:none;border:2px solid #4d4a47;border-radius:99px;padding:3px 14px;background:#fff}
+.bar b{font-size:19px;letter-spacing:.1em;flex:1;color:var(--blue)}
+.bar button{background:var(--pinkd);border-color:var(--pinkd);color:#fff}
 .nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:12px 10px 0}
-.nav a{font-size:14px;color:#5b6f8f;text-decoration:none;background:#fff;border:2px solid #cfdcee;border-radius:99px;padding:3px 12px}
-main{max-width:720px;margin:0 auto;padding:10px 14px}
-.hd{text-align:center;margin:10px 0 6px}
-.hd h1{margin:0;font-size:28px;letter-spacing:.14em;color:#6fbfae;-webkit-text-stroke:.6px #4d6b63}
-.hd p{margin:2px 0 0;color:#e08b8b;font-weight:700;letter-spacing:.12em;font-size:13px}
-.sec{position:relative;background:#fff;border-radius:28px;padding:18px 18px 16px;margin:16px 0;box-shadow:0 3px 0 #ece2cc;scroll-margin-top:70px}
-.sec:before{content:"";position:absolute;inset:-6px;border-radius:32px;border:3px dotted var(--mint);pointer-events:none;opacity:.8}
-.sec h2{margin:0 0 10px;text-align:center;color:var(--blue);font-size:24px;letter-spacing:.2em}
-.sec h2 span{font-size:22px;margin-right:4px}
+.nav a{font-size:14px;color:#5b6f8f;text-decoration:none;background:#fff;border:2px dashed var(--mint);border-radius:99px;padding:3px 12px}
+main{position:relative;max-width:720px;margin:0 auto;padding:6px 16px}
+.sun{position:absolute;left:50%;margin-left:-32px;top:10px;width:64px;height:64px}
+.hd{text-align:center;margin:10px 0 8px;padding-top:62px}
+.hd h1{margin:0;font-size:34px;letter-spacing:.06em;color:#c9f2e6;-webkit-text-stroke:1.4px #3f4a47;paint-order:stroke fill;font-weight:900;line-height:1.2}
+.hd p{margin:4px 0 0;color:var(--pink);-webkit-text-stroke:.6px #b0666c;font-weight:900;letter-spacing:.06em;font-size:17px}
+.sec{position:relative;background:#fff;border-radius:46% 54% 50% 50%/22% 22% 18% 18%;padding:26px 22px 22px;margin:34px 6px;scroll-margin-top:80px;
+ box-shadow:0 0 0 10px rgba(255,255,255,.0)}
+.sec:before{content:"";position:absolute;inset:-18px;border-radius:inherit;pointer-events:none;
+ background:
+  radial-gradient(circle,var(--mint) 6.5px,transparent 7.5px) 0 0/36px 36px,
+  radial-gradient(circle,var(--pink) 4px,transparent 5px) 18px 18px/36px 36px;
+ -webkit-mask:linear-gradient(#000,#000) content-box exclude,linear-gradient(#000,#000);mask:linear-gradient(#000,#000) content-box exclude,linear-gradient(#000,#000);padding:14px;z-index:-1}
+.sec h2{margin:0 0 12px;text-align:center;color:var(--blue);font-size:30px;letter-spacing:.18em;font-weight:900}
 .rows{display:grid;grid-template-columns:auto auto 1fr;gap:6px 14px;align-items:baseline;max-width:460px;margin:0 auto}
-.rows b{font-size:17px}
-.rows .num{font-size:22px;font-weight:800;text-align:right;font-variant-numeric:tabular-nums}
-.rows small{color:var(--sub);font-size:14px}
-.note{text-align:center;color:var(--sub);font-size:14px;margin:12px 0 0}
+.rows b{font-size:19px}
+.rows .num{font-size:25px;font-weight:900;text-align:right;font-variant-numeric:tabular-nums}
+.rows small{font-size:16px;font-weight:700}
+.note{text-align:center;font-weight:700;font-size:15px;margin:14px 0 0}
 .list{list-style:none;padding:0;margin:0 auto;max-width:420px}
-.list li{display:flex;justify-content:space-between;gap:10px;padding:7px 4px;border-bottom:1px dashed #e6dcc6;font-size:16px}
-.list li span:last-child{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
-.list li.tot{border-bottom:0;border-top:2px solid #cfdcee;margin-top:2px;color:#5b6f8f}
-.list li.tot span:last-child{font-size:19px}
-.intro{text-align:center;font-size:15px;margin:0 0 10px}
-.feat{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-.feat div{border:2.5px solid var(--c);border-radius:22px 22px 22px 6px;padding:10px 18px;font-weight:700;font-size:17px;letter-spacing:.12em;background:#fff}
+.list li{display:flex;justify-content:space-between;gap:10px;padding:6px 4px;border-bottom:2px dotted #f6d3d8;font-size:17px;font-weight:700}
+.list li span:last-child{white-space:nowrap;font-variant-numeric:tabular-nums}
+.list li.tot{border-bottom:0;margin-top:6px;background:#fdeef0;border-radius:99px;padding:6px 16px;color:#b0565d}
+.list li.tot span:last-child{font-size:20px}
+.intro{text-align:center;font-size:15px;font-weight:700;margin:0 0 10px}
+.feat{display:flex;flex-wrap:wrap;gap:16px 14px;justify-content:center;padding:4px 0 6px}
+.feat div{position:relative;border:3px solid var(--c);border-radius:50%;padding:16px 22px;font-weight:900;font-size:18px;letter-spacing:.14em;background:#fff}
+.feat div:after{content:"";position:absolute;right:6px;bottom:-9px;width:16px;height:16px;border:3px solid var(--c);border-top:0;border-left:0;border-radius:0 0 12px 0;transform:rotate(25deg);background:#fff}
+.feat div:nth-child(even):after{right:auto;left:8px;transform:scaleX(-1) rotate(25deg)}
+.deco{display:flex;justify-content:space-between;align-items:flex-end;max-width:720px;margin:0 auto;padding:0 16px}
+.deco svg{height:96px;width:auto}
 @media print{
   @page{size:A4 portrait;margin:0}
-  html,body{background:#fff!important;padding:0!important}
+  html,body{padding:0!important;min-height:0}
+  body{width:210mm;height:297mm;overflow:hidden;background-attachment:scroll}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .bar,.nav{display:none!important}
-  main{max-width:none;width:210mm;padding:9mm 14mm 0}
-  .hd{margin:0 0 2mm}.hd h1{font-size:22pt}
-  .sec{margin:5mm 0;padding:4mm 6mm;box-shadow:none;border:1px solid #e6dcc6;break-inside:avoid}
-  .sec:before{inset:-1.6mm}
-  .sec h2{font-size:17pt;margin-bottom:2mm}
-  .rows b{font-size:12pt}.rows .num{font-size:15pt}.rows small,.note,.intro{font-size:10.5pt}
-  .list li{font-size:11.5pt;padding:1.2mm 1mm}.list li.tot span:last-child{font-size:13pt}
-  .feat div{font-size:12pt;padding:2mm 5mm}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:6mm}
-  .grid2 .sec{margin:5mm 0}
+  main{max-width:none;width:210mm;padding:6mm 16mm 0}
+  .sun{width:20mm;height:20mm;left:8mm;margin-left:0;top:5mm}
+  .hd{margin:0 0 1mm;padding-top:4mm}.hd h1{font-size:26pt}.hd p{font-size:12pt}
+  .sec{margin:9mm 3mm;padding:5mm 7mm 4mm;break-inside:avoid}
+  .sec:before{inset:-5mm;padding:4mm}
+  .sec h2{font-size:19pt;margin-bottom:2mm}
+  .rows b{font-size:13pt}.rows .num{font-size:16pt}.rows small{font-size:11pt}.note,.intro{font-size:10.5pt}
+  .list li{font-size:11.5pt;padding:1mm 1mm}.list li.tot{padding:1.2mm 4mm}.list li.tot span:last-child{font-size:13pt}
+  .feat{gap:5mm 4mm}.feat div{font-size:12.5pt;padding:3mm 5mm}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+  .grid2 .sec{margin:9mm 3mm}
+  .deco{position:absolute;left:0;right:0;bottom:4mm;max-width:none;padding:0 10mm}.deco svg{height:24mm}
 }
 </style>
 </head>
 <body>
 <div class="bar"><a href="guide.html">← 入園指南</a><b>入園須知</b><button type="button" onclick="window.print()">🖨️ 列印</button></div>
 <div class="nav"><a href="#fee">收費標準</a><a href="#items">代辦品費用</a><a href="#sub">準公共補助</a><a href="#course">課程介紹</a></div>
-<main>
+<main><svg class="sun" viewBox="0 0 80 80" fill="none" stroke="#e0a54a" stroke-width="3" stroke-linecap="round"><path d="M40 40m-3 0a3 3 0 1 1 6 0a7 7 0 1 1-14 0a11 11 0 1 1 22 0a15 15 0 1 1-30 0"/><g stroke-width="4"><path transform="rotate(0 40 40)" d="M40 6q3 4 0 8q-3-4 0-8"/><path transform="rotate(45 40 40)" d="M40 6q3 4 0 8q-3-4 0-8"/><path transform="rotate(90 40 40)" d="M40 6q3 4 0 8q-3-4 0-8"/><path transform="rotate(135 40 40)" d="M40 6q3 4 0 8q-3-4 0-8"/><path transform="rotate(180 40 40)" d="M40 6q3 4 0 8q-3-4 0-8"/><path transform="rotate(225 40 40)" d="M40 6q3 4 0 8q-3-4 0-8"/><path transform="rotate(270 40 40)" d="M40 6q3 4 0 8q-3-4 0-8"/><path transform="rotate(315 40 40)" d="M40 6q3 4 0 8q-3-4 0-8"/></g></svg>
   <div class="hd"><h1>初晴之森托嬰中心</h1><p>SUNNY FOREST INFANT CARE CENTER</p></div>
 
   <section class="sec" id="fee">
-    <h2><span>💰</span>收費標準</h2>
+    <h2>收費</h2>
     <div class="rows">
       <b>註冊費</b><span class="num">18,000</span><small>元・每學期（6 個月）一次</small>
       <b>月費</b><span class="num">16,415</span><small>元／月</small>
@@ -71,7 +89,7 @@ main{max-width:720px;margin:0 auto;padding:10px 14px}
 
   <div class="grid2">
     <section class="sec" id="items">
-      <h2><span>🎒</span>代辦品費用</h2>
+      <h2>代辦品項目</h2>
       <ul class="list">
         <li><span>天絲床包三件組</span><span>1,600 元</span></li>
         <li><span>乳膠床墊＋乳膠枕</span><span>2,000 元</span></li>
@@ -82,7 +100,7 @@ main{max-width:720px;margin:0 auto;padding:10px 14px}
     </section>
 
     <section class="sec" id="sub">
-      <h2><span>🤝</span>準公共補助</h2>
+      <h2>準公共補助</h2>
       <p class="intro">本中心有加入準公共托育，家長可領取政府托育補助。正式入托後，備妥相關資料，由托嬰中心代為申請。</p>
       <ul class="list">
         <li><span>第一名子女</span><span>13,000 元／月</span></li>
@@ -93,16 +111,16 @@ main{max-width:720px;margin:0 auto;padding:10px 14px}
   </div>
 
   <section class="sec" id="course">
-    <h2><span>🎨</span>課程介紹・教學特色</h2>
+    <h2>教學特色 🎨</h2>
     <div class="feat">
-      <div style="--c:#b8c2cc">五感探索</div>
-      <div style="--c:#d9c2e8">主題繪本</div>
+      <div style="--c:#b5bfc8">五感探索</div>
+      <div style="--c:#dcc6ee">主題繪本</div>
       <div style="--c:#a8e0d8">生活雙語</div>
-      <div style="--c:#8fcf6a">感統活動</div>
+      <div style="--c:#8fd06a">感統活動</div>
       <div style="--c:#f2c2d4">美感創作</div>
     </div>
   </section>
-</main>
+</main><div class="deco"><svg viewBox="0 0 140 110"><rect x="27.5" y="86" width="5" height="24" rx="2" fill="#8a5a44"/><rect x="7.0" y="40" width="46" height="52" rx="23.0" fill="#a9d8e6" opacity=".75"/><rect x="55.5" y="74" width="5" height="36" rx="2" fill="#8a5a44"/><rect x="38.0" y="10" width="40" height="70" rx="20.0" fill="#d6ea7a" opacity=".75"/><rect x="75.5" y="80" width="5" height="30" rx="2" fill="#8a5a44"/><rect x="57.0" y="22" width="42" height="64" rx="21.0" fill="#9fdccf" opacity=".75"/><rect x="107.5" y="80" width="5" height="30" rx="2" fill="#8a5a44"/><rect x="92.0" y="36" width="36" height="50" rx="18.0" fill="#c4e872" opacity=".75"/></svg><svg viewBox="0 0 120 120"><path d="M38 72q-6 20 4 46M78 62q4 26-6 56M30 90q4 14-2 28" stroke="#e58b8f" stroke-width="1.5" fill="none"/><path d="M40 70C14 52 14 22 34 20c9-1 14 6 16 12c3-7 9-13 18-11c18 4 14 32-28 49z" fill="#f2b3bd" opacity=".85"/><ellipse cx="80" cy="40" rx="20" ry="23" fill="#ec8b80" opacity=".9"/><ellipse cx="28" cy="78" rx="17" ry="19" fill="#f5dca8" opacity=".9"/></svg></div>
 <script type="module">import { startApp } from "./cloud.js"; startApp();</script>
 </body>
 </html>
