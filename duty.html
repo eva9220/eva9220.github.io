@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>值班表｜初晴之森托嬰中心</title>
+<style>
+:root{--bg:#fdf8ee;--ink:#4d4a47;--sub:#8c857d;--am:#f2b84b;--mid:#86ab98;--pm:#a897cc;--tr:#d3a77a;--cl:#7fb3d3}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font:16px/1.6 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;background-color:var(--bg);background-image:radial-gradient(#e9dcc3 1.3px,transparent 1.6px);background-size:22px 22px;padding-bottom:40px}
+.bar{position:sticky;top:0;z-index:5;display:flex;gap:10px;align-items:center;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;background:#f3e6c2;border-bottom:3px solid #d8c48c}
+.bar a,.bar button{font:inherit;font-size:14px;color:var(--ink);text-decoration:none;border:2px solid var(--ink);border-radius:99px;padding:4px 14px;background:#fff;cursor:pointer}
+.bar b{font-size:18px;letter-spacing:.08em;flex:1}
+main{max-width:880px;margin:0 auto;padding:0 14px}
+.hero{text-align:center;margin:22px 0 8px}
+.hero h1{margin:0;font-size:26px;letter-spacing:.08em;transform:rotate(-1.2deg);text-shadow:2px 2px 0 #fff}
+.hero p{margin:4px 0 0;color:var(--sub);font-size:14px}
+.rule{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 8px;margin:12px 0 4px;font-size:13px}
+.rule span{background:#fff;border:2px solid var(--ink);border-radius:99px;padding:1px 10px}
+.rule .flow{border-style:dashed}
+/* 手繪卡片 */
+.card{position:relative;background:#fffdf9;border-radius:30px 36px 28px 34px/34px 28px 36px 30px;padding:18px 16px 16px;margin:26px 4px;box-shadow:5px 6px 0 var(--k,#e7a3b1)}
+.card::before{content:"";position:absolute;inset:-1px;border:2.6px solid var(--ink);border-radius:inherit;filter:url(#r2);pointer-events:none}
+.card::after{content:"";position:absolute;top:-10px;left:24px;width:58px;height:20px;background:var(--k,#e7a3b1);opacity:.85;transform:rotate(-6deg);border-radius:2px}
+.card h2{margin:0 0 10px;font-size:19px;letter-spacing:.12em;text-align:center}
+/* 本週 */
+#now{--k:#f6d77a}
+.wk{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.wk .big{font-size:24px;font-weight:800;background:#f6d77a;border:2.6px solid var(--ink);border-radius:16px 20px 14px 18px;padding:0 14px;transform:rotate(-2deg)}
+.wk small{color:var(--sub);font-size:13px}
+.wk button{font:inherit;font-size:18px;width:36px;height:36px;border-radius:50%;border:2px solid var(--ink);background:#fff;cursor:pointer;line-height:1}
+.shifts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.sh{border:2.4px solid var(--ink);border-radius:20px 24px 18px 22px;padding:10px 12px;background:var(--bg2)}
+.sh i{font-style:normal;font-size:22px;float:right;line-height:1}
+.sh b{display:block;font-size:16px}
+.sh em{display:block;font-style:normal;font-size:12px;color:var(--sub)}
+.sh .who{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.who span{background:#fff;border:2px solid var(--c);border-radius:99px;padding:0 10px;font-weight:700;font-size:15px}
+.set{margin-top:14px;text-align:center;font-size:13px;color:var(--sub)}
+.set input{font:inherit;font-size:14px;border:2px solid var(--ink);border-radius:10px;padding:1px 8px;background:#fff;color:var(--ink)}
+/* 8 週表 */
+#all{--k:#86ab98}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:15px;min-width:640px}
+th{font-size:14px;padding:8px 4px;border-bottom:2.4px solid var(--ink);line-height:1.35}
+th em{display:block;font-style:normal;font-size:11.5px;color:var(--sub);font-weight:400}
+th span{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--c);border:2px solid var(--ink);margin-right:4px;vertical-align:-1px}
+td{text-align:center;padding:9px 4px;border-bottom:1.6px dashed #d9cdb5}
+td:first-child{font-weight:800;white-space:nowrap}
+tr.on td{background:#fdf0c4}
+tr.on td:first-child{border-radius:14px 0 0 14px}tr.on td:last-child{border-radius:0 14px 14px 0}
+td .n{display:inline-block;min-width:2.6em}
+/* 注意事項 */
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 18px}
+.notes .card{margin:22px 4px}
+.notes ol{margin:0;padding-left:1.3em;font-size:15px}
+.notes li{margin:3px 0}
+.foot{--k:#d3b896;font-size:14.5px}
+.foot b{color:#a0784a}
+@media print{
+  @page{size:A4 portrait;margin:0}
+  html,body{background:#fff!important;padding:0!important}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .bar,#now,.set{display:none!important}
+  main{max-width:none;width:210mm;padding:8mm 11mm 0}
+  .hero{margin:0 0 1mm}.hero h1{font-size:20pt}.hero p{font-size:10pt}
+  .rule{margin:2mm 0 0;font-size:9pt}
+  .card{margin:6mm 1mm 4mm;padding:3.5mm 4mm;box-shadow:3px 3px 0 var(--k);break-inside:avoid}
+  .card h2{font-size:12.5pt;margin-bottom:1.5mm}
+  table{min-width:0;font-size:12pt}th{font-size:11.5pt;padding:2.4mm 1mm}th em{font-size:9pt}td{padding:3.6mm 1mm}.hint{display:none}
+  tr.on td{background:transparent}
+  .notes{gap:0 4mm;grid-template-columns:repeat(3,1fr)}.notes .card{margin:6mm 1mm 3mm}.notes ol{font-size:10.5pt}
+  .foot{font-size:10.5pt}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><filter id="r2"><feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.2"/></filter></svg>
+<div class="bar"><a href="index.html">← 首頁</a><b>值班表</b><button type="button" onclick="window.print()">🖨️ 列印</button></div>
+<main>
+  <div class="hero">
+    <h1>8 週早・中・晚值班表</h1>
+    <p>初晴之森托嬰中心</p>
+    <div class="rule"><span>☀️ 雅歆 固定早值</span><span>🌙 佑蓁 固定晚值</span><span class="flow">柯柯・慈敏・美璜・如雪：早 → 中 → 晚 → 中 循環</span></div>
+  </div>
+
+  <section class="card" id="now">
+    <div class="wk"><button type="button" id="prev" aria-label="上一週">‹</button><div><div class="big" id="wkno">第 1 週</div></div><button type="button" id="next" aria-label="下一週">›</button></div>
+    <div class="wk" style="margin-top:-6px"><small id="range"></small></div>
+    <div class="shifts" id="cur"></div>
+    <div class="set">第 1 週從哪一天開始（週一）：<input type="date" id="start"></div>
+  </section>
+
+  <section class="card" id="all">
+    <h2>8 週總表</h2><p class="hint" style="text-align:center;margin:-6px 0 6px;font-size:12px;color:var(--sub)">手機可左右滑動看完整表格</p>
+    <div class="tw"><table><thead id="th"></thead><tbody id="tb"></tbody></table></div>
+  </section>
+
+  <div class="notes">
+    <section class="card" style="--k:#f2b84b"><h2>☀️ 早值注意事項</h2><ol>
+      <li>7:30 前後協助開門、開窗、開燈、開冷氣及播放音樂。</li>
+      <li>巡視公共區域與教室環境，確認安全與整潔。</li>
+      <li>協助幼兒入園、家長接待及晨間交接。</li>
+      <li>依中心分工完成早晨準備工作。</li></ol></section>
+    <section class="card" style="--k:#86ab98"><h2>🌿 中班注意事項</h2><ol>
+      <li>8:00 到班後依班級作息進行幼兒照護。</li>
+      <li>協助餐點、活動、環境整理與班級事務。</li>
+      <li>下午協助幼兒離園前準備與交接。</li>
+      <li>視現場需求支援早、晚值人員。</li></ol></section>
+    <section class="card" style="--k:#a897cc"><h2>🌙 晚值注意事項</h2><ol>
+      <li>17:30 後協助幼兒離園及家長交接。</li>
+      <li>完成公共區域整理、垃圾確認與環境復原。</li>
+      <li>確認冷氣、電燈、電器、門窗及水源關閉。</li>
+      <li>巡視各空間，確認幼兒皆已離園後鎖門。</li></ol></section>
+  </div>
+
+  <section class="card foot"><b>輪值原則：</b>雅歆固定早值、佑蓁固定晚值；柯柯、慈敏、美璜、如雪依「早 → 中 → 晚 → 中」循環，8 週後重複。避免同一人連續兩週相同班別。倒垃圾與晚值打掃另採輪流分工，可依實際班務調整。</section>
+</main>
+
+<script type="text/plain" data-app>
+(function(){
+var S=[["早值","7:30–17:00","☀️","var(--am)","#fdf1d6"],["中班","8:00–17:30","🌿","var(--mid)","#e2f0e6"],["晚值","8:30–18:00","🌙","var(--pm)","#ebe5f6"],["倒垃圾","15:30","🗑️","var(--tr)","#f3eadc"],["晚值打掃","17:30 前後","🧹","var(--cl)","#e0eef6"]];
+var W=[
+["雅歆、柯柯","慈敏、美璜","佑蓁、如雪","柯柯、慈敏","佑蓁、如雪"],
+["雅歆、慈敏","柯柯、如雪","佑蓁、美璜","美璜、如雪","佑蓁、美璜"],
+["雅歆、如雪","慈敏、美璜","佑蓁、柯柯","雅歆、佑蓁","佑蓁、柯柯"],
+["雅歆、美璜","柯柯、如雪","佑蓁、慈敏","慈敏、美璜","佑蓁、慈敏"],
+["雅歆、柯柯","慈敏、美璜","佑蓁、如雪","如雪、柯柯","如雪、美璜"],
+["雅歆、慈敏","柯柯、如雪","佑蓁、美璜","佑蓁、慈敏","柯柯、慈敏"],
+["雅歆、如雪","慈敏、美璜","佑蓁、柯柯","雅歆、美璜","如雪、柯柯"],
+["雅歆、美璜","柯柯、如雪","佑蓁、慈敏","柯柯、如雪","美璜、慈敏"]];
+var $=function(i){return document.getElementById(i)},K="duty:start",st=$("start"),cur=0;
+$("th").innerHTML="<tr><th>週次</th>"+S.map(function(s){return '<th style="--c:'+s[3]+'"><span></span>'+s[0]+"<em>"+s[1]+"</em></th>"}).join("")+"</tr>";
+function d0(x){var d=new Date(x+"T00:00:00");return isNaN(d)?null:d}
+function fmt(d){return (d.getMonth()+1)+"/"+d.getDate()}
+function calc(){var d=d0(st.value);if(!d)return 0;var t=new Date();t.setHours(0,0,0,0);var w=Math.floor((t-d)/864e5/7);return ((w%8)+8)%8}
+function show(i){cur=(i+8)%8;$("wkno").textContent="第 "+(cur+1)+" 週";
+ var d=d0(st.value),r="";
+ if(d){var t=new Date();t.setHours(0,0,0,0);var w=Math.floor((t-d)/864e5/7),base=w-(((w%8)+8)%8),a=new Date(d.getTime()+(base+cur)*7*864e5),b=new Date(a.getTime()+4*864e5);r=fmt(a)+"（一）～ "+fmt(b)+"（五）"+(cur===calc()?"・本週":"")}
+ else r="設定下方的開始日期後，會自動顯示本週";
+ $("range").textContent=r;
+ $("cur").innerHTML=S.map(function(s,j){return '<div class="sh" style="--bg2:'+s[4]+';--c:'+s[3]+'"><i>'+s[2]+'</i><b>'+s[0]+'</b><em>'+s[1]+'</em><div class="who">'+W[cur][j].split("、").map(function(n){return "<span>"+n+"</span>"}).join("")+'</div></div>'}).join("");
+ var on=d?calc():-1;
+ $("tb").innerHTML=W.map(function(w,i){return '<tr'+(i===on?' class="on"':'')+'><td>第 '+(i+1)+' 週'+(i===on?' 👈':'')+'</td>'+w.map(function(x){return "<td>"+x+"</td>"}).join("")+"</tr>"}).join("")}
+st.value=(window.KV&&KV.getItem(K))||"";
+st.addEventListener("change",function(){if(window.KV)KV.setItem(K,st.value);show(calc())});
+$("prev").onclick=function(){show(cur-1)};$("next").onclick=function(){show(cur+1)};
+show(calc());
+})();
+</script>
+<script type="module">import { startApp } from "./cloud.js"; startApp();</script>
+</body>
+</html>
