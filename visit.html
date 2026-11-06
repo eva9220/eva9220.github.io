@@ -43,6 +43,26 @@ td.nt{position:relative}td.nt:after{content:"";position:absolute;left:0;right:0;
 .ft{flex-shrink:0;display:flex;justify-content:space-between;align-items:center;background:#e4e8df;padding:4mm 10mm;font-size:10pt;font-weight:700;color:var(--ink)}
 .ft span{font-weight:400}
 .ft i{display:inline-block;width:32mm;border-bottom:1px solid var(--ink);margin-left:2mm}
+
+.bar input[type=month]{font:inherit;font-size:14px;border:2px solid #4d4a47;border-radius:99px;padding:2px 10px;background:#fff}
+#st{font-size:12px;color:#57704f;min-width:48px}
+.tools{text-align:center;margin:4px 0 0}
+.tools button{font:inherit;font-size:14px;border:2px solid var(--g);color:var(--g);background:#fff;border-radius:99px;padding:4px 14px;margin:4px}
+.sheet+.sheet{margin-top:14px}
+td input,td textarea{font:inherit;color:var(--ink);border:0;background:transparent;outline:0;padding:0;margin:0}
+td input:focus,td textarea:focus{background:#fff8dc}
+td input.f{width:100%;height:100%;min-height:14mm;padding:0 1.5mm;font-size:10pt;text-align:center}
+.dt .ymd{display:flex;justify-content:center;align-items:baseline;gap:.3mm;word-spacing:0;font-size:8pt}
+.dt .ymd input{width:4.6mm;min-width:0;text-align:center;font-size:8.5pt;border-bottom:1px dotted #b9c2b2}
+.dt .ymd input.y{width:6.6mm}
+.dt label,.cls label{display:inline-flex;align-items:center;gap:.8mm;white-space:nowrap;cursor:pointer}
+.dt input[type=checkbox],.cls input[type=checkbox]{appearance:none;-webkit-appearance:none;width:2.8mm;height:2.8mm;border:1px solid #55604f;border-radius:.6mm;background:#fff;position:relative;flex:none}
+.dt input[type=checkbox]:checked:after,.cls input[type=checkbox]:checked:after{content:"✓";position:absolute;left:0;right:0;top:-1.3mm;text-align:center;font-size:9pt;font-weight:700;color:#3f4a3b}
+td.nt{padding:0}
+td.nt input{display:block;width:100%;height:50%;min-height:7mm;padding:0 1.5mm;font-size:8.5pt}
+.meta b{display:inline-block;min-width:11mm;text-align:center;border-bottom:1px solid #fff;margin:0 1mm;font-weight:400}
+.ft input{font:inherit;font-weight:400;width:32mm;border:0;border-bottom:1px solid var(--ink);background:transparent;outline:0;margin-left:2mm;color:var(--ink)}
+@media print{.tools{display:none!important}.sheet+.sheet{margin-top:0;break-before:page}td input:focus{background:transparent}.bar{display:none!important}}
 @media print{
   @page{size:A4 portrait;margin:0}
   html,body{background:#fff!important;padding:0!important;margin:0!important}
@@ -54,31 +74,36 @@ td.nt{position:relative}td.nt:after{content:"";position:absolute;left:0;right:0;
 </style>
 </head>
 <body>
-<div class="bar"><a href="guide.html">← 入園指南</a><b>參觀預約登記</b><button type="button" onclick="window.print()">🖨️ 列印</button></div>
-<p class="hint">空白登記表，A4 直式列印。手機請左右滑動檢視。</p>
-<div class="wrap"><div class="sheet">
-  <div class="hd">
-    <div class="org"><small>臺南市私立</small><h1>初晴之森托嬰中心</h1></div>
-    <div class="pill">家長預約登記表</div>
-    <div class="meta"><i></i>年<i class="s"></i>月　第<i class="s"></i>頁</div>
-    <svg class="wave" viewBox="0 0 200 10" preserveAspectRatio="none"><path d="M0 6 C40 0 80 10 120 5 S180 2 200 6 V10 H0Z" fill="#6f8667"/></svg>
-  </div>
-  <div class="body">
-    <table>
-      <colgroup><col style="width:5.5%"><col style="width:11%"><col style="width:14%"><col style="width:11%"><col style="width:15%"><col style="width:13.5%"><col style="width:12%"><col></colgroup>
-      <thead><tr><th>#</th><th>家長姓名</th><th>聯絡電話</th><th>孩子姓名</th><th>出生日／<br>預產期</th><th>預計<br>就讀日期</th><th>班別</th><th>備註<br>（家長參觀感受）</th></tr></thead>
-      <tbody id="rows"></tbody>
-    </table>
-  </div>
-  <div class="ft">行政內部使用・請妥善保管，勿對外提供<span>填表人<i></i></span></div>
-</div></div>
-<script>
+<div class="bar"><a href="guide.html">← 入園指南</a><b>參觀預約登記</b><input type="month" id="mo"><span id="st"></span><button type="button" onclick="window.print()">🖨️ 列印</button></div>
+<p class="hint">直接點格子輸入，會自動儲存。選月份切換不同月的登記表；每 15 位一頁。</p>
+<div class="wrap" id="wrap"></div><div class="tools"><button type="button" id="add">＋ 新增一頁（15 列）</button><button type="button" id="del">－ 刪除最後一頁</button></div>
+<script type="text/plain" data-app>
 (function(){
-  var dt=function(x){return '<div class="dt"><div class="ymd">年 月 日</div>'+(x?'<div class="ck">預產期</div>':'<div></div>')+'</div>'};
-  var cls='<div class="cls"><div class="ck">嫩芽班</div><div class="ck">花曦班</div><div class="ck">晴空班</div></div>';
-  var h='';
-  for(var i=1;i<=15;i++)h+='<tr><td class="n">'+i+'</td><td></td><td></td><td></td><td>'+dt(1)+'</td><td>'+dt(0)+'</td><td>'+cls+'</td><td class="nt"></td></tr>';
-  document.getElementById("rows").innerHTML=h;
+var $=function(i){return document.getElementById(i)},mo=$("mo"),now=new Date();
+mo.value=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0");
+var F=["p","ph","c","by","bm","bd","due","ey","em","ed","k1","k2","k3","n1","n2"],D;
+function key(){return "visit:"+mo.value}
+function load(){try{D=JSON.parse(KV.getItem(key())||"null")}catch(e){D=null}if(!D||!D.rows)D={rows:[],who:""};var n=Math.max(15,Math.ceil(D.rows.length/15)*15);while(D.rows.length<n)D.rows.push({});render()}
+var tm;function save(){$("st").textContent="儲存中…";clearTimeout(tm);tm=setTimeout(function(){KV.setItem(key(),JSON.stringify({rows:D.rows,who:D.who}));$("st").textContent="✓ 已儲存"},400)}
+function E(v){return String(v==null?"":v).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")}
+function ti(i,f,c,ph){return '<input class="'+(c||"")+'" data-i="'+i+'" data-f="'+f+'" value="'+E(D.rows[i][f])+'"'+(ph?' inputmode="numeric"':'')+'>'}
+function cb(i,f,t){return '<label><input type="checkbox" data-i="'+i+'" data-f="'+f+'"'+(D.rows[i][f]?" checked":"")+'>'+t+'</label>'}
+function render(){var ym=mo.value.split("-"),pages=Math.ceil(D.rows.length/15),h="";
+for(var pg=0;pg<pages;pg++){var r="";for(var j=0;j<15;j++){var i=pg*15+j;
+r+='<tr><td class="n">'+(i+1)+'</td><td>'+ti(i,"p","f")+'</td><td>'+ti(i,"ph","f",1)+'</td><td>'+ti(i,"c","f")+'</td>'+
+'<td><div class="dt"><div class="ymd">'+ti(i,"by","y",1)+'年'+ti(i,"bm","",1)+'月'+ti(i,"bd","",1)+'日</div>'+cb(i,"due","預產期")+'</div></td>'+
+'<td><div class="dt"><div class="ymd">'+ti(i,"ey","y",1)+'年'+ti(i,"em","",1)+'月'+ti(i,"ed","",1)+'日</div><div></div></div></td>'+
+'<td><div class="cls">'+cb(i,"k1","嫩芽班")+cb(i,"k2","花曦班")+cb(i,"k3","晴空班")+'</div></td>'+
+'<td class="nt">'+ti(i,"n1")+ti(i,"n2")+'</td></tr>'}
+h+='<div class="sheet"><div class="hd"><div class="org"><small>臺南市私立</small><h1>初晴之森托嬰中心</h1></div><div class="pill">家長預約登記表</div><div class="meta"><b>'+ym[0]+'</b>年<b>'+(+ym[1])+'</b>月　第<b>'+(pg+1)+'</b>頁</div>'+WAVE+'</div><div class="body"><table>'+COLS+'<tbody>'+r+'</tbody></table></div><div class="ft">行政內部使用・請妥善保管，勿對外提供<span>填表人<input class="who" value="'+E(D.who)+'"></span></div></div>'}
+$("wrap").innerHTML=h;$("del").style.display=pages>1?"":"none"}
+var WAVE='<svg class="wave" viewBox="0 0 200 10" preserveAspectRatio="none"><path d="M0 6 C40 0 80 10 120 5 S180 2 200 6 V10 H0Z" fill="#6f8667"/></svg>';
+var COLS='<colgroup><col style="width:5.5%"><col style="width:11%"><col style="width:14%"><col style="width:11%"><col style="width:15%"><col style="width:13.5%"><col style="width:12%"><col></colgroup><thead><tr><th>#</th><th>家長姓名</th><th>聯絡電話</th><th>孩子姓名</th><th>出生日／<br>預產期</th><th>預計<br>就讀日期</th><th>班別</th><th>備註<br>（家長參觀感受）</th></tr></thead>';
+$("wrap").addEventListener("input",function(e){var t=e.target;if(t.classList.contains("who")){D.who=t.value;document.querySelectorAll(".who").forEach(function(x){if(x!==t)x.value=t.value});return save()}var i=t.dataset.i,f=t.dataset.f;if(i==null)return;D.rows[+i][f]=t.type==="checkbox"?t.checked:t.value;save()});
+mo.addEventListener("change",load);
+$("add").onclick=function(){for(var j=0;j<15;j++)D.rows.push({});render();save()};
+$("del").onclick=function(){var last=D.rows.slice(-15);if(last.some(function(r){return Object.keys(r).some(function(k){return r[k]})})&&!confirm("最後一頁有資料，確定刪除？"))return;D.rows.splice(-15);render();save()};
+load();
 })();
 </script>
 <script type="module">import { startApp } from "./cloud.js"; startApp();</script>
