@@ -55,16 +55,8 @@ td .n{display:inline-block;min-width:2.6em}
 .notes .card{margin:22px 4px}
 .notes ol{margin:0;padding-left:1.3em;font-size:15px}
 .notes li{margin:3px 0}
-.foot{--k:#d3b896;font-size:14.5px}
-.foot b{color:#a0784a}
 /* 國定假日 */
 #hol{--k:#e78f8f}
-.hl{list-style:none;margin:0;padding:0}
-.hl li{display:flex;gap:10px;align-items:baseline;padding:6px 4px;border-bottom:1.6px dashed #d9cdb5;font-size:15px}
-.hl li:last-child{border-bottom:0}
-.hl .dt{font-weight:800;white-space:nowrap;min-width:6.6em}
-.hl .nm{flex:1}
-.hl .wn{font-size:12.5px;color:var(--sub);white-space:nowrap}
 #cyc{--k:#d3a77a}
 .mnav{margin-bottom:12px}
 .hint2{text-align:center;font-size:12px;color:var(--sub);margin:8px 0 0}
@@ -96,8 +88,7 @@ td input{width:100%;min-width:5.5em;font:inherit;font-size:14px;text-align:cente
   .card h2{font-size:12.5pt;margin-bottom:1.5mm}
   table{min-width:0;font-size:12pt}th{font-size:11.5pt;padding:2.4mm 1mm}th em{font-size:9pt}td{padding:3.6mm 1mm}.hint{display:none}
   tr.on td{background:transparent}
-  .notes{gap:0 4mm;grid-template-columns:repeat(3,1fr)}.notes .card{margin:6mm 1mm 3mm}.notes ol{font-size:10.5pt}
-  .foot{font-size:10.5pt}
+  .notes{gap:0 4mm;grid-template-columns:repeat(2,1fr)}.notes .card{margin:6mm 1mm 3mm}.notes ol{font-size:10.5pt}
 }
 </style>
 </head>
@@ -131,8 +122,8 @@ td input{width:100%;min-width:5.5em;font:inherit;font-size:14px;text-align:cente
     <div class="tw"><table><thead id="th2"></thead><tbody id="tb2"></tbody></table></div>
   </section>
 
-  <section class="card" id="hol">
-    <h2>🎌 國定假日</h2>
+  <section class="card" id="hol" hidden>
+    <h2>🎌 國定假日設定</h2>
     <div id="hlist"></div>
     <p class="hint2">依行政院人事行政總處公告的辦公日曆表；如有異動以官方公告為準</p>
   </section>
@@ -153,9 +144,13 @@ td input{width:100%;min-width:5.5em;font:inherit;font-size:14px;text-align:cente
       <li>完成公共區域整理、垃圾確認與環境復原。</li>
       <li>確認冷氣、電燈、電器、門窗及水源關閉。</li>
       <li>巡視各空間，確認幼兒皆已離園後鎖門。</li></ol></section>
+    <section class="card" style="--k:#d3a77a"><h2>🗑️ 倒垃圾注意事項</h2><ol>
+      <li>15:30 收集各教室、尿布區、廚房及公共區域的垃圾。</li>
+      <li>確實分類：一般垃圾、資源回收、廚餘分開處理。</li>
+      <li>尿布等衛生垃圾袋口綁緊再丟，避免異味與滲漏。</li>
+      <li>垃圾桶換上新袋子，並清潔桶身與周圍地面。</li>
+      <li>處理完垃圾後確實洗手，再回到幼兒照護工作。</li></ol></section>
   </div>
-
-  <section class="card foot"><b>輪值原則：</b><span id="foot"></span></section>
 </main>
 
 <script type="text/plain" data-app>
@@ -174,8 +169,7 @@ w:[
 ["雅歆","慈敏、美璜","佑蓁、柯柯","雅歆、美璜","柯柯"],
 ["雅歆、美璜","柯柯","佑蓁、慈敏","柯柯","美璜、慈敏"]],
 ov:{},
-rule:["☀️ 雅歆 固定早值","🌙 佑蓁 固定晚值","柯柯・慈敏・美璜：早 → 中 → 晚 → 中 循環"],
-foot:"雅歆固定早值、佑蓁固定晚值；柯柯、慈敏、美璜依「早 → 中 → 晚 → 中」循環，8 週後重複。避免同一人連續兩週相同班別。倒垃圾與晚值打掃另採輪流分工，可依實際班務調整。"};
+rule:["☀️ 雅歆 固定早值","🌙 佑蓁 固定晚值","柯柯・慈敏・美璜：早 → 中 → 晚 → 中 循環"]};
 // 國定假日（只列遇到上班日、要放假的日子；含補假）
 var HDEF=[
 ["2026-12-25","行憲紀念日"],
@@ -203,7 +197,7 @@ function clone(x){return JSON.parse(JSON.stringify(x))}
 function load(k,def){try{var v=JSON.parse(window.KV&&KV.getItem(k));if(v)return v}catch(e){}return clone(def)}
 var R,H;
 function loadAll(){R=load(KR,DEF);H=load(KH,HDEF);
- if(!R.w||R.w.length!==8)R.w=clone(DEF.w);if(!R.ov)R.ov={};if(!R.rule)R.rule=clone(DEF.rule);if(R.foot==null)R.foot=DEF.foot}
+ if(!R.w||R.w.length!==8)R.w=clone(DEF.w);if(!R.ov)R.ov={};if(!R.rule)R.rule=clone(DEF.rule);}
 loadAll();
 function d0(x){var d=new Date(x+"T00:00:00");return isNaN(d)?null:d}
 function iso(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
@@ -220,7 +214,6 @@ function hTxt(h){var x=d0(h[0]);return fmt(x)+"（"+WD[x.getDay()]+"）"+h[1]}
 function names(s){return String(s||"").split("、").map(function(n){return n.trim()}).filter(Boolean)}
 function heading(){
  $("rule").innerHTML=R.rule.filter(function(x){return x.trim()}).map(function(x){return '<span'+(x.indexOf("→")>=0?' class="flow"':'')+'>'+E(x)+'</span>'}).join("");
- $("foot").textContent=R.foot;
 }
 // 本週卡片（可往前、往後一週）
 function week(){
@@ -246,15 +239,12 @@ function cycle(){
  $("cyc").hidden=!EDIT;if(!EDIT)return;
  $("tb2").innerHTML=R.w.map(function(w,i){return '<tr><td>第 '+(i+1)+' 週</td>'+w.map(function(x,j){return '<td><input data-i="'+i+'" data-j="'+j+'" value="'+E(x)+'" aria-label="循環第 '+(i+1)+' 週 '+S[j][0]+'"></td>'}).join("")+"</tr>"}).join("")}
 function hols(){
- if(EDIT){
-  $("hlist").innerHTML='<p class="etip">只要列「上班日要放假」的日子（含補假）</p><div id="hrows">'+H.map(hRow).join("")+'</div><div style="text-align:center;margin-top:8px"><button type="button" class="addh" id="addh">＋ 新增假日</button></div><div style="text-align:center;margin-top:16px"><button type="button" class="addh" id="brs">↺ 班表與假日全部還原預設</button></div>';
-  $("addh").onclick=function(){$("hrows").insertAdjacentHTML("beforeend",hRow(["",""]))};
-  var rs=0;$("brs").onclick=function(){if(!rs){rs=1;this.textContent="再按一次確認還原";return}
-   R=clone(DEF);H=clone(HDEF);try{KV.removeItem(KR);KV.removeItem(KH)}catch(e){}setEdit(false)};
-  return}
- var t=iso(today()),up=H.filter(function(h){return h[0]>=t}).sort(function(p,q){return p[0]<q[0]?-1:1});
- $("hlist").innerHTML=up.length?'<ul class="hl">'+up.map(function(h){var x=d0(h[0]);
-  return '<li><span class="dt">'+x.getFullYear()+"/"+fmt(x)+"（"+WD[x.getDay()]+'）</span><span class="nm">'+E(h[1])+'</span></li>'}).join("")+'</ul>':'<p class="hint2">目前沒有即將到來的國定假日資料'+(MGR?"，可按「✏️ 編輯」新增":"")+'</p>'}
+ $("hol").hidden=!EDIT;if(!EDIT)return;
+ $("hlist").innerHTML='<p class="etip">只要列「上班日要放假」的日子（含補假）；有放假的週會在本週卡片和每月班表標出來</p><div id="hrows">'+H.map(hRow).join("")+'</div><div style="text-align:center;margin-top:8px"><button type="button" class="addh" id="addh">＋ 新增假日</button></div><div style="text-align:center;margin-top:16px"><button type="button" class="addh" id="brs">↺ 班表與假日全部還原預設</button></div>';
+ $("addh").onclick=function(){$("hrows").insertAdjacentHTML("beforeend",hRow(["",""]))};
+ var rs=0;$("brs").onclick=function(){if(!rs){rs=1;this.textContent="再按一次確認還原";return}
+  R=clone(DEF);H=clone(HDEF);try{KV.removeItem(KR);KV.removeItem(KH)}catch(e){}setEdit(false)};
+}
 function hRow(h){return '<div class="he"><input type="date" value="'+E(h[0])+'" aria-label="日期"><input type="text" value="'+E(h[1])+'" placeholder="假日名稱" aria-label="假日名稱"><button type="button" onclick="this.parentNode.remove()" aria-label="刪除">✕</button></div>'}
 function bar(){
  $("pbtn").style.display=EDIT?"none":"";
@@ -268,7 +258,6 @@ function all(){week();month();cycle();hols()}
 function setEdit(on){EDIT=on;$("etip").hidden=!on;
  if(on){
   $("rule").innerHTML='<textarea class="etx" id="erule" rows="3" aria-label="上方說明（一行一個）">'+E(R.rule.join("\n"))+'</textarea>';
-  $("foot").innerHTML='<textarea class="etx" id="efoot" rows="4" aria-label="輪值原則">'+E(R.foot)+'</textarea>';
  }else heading();
  all();bar();
 }
@@ -284,7 +273,6 @@ function save(){
  Object.keys(o).forEach(function(k){var c=cyc(d0(k));o[k]=o[k].map(function(v,j){return !R.ov[k]&&v===old[c][j]?R.w[c][j]:v})});
  keepMonth(o);
  R.rule=$("erule").value.split("\n").map(function(x){return x.trim()}).filter(Boolean);
- R.foot=$("efoot").value.trim();
  var nh=[];document.querySelectorAll("#hrows .he").forEach(function(r){var v=r.querySelectorAll("input");if(v[0].value&&v[1].value.trim())nh.push([v[0].value,v[1].value.trim()])});
  H=nh.sort(function(p,q){return p[0]<q[0]?-1:1});
  try{KV.setItem(KR,JSON.stringify(R));KV.setItem(KH,JSON.stringify(H))}catch(e){alert("儲存失敗，請再試一次");return}
