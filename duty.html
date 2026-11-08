@@ -10,7 +10,7 @@
 body{margin:0;color:var(--ink);font:16px/1.6 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;background-color:var(--bg);background-image:radial-gradient(#e9dcc3 1.3px,transparent 1.6px);background-size:22px 22px;padding-bottom:40px}
 .bar{position:sticky;top:0;z-index:5;display:flex;gap:10px;align-items:center;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;background:#f3e6c2;border-bottom:3px solid #d8c48c}
 .bar a,.bar button{font:inherit;font-size:14px;color:var(--ink);text-decoration:none;border:2px solid var(--ink);border-radius:99px;padding:4px 14px;background:#fff;cursor:pointer}
-.bar b{font-size:18px;letter-spacing:.08em;flex:1}
+.bar b{font-size:18px;letter-spacing:.08em;flex:1;white-space:nowrap}
 main{max-width:880px;margin:0 auto;padding:0 14px}
 .hero{text-align:center;margin:22px 0 8px}
 .hero h1{margin:0;font-size:26px;letter-spacing:.08em;transform:rotate(-1.2deg);text-shadow:2px 2px 0 #fff}
@@ -26,7 +26,7 @@ main{max-width:880px;margin:0 auto;padding:0 14px}
 /* 本週 */
 #now{--k:#f6d77a}
 .wk{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
-.wk .big{font-size:24px;font-weight:800;background:#f6d77a;border:2.6px solid var(--ink);border-radius:16px 20px 14px 18px;padding:0 14px;transform:rotate(-2deg)}
+.wk .big{font-size:24px;font-weight:800;background:#f6d77a;border:2.6px solid var(--ink);border-radius:16px 20px 14px 18px;padding:0 14px}
 .wk small{color:var(--sub);font-size:13px}
 .wk button{font:inherit;font-size:18px;width:36px;height:36px;border-radius:50%;border:2px solid var(--ink);background:#fff;cursor:pointer;line-height:1}
 .shifts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
@@ -57,11 +57,35 @@ td .n{display:inline-block;min-width:2.6em}
 .notes li{margin:3px 0}
 .foot{--k:#d3b896;font-size:14.5px}
 .foot b{color:#a0784a}
+/* 國定假日 */
+#hol{--k:#e78f8f}
+.hl{list-style:none;margin:0;padding:0}
+.hl li{display:flex;gap:10px;align-items:baseline;padding:6px 4px;border-bottom:1.6px dashed #d9cdb5;font-size:15px}
+.hl li:last-child{border-bottom:0}
+.hl .dt{font-weight:800;white-space:nowrap;min-width:6.6em}
+.hl .nm{flex:1}
+.hl .wn{font-size:12.5px;color:var(--sub);white-space:nowrap}
+.hint2{text-align:center;font-size:12px;color:var(--sub);margin:8px 0 0}
+.hw{margin-top:12px;text-align:center;font-size:14px;font-weight:700;color:#b3504f}
+.hw div{display:inline-block;background:#fde4e4;border:2px solid #e78f8f;border-radius:99px;padding:1px 12px;margin:3px}
+td small{display:block;font-size:11.5px;font-weight:400;color:var(--sub)}
+td .hb{display:block;font-size:11.5px;font-weight:700;color:#b3504f;white-space:normal}
+/* 管理者編輯 */
+.bar .ed{background:#fff7d9}
+.bar .sv{background:#86ab98;color:#fff;border-color:#4d4a47}
+td input{width:100%;min-width:5.5em;font:inherit;font-size:14px;text-align:center;border:2px solid #d8c48c;border-radius:10px;padding:3px 2px;background:#fffdf3;color:var(--ink)}
+.etx{display:block;width:100%;font:inherit;font-size:14px;border:2px solid #d8c48c;border-radius:12px;padding:6px 10px;background:#fffdf3;color:var(--ink);margin-top:6px}
+.he{display:flex;gap:6px;margin:6px 0;align-items:center}
+.he input{font:inherit;font-size:14px;border:2px solid #d8c48c;border-radius:10px;padding:2px 6px;background:#fffdf3;color:var(--ink);min-width:0}
+.he input[type=text]{flex:1}
+.he button,.addh{font:inherit;font-size:13px;border:2px solid var(--ink);border-radius:99px;padding:2px 10px;background:#fff;cursor:pointer;color:var(--ink)}
+.etip{font-size:12.5px;color:var(--sub);text-align:center;margin:4px 0 8px}
 @media print{
   @page{size:A4 portrait;margin:0}
   html,body{background:#fff!important;padding:0!important}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .bar,#now,.set{display:none!important}
+  .bar,#now,.set,.hint2,.etip{display:none!important}
+  #hol{display:none!important}
   main{max-width:none;width:210mm;padding:8mm 11mm 0}
   .hero{margin:0 0 1mm}.hero h1{font-size:20pt}.hero p{font-size:10pt}
   .rule{margin:2mm 0 0;font-size:9pt}
@@ -76,24 +100,32 @@ td .n{display:inline-block;min-width:2.6em}
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute"><filter id="r2"><feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.2"/></filter></svg>
-<div class="bar"><a href="index.html">← 首頁</a><b>值班表</b><button type="button" onclick="window.print()">🖨️ 列印</button></div>
+<div class="bar"><a href="index.html">← 首頁</a><b>值班表</b><span id="ebtn"></span><button type="button" id="pbtn" onclick="window.print()">🖨️ 列印</button></div>
 <main>
   <div class="hero">
     <h1>8 週早・中・晚值班表</h1>
     <p>初晴之森托嬰中心</p>
-    <div class="rule"><span>☀️ 雅歆 固定早值</span><span>🌙 佑蓁 固定晚值</span><span class="flow">柯柯・慈敏・美璜・如雪：早 → 中 → 晚 → 中 循環</span></div>
+    <div class="rule" id="rule"></div>
   </div>
 
   <section class="card" id="now">
     <div class="wk"><button type="button" id="prev" aria-label="上一週">‹</button><div><div class="big" id="wkno">第 1 週</div></div><button type="button" id="next" aria-label="下一週">›</button></div>
     <div class="wk" style="margin-top:-6px"><small id="range"></small></div>
     <div class="shifts" id="cur"></div>
-    <div class="set">第 1 週從哪一天開始（週一）：<input type="date" id="start"></div>
+    <div class="hw" id="curh"></div>
+    <div class="set" id="setw">第 1 週從哪一天開始（週一）：<input type="date" id="start"></div>
   </section>
 
   <section class="card" id="all">
     <h2>8 週總表</h2><p class="hint" style="text-align:center;margin:-6px 0 6px;font-size:12px;color:var(--sub)">手機可左右滑動看完整表格</p>
+    <p class="etip" id="etip" hidden>✏️ 編輯中：直接修改格子裡的人名，多人請用「、」隔開，改完按上方「💾 儲存」</p>
     <div class="tw"><table><thead id="th"></thead><tbody id="tb"></tbody></table></div>
+  </section>
+
+  <section class="card" id="hol">
+    <h2>🎌 國定假日</h2>
+    <div id="hlist"></div>
+    <p class="hint2">依行政院人事行政總處公告的辦公日曆表；如有異動以官方公告為準</p>
   </section>
 
   <div class="notes">
@@ -114,38 +146,126 @@ td .n{display:inline-block;min-width:2.6em}
       <li>巡視各空間，確認幼兒皆已離園後鎖門。</li></ol></section>
   </div>
 
-  <section class="card foot"><b>輪值原則：</b>雅歆固定早值、佑蓁固定晚值；柯柯、慈敏、美璜、如雪依「早 → 中 → 晚 → 中」循環，8 週後重複。避免同一人連續兩週相同班別。倒垃圾與晚值打掃另採輪流分工，可依實際班務調整。</section>
+  <section class="card foot"><b>輪值原則：</b><span id="foot"></span></section>
 </main>
 
 <script type="text/plain" data-app>
 (function(){
 var S=[["早值","7:30–17:00","☀️","var(--am)","#fdf1d6"],["中班","8:00–17:30","🌿","var(--mid)","#e2f0e6"],["晚值","8:30–18:00","🌙","var(--pm)","#ebe5f6"],["倒垃圾","15:30","🗑️","var(--tr)","#f3eadc"],["晚值打掃","17:30 前後","🧹","var(--cl)","#e0eef6"]];
-var W=[
-["雅歆、柯柯","慈敏、美璜","佑蓁、如雪","柯柯、慈敏","佑蓁、如雪"],
-["雅歆、慈敏","柯柯、如雪","佑蓁、美璜","美璜、如雪","佑蓁、美璜"],
-["雅歆、如雪","慈敏、美璜","佑蓁、柯柯","雅歆、佑蓁","佑蓁、柯柯"],
-["雅歆、美璜","柯柯、如雪","佑蓁、慈敏","慈敏、美璜","佑蓁、慈敏"],
-["雅歆、柯柯","慈敏、美璜","佑蓁、如雪","如雪、柯柯","如雪、美璜"],
-["雅歆、慈敏","柯柯、如雪","佑蓁、美璜","佑蓁、慈敏","柯柯、慈敏"],
-["雅歆、如雪","慈敏、美璜","佑蓁、柯柯","雅歆、美璜","如雪、柯柯"],
-["雅歆、美璜","柯柯、如雪","佑蓁、慈敏","柯柯、如雪","美璜、慈敏"]];
-var $=function(i){return document.getElementById(i)},K="duty:start",st=$("start"),cur=0;
-$("th").innerHTML="<tr><th>週次</th>"+S.map(function(s){return '<th style="--c:'+s[3]+'"><span></span>'+s[0]+"<em>"+s[1]+"</em></th>"}).join("")+"</tr>";
+// 預設班表（管理者在頁面上修改後會存到雲端，以雲端版本為準）
+var DEF={
+w:[
+["雅歆、柯柯","慈敏、美璜","佑蓁","柯柯、慈敏","佑蓁"],
+["雅歆、慈敏","柯柯","佑蓁、美璜","美璜","佑蓁、美璜"],
+["雅歆","慈敏、美璜","佑蓁、柯柯","雅歆、佑蓁","佑蓁、柯柯"],
+["雅歆、美璜","柯柯","佑蓁、慈敏","慈敏、美璜","佑蓁、慈敏"],
+["雅歆、柯柯","慈敏、美璜","佑蓁","柯柯","美璜"],
+["雅歆、慈敏","柯柯","佑蓁、美璜","佑蓁、慈敏","柯柯、慈敏"],
+["雅歆","慈敏、美璜","佑蓁、柯柯","雅歆、美璜","柯柯"],
+["雅歆、美璜","柯柯","佑蓁、慈敏","柯柯","美璜、慈敏"]],
+rule:["☀️ 雅歆 固定早值","🌙 佑蓁 固定晚值","柯柯・慈敏・美璜：早 → 中 → 晚 → 中 循環"],
+foot:"雅歆固定早值、佑蓁固定晚值；柯柯、慈敏、美璜依「早 → 中 → 晚 → 中」循環，8 週後重複。避免同一人連續兩週相同班別。倒垃圾與晚值打掃另採輪流分工，可依實際班務調整。"};
+// 國定假日（只列遇到上班日、要放假的日子；含補假）
+var HDEF=[
+["2026-12-25","行憲紀念日"],
+["2027-01-01","開國紀念日"],
+["2027-02-04","農曆除夕前一日"],
+["2027-02-05","農曆除夕"],
+["2027-02-08","春節（初三）"],
+["2027-02-09","春節補假（初一）"],
+["2027-02-10","春節補假（初二）"],
+["2027-03-01","和平紀念日補假"],
+["2027-04-05","清明節"],
+["2027-04-06","兒童節補假"],
+["2027-04-30","勞動節補假"],
+["2027-06-09","端午節"],
+["2027-09-15","中秋節"],
+["2027-09-28","教師節"],
+["2027-10-11","國慶日補假"],
+["2027-10-25","臺灣光復暨金門古寧頭大捷紀念日"],
+["2027-12-24","行憲紀念日補假"],
+["2027-12-31","開國紀念日補假（117 年元旦）"]];
+var KR="duty:roster",KH="duty:holidays",K="duty:start";
+var $=function(i){return document.getElementById(i)},st=$("start"),cur=0,EDIT=false,MGR=false;
+function E(x){return String(x==null?"":x).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function load(k,def){try{var v=JSON.parse(window.KV&&KV.getItem(k));if(v)return v}catch(e){}return JSON.parse(JSON.stringify(def))}
+var R=load(KR,DEF),H=load(KH,HDEF);
+if(!R.w||R.w.length!==8)R.w=DEF.w;if(!R.rule)R.rule=DEF.rule;if(R.foot==null)R.foot=DEF.foot;
+var WD="日一二三四五六";
 function d0(x){var d=new Date(x+"T00:00:00");return isNaN(d)?null:d}
 function fmt(d){return (d.getMonth()+1)+"/"+d.getDate()}
-function calc(){var d=d0(st.value);if(!d)return 0;var t=new Date();t.setHours(0,0,0,0);var w=Math.floor((t-d)/864e5/7);return ((w%8)+8)%8}
+function today(){var t=new Date();t.setHours(0,0,0,0);return t}
+function wIdx(){var d=d0(st.value);if(!d)return null;return Math.floor((today()-d)/864e5/7)}
+function calc(){var w=wIdx();return w==null?0:((w%8)+8)%8}
+// 第 i 週（本輪 8 週）的週一
+function monOf(i){var d=d0(st.value);if(!d)return null;var w=wIdx(),base=w-(((w%8)+8)%8);return new Date(d.getTime()+(base+i)*7*864e5)}
+function holIn(a){if(!a)return[];var b=a.getTime()+5*864e5;return H.filter(function(h){var x=d0(h[0]);return x&&x>=a&&x<b}).sort(function(p,q){return p[0]<q[0]?-1:1})}
+function hTxt(h){var x=d0(h[0]);return fmt(x)+"（"+WD[x.getDay()]+"）"+h[1]}
+function heading(){
+ $("rule").innerHTML=R.rule.filter(function(x){return x.trim()}).map(function(x){return '<span'+(x.indexOf("→")>=0?' class="flow"':'')+'>'+E(x)+'</span>'}).join("");
+ $("foot").textContent=R.foot;
+}
 function show(i){cur=(i+8)%8;$("wkno").textContent="第 "+(cur+1)+" 週";
- var d=d0(st.value),r="";
- if(d){var t=new Date();t.setHours(0,0,0,0);var w=Math.floor((t-d)/864e5/7),base=w-(((w%8)+8)%8),a=new Date(d.getTime()+(base+cur)*7*864e5),b=new Date(a.getTime()+4*864e5);r=fmt(a)+"（一）～ "+fmt(b)+"（五）"+(cur===calc()?"・本週":"")}
- else r="設定下方的開始日期後，會自動顯示本週";
+ var a=monOf(cur),r="";
+ if(a){var b=new Date(a.getTime()+4*864e5);r=fmt(a)+"（一）～ "+fmt(b)+"（五）"+(cur===calc()?"・本週":"")}
+ else r=MGR?"設定下方的開始日期後，會自動顯示本週":"管理者設定開始日期後，會自動顯示本週";
  $("range").textContent=r;
- $("cur").innerHTML=S.map(function(s,j){return '<div class="sh" style="--bg2:'+s[4]+';--c:'+s[3]+'"><i>'+s[2]+'</i><b>'+s[0]+'</b><em>'+s[1]+'</em><div class="who">'+W[cur][j].split("、").map(function(n){return "<span>"+n+"</span>"}).join("")+'</div></div>'}).join("");
- var on=d?calc():-1;
- $("tb").innerHTML=W.map(function(w,i){return '<tr'+(i===on?' class="on"':'')+'><td>第 '+(i+1)+' 週'+(i===on?' 👈':'')+'</td>'+w.map(function(x){return "<td>"+x+"</td>"}).join("")+"</tr>"}).join("")}
+ $("cur").innerHTML=S.map(function(s,j){return '<div class="sh" style="--bg2:'+s[4]+';--c:'+s[3]+'"><i>'+s[2]+'</i><b>'+s[0]+'</b><em>'+s[1]+'</em><div class="who">'+R.w[cur][j].split("、").filter(function(n){return n.trim()}).map(function(n){return "<span>"+E(n.trim())+"</span>"}).join("")+'</div></div>'}).join("");
+ $("curh").innerHTML=holIn(a).map(function(h){return "<div>🎌 "+E(hTxt(h))+" 放假</div>"}).join("");
+ table();
+}
+function table(){
+ var on=st.value?calc():-1;
+ $("tb").innerHTML=R.w.map(function(w,i){var a=monOf(i),hs=holIn(a);
+  return '<tr'+(i===on?' class="on"':'')+'><td>第 '+(i+1)+' 週'+(i===on?' 👈':'')+(a?'<small>'+fmt(a)+'～'+fmt(new Date(a.getTime()+4*864e5))+'</small>':'')+hs.map(function(h){return '<span class="hb">🎌 '+E(hTxt(h))+'</span>'}).join("")+'</td>'+
+  w.map(function(x,j){return "<td>"+(EDIT?'<input data-i="'+i+'" data-j="'+j+'" value="'+E(x)+'" aria-label="第 '+(i+1)+' 週 '+S[j][0]+'">':E(x))+"</td>"}).join("")+"</tr>"}).join("")}
+function hols(){
+ if(EDIT){
+  $("hlist").innerHTML='<p class="etip">只要列「上班日要放假」的日子（含補假）</p><div id="hrows">'+H.map(hRow).join("")+'</div><div style="text-align:center;margin-top:8px"><button type="button" class="addh" id="addh">＋ 新增假日</button></div><div style="text-align:center;margin-top:16px"><button type="button" class="addh" id="brs">↺ 班表與假日全部還原預設</button></div>';
+  $("addh").onclick=function(){$("hrows").insertAdjacentHTML("beforeend",hRow(["",""]))};
+  return}
+ var t=today(),up=H.filter(function(h){var x=d0(h[0]);return x&&x>=t}).sort(function(p,q){return p[0]<q[0]?-1:1});
+ var d=d0(st.value);
+ $("hlist").innerHTML=up.length?'<ul class="hl">'+up.map(function(h){var x=d0(h[0]),wn="";
+  if(d){var w=Math.floor((x-d)/864e5/7);wn="第 "+((((w%8)+8)%8)+1)+" 週"}
+  return '<li><span class="dt">'+x.getFullYear()+"/"+fmt(x)+"（"+WD[x.getDay()]+'）</span><span class="nm">'+E(h[1])+'</span><span class="wn">'+wn+'</span></li>'}).join("")+'</ul>':'<p class="hint2">目前沒有即將到來的國定假日資料'+(MGR?"，可按「✏️ 編輯」新增":"")+'</p>'}
+function hRow(h){return '<div class="he"><input type="date" value="'+E(h[0])+'" aria-label="日期"><input type="text" value="'+E(h[1])+'" placeholder="假日名稱" aria-label="假日名稱"><button type="button" onclick="this.parentNode.remove()" aria-label="刪除">✕</button></div>'}
+function bar(){
+ if(!MGR){$("ebtn").innerHTML="";return}
+ $("ebtn").innerHTML=EDIT?'<button type="button" class="sv" id="bsv">💾 儲存</button> <button type="button" id="bcx">取消</button>':'<button type="button" class="ed" id="bed">✏️ 編輯</button>';
+ $("pbtn").style.display=EDIT?"none":"";
+ if(!EDIT){$("bed").onclick=function(){setEdit(true)};return}
+ $("bsv").onclick=save;
+ $("bcx").onclick=function(){R=load(KR,DEF);H=load(KH,HDEF);setEdit(false)};
+ var rs=0;if($("brs"))$("brs").onclick=function(){if(!rs){rs=1;this.textContent="再按一次確認還原";return}
+  R=JSON.parse(JSON.stringify(DEF));H=JSON.parse(JSON.stringify(HDEF));
+  try{KV.removeItem(KR);KV.removeItem(KH)}catch(e){}setEdit(false)};
+}
+function setEdit(on){EDIT=on;$("etip").hidden=!on;
+ if(on){
+  $("rule").innerHTML='<textarea class="etx" id="erule" rows="3" aria-label="上方說明（一行一個）">'+E(R.rule.join("\n"))+'</textarea>';
+  $("foot").innerHTML='<textarea class="etx" id="efoot" rows="4" aria-label="輪值原則">'+E(R.foot)+'</textarea>';
+ }else heading();
+ show(cur);hols();bar();
+}
+function save(){
+ document.querySelectorAll("#tb input").forEach(function(x){R.w[+x.dataset.i][+x.dataset.j]=x.value.replace(/[,，、\s]+/g,"、").replace(/^、|、$/g,"")});
+ R.rule=$("erule").value.split("\n").map(function(x){return x.trim()}).filter(Boolean);
+ R.foot=$("efoot").value.trim();
+ var nh=[];document.querySelectorAll("#hrows .he").forEach(function(r){var v=r.querySelectorAll("input");if(v[0].value&&v[1].value.trim())nh.push([v[0].value,v[1].value.trim()])});
+ H=nh.sort(function(p,q){return p[0]<q[0]?-1:1});
+ try{KV.setItem(KR,JSON.stringify(R));KV.setItem(KH,JSON.stringify(H))}catch(e){alert("儲存失敗，請再試一次");return}
+ setEdit(false);
+}
+$("th").innerHTML="<tr><th>週次</th>"+S.map(function(s){return '<th style="--c:'+s[3]+'"><span></span>'+s[0]+"<em>"+s[1]+"</em></th>"}).join("")+"</tr>";
 st.value=(window.KV&&KV.getItem(K))||"";
-st.addEventListener("change",function(){if(window.KV)KV.setItem(K,st.value);show(calc())});
+st.addEventListener("change",function(){if(window.KV)KV.setItem(K,st.value);show(calc());hols()});
 $("prev").onclick=function(){show(cur-1)};$("next").onclick=function(){show(cur+1)};
-show(calc());
+// 只有管理者（admin）與主管（supervisor）看得到編輯功能；雲端規則也只允許他們寫入值班表資料
+function role(cb){try{var SF=window.parent&&window.parent!==window&&window.parent.__SF;if(SF&&SF.gate)return SF.gate(function(u){cb(u||{})})}catch(e){}cb({})}
+$("setw").style.display="none";
+heading();show(calc());hols();
+role(function(u){MGR=u.role==="admin"||u.role==="supervisor";$("setw").style.display=MGR?"":"none";bar();show(cur);hols()});
 })();
 </script>
 <script type="module">import { startApp } from "./cloud.js"; startApp();</script>
