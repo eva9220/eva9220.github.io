@@ -63,7 +63,7 @@ var LINKS=[
 ["ENROLLMENT GUIDE","入園指南","作息表 ・ 餐點表 ・ 入園攜帶物品","三班分類 ・ 每月餐點","guide.html","guide","#a897cc","#ebe5f6"],
 ["WEEKLY JOURNAL","教學週誌","每週發展活動教學紀錄","發展領域 ・ 能力指標","journal.html","note","#e7a3b1","#fbe4e8"],
 ["BODY TEMPERATURE","體溫管理","老師每日體溫紀錄","一天三次 ・ 請假可填假別","temperature.html","temp","#9bc2db","#e0eef6"],
-["DUTY ROSTER","值班表","8 週早・中・晚值班表","本週值班 ・ 注意事項","duty.html","duty","#f2b84b","#fdf1d6"],
+["DUTY ROSTER","值班表","每月早・中・晚值班表","本週值班 ・ 國定假日","duty.html","duty","#f2b84b","#fdf1d6"],
 ["VARIOUS FORMS","各式表單","請假交接單 ・ 事故單 ・ 清潔表單 ・ 電訪表","","forms.html","box","#d3b896","#f3eadc"]];
 document.getElementById("g").innerHTML=LINKS.map(function(l){return'<a class="card" href="'+l[4]+'" style="--k:'+l[6]+';--bg2:'+l[7]+'"><div class="ic">'+ic(l[5])+'</div><div class="tx"><small>'+l[0]+'</small><b>'+l[1]+'</b><span>'+l[2]+'</span>'+(l[3]?'<span>'+l[3]+'</span>':'')+'</div><div class="ar">›</div></a>'}).join("");
 
@@ -1543,6 +1543,8 @@ td .n{display:inline-block;min-width:2.6em}
 .hl .dt{font-weight:800;white-space:nowrap;min-width:6.6em}
 .hl .nm{flex:1}
 .hl .wn{font-size:12.5px;color:var(--sub);white-space:nowrap}
+#cyc{--k:#d3a77a}
+.mnav{margin-bottom:12px}
 .hint2{text-align:center;font-size:12px;color:var(--sub);margin:8px 0 0}
 .hw{margin-top:12px;text-align:center;font-size:14px;font-weight:700;color:#b3504f}
 .hw div{display:inline-block;background:#fde4e4;border:2px solid #e78f8f;border-radius:99px;padding:1px 12px;margin:3px}
@@ -1563,7 +1565,8 @@ td input{width:100%;min-width:5.5em;font:inherit;font-size:14px;text-align:cente
   html,body{background:#fff!important;padding:0!important}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .bar,#now,.set,.hint2,.etip{display:none!important}
-  #hol{display:none!important}
+  #hol,#cyc,.mnav button{display:none!important}
+  .mnav .big{font-size:14pt}
   main{max-width:none;width:210mm;padding:8mm 11mm 0}
   .hero{margin:0 0 1mm}.hero h1{font-size:20pt}.hero p{font-size:10pt}
   .rule{margin:2mm 0 0;font-size:9pt}
@@ -1581,13 +1584,13 @@ td input{width:100%;min-width:5.5em;font:inherit;font-size:14px;text-align:cente
 <div class="bar"><a href="index.html">← 首頁</a><b>值班表</b><span id="ebtn"></span><button type="button" id="pbtn" onclick="window.print()">🖨️ 列印</button></div>
 <main>
   <div class="hero">
-    <h1>8 週早・中・晚值班表</h1>
+    <h1>值班表</h1>
     <p>初晴之森托嬰中心</p>
     <div class="rule" id="rule"></div>
   </div>
 
   <section class="card" id="now">
-    <div class="wk"><button type="button" id="prev" aria-label="上一週">‹</button><div><div class="big" id="wkno">第 1 週</div></div><button type="button" id="next" aria-label="下一週">›</button></div>
+    <div class="wk"><button type="button" id="prev" aria-label="上一週">‹</button><div><div class="big" id="wkno">本週</div></div><button type="button" id="next" aria-label="下一週">›</button></div>
     <div class="wk" style="margin-top:-6px"><small id="range"></small></div>
     <div class="shifts" id="cur"></div>
     <div class="hw" id="curh"></div>
@@ -1595,9 +1598,15 @@ td input{width:100%;min-width:5.5em;font:inherit;font-size:14px;text-align:cente
   </section>
 
   <section class="card" id="all">
-    <h2>8 週總表</h2><p class="hint" style="text-align:center;margin:-6px 0 6px;font-size:12px;color:var(--sub)">手機可左右滑動看完整表格</p>
-    <p class="etip" id="etip" hidden>✏️ 編輯中：直接修改格子裡的人名，多人請用「、」隔開，改完按上方「💾 儲存」</p>
+    <div class="wk mnav"><button type="button" id="mprev" aria-label="上個月">‹</button><div class="big" id="mlab"></div><button type="button" id="mnext" aria-label="下個月">›</button></div><p class="hint" style="text-align:center;margin:-6px 0 6px;font-size:12px;color:var(--sub)">手機可左右滑動看完整表格</p>
+    <p class="etip" id="etip" hidden>✏️ 編輯中：直接修改格子裡的人名，多人請用「、」隔開，只會改到那一週；要長期調整請改下方的「8 週輪值循環」。改完按上方「💾 儲存」</p>
     <div class="tw"><table><thead id="th"></thead><tbody id="tb"></tbody></table></div>
+  </section>
+
+  <section class="card" id="cyc" hidden>
+    <h2>🔁 8 週輪值循環</h2>
+    <p class="etip">每月班表會依這個循環自動排；在這裡改，會套用到所有沒有單獨修改過的週</p>
+    <div class="tw"><table><thead id="th2"></thead><tbody id="tb2"></tbody></table></div>
   </section>
 
   <section class="card" id="hol">
@@ -1631,6 +1640,7 @@ td input{width:100%;min-width:5.5em;font:inherit;font-size:14px;text-align:cente
 (function(){
 var S=[["早值","7:30–17:00","☀️","var(--am)","#fdf1d6"],["中班","8:00–17:30","🌿","var(--mid)","#e2f0e6"],["晚值","8:30–18:00","🌙","var(--pm)","#ebe5f6"],["倒垃圾","15:30","🗑️","var(--tr)","#f3eadc"],["晚值打掃","17:30 前後","🧹","var(--cl)","#e0eef6"]];
 // 預設班表（管理者在頁面上修改後會存到雲端，以雲端版本為準）
+// w：8 週輪值循環；ov：單獨修改過的週（key＝該週週一的日期）
 var DEF={
 w:[
 ["雅歆、柯柯","慈敏、美璜","佑蓁","柯柯、慈敏","佑蓁"],
@@ -1641,6 +1651,7 @@ w:[
 ["雅歆、慈敏","柯柯","佑蓁、美璜","佑蓁、慈敏","柯柯、慈敏"],
 ["雅歆","慈敏、美璜","佑蓁、柯柯","雅歆、美璜","柯柯"],
 ["雅歆、美璜","柯柯","佑蓁、慈敏","柯柯","美璜、慈敏"]],
+ov:{},
 rule:["☀️ 雅歆 固定早值","🌙 佑蓁 固定晚值","柯柯・慈敏・美璜：早 → 中 → 晚 → 中 循環"],
 foot:"雅歆固定早值、佑蓁固定晚值；柯柯、慈敏、美璜依「早 → 中 → 晚 → 中」循環，8 週後重複。避免同一人連續兩週相同班別。倒垃圾與晚值打掃另採輪流分工，可依實際班務調整。"};
 // 國定假日（只列遇到上班日、要放假的日子；含補假）
@@ -1663,71 +1674,93 @@ var HDEF=[
 ["2027-10-25","臺灣光復暨金門古寧頭大捷紀念日"],
 ["2027-12-24","行憲紀念日補假"],
 ["2027-12-31","開國紀念日補假（117 年元旦）"]];
-var KR="duty:roster",KH="duty:holidays",K="duty:start";
-var $=function(i){return document.getElementById(i)},st=$("start"),cur=0,EDIT=false,MGR=false;
+var KR="duty:roster",KH="duty:holidays",K="duty:start",DAY=864e5,WD="日一二三四五六";
+var $=function(i){return document.getElementById(i)},st=$("start"),EDIT=false,MGR=false;
 function E(x){return String(x==null?"":x).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-function load(k,def){try{var v=JSON.parse(window.KV&&KV.getItem(k));if(v)return v}catch(e){}return JSON.parse(JSON.stringify(def))}
-var R=load(KR,DEF),H=load(KH,HDEF);
-if(!R.w||R.w.length!==8)R.w=DEF.w;if(!R.rule)R.rule=DEF.rule;if(R.foot==null)R.foot=DEF.foot;
-var WD="日一二三四五六";
+function clone(x){return JSON.parse(JSON.stringify(x))}
+function load(k,def){try{var v=JSON.parse(window.KV&&KV.getItem(k));if(v)return v}catch(e){}return clone(def)}
+var R,H;
+function loadAll(){R=load(KR,DEF);H=load(KH,HDEF);
+ if(!R.w||R.w.length!==8)R.w=clone(DEF.w);if(!R.ov)R.ov={};if(!R.rule)R.rule=clone(DEF.rule);if(R.foot==null)R.foot=DEF.foot}
+loadAll();
 function d0(x){var d=new Date(x+"T00:00:00");return isNaN(d)?null:d}
+function iso(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
 function fmt(d){return (d.getMonth()+1)+"/"+d.getDate()}
+function add(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x}
 function today(){var t=new Date();t.setHours(0,0,0,0);return t}
-function wIdx(){var d=d0(st.value);if(!d)return null;return Math.floor((today()-d)/864e5/7)}
-function calc(){var w=wIdx();return w==null?0:((w%8)+8)%8}
-// 第 i 週（本輪 8 週）的週一
-function monOf(i){var d=d0(st.value);if(!d)return null;var w=wIdx(),base=w-(((w%8)+8)%8);return new Date(d.getTime()+(base+i)*7*864e5)}
-function holIn(a){if(!a)return[];var b=a.getTime()+5*864e5;return H.filter(function(h){var x=d0(h[0]);return x&&x>=a&&x<b}).sort(function(p,q){return p[0]<q[0]?-1:1})}
+function monday(d){var x=new Date(d);x.setHours(0,0,0,0);return add(x,-((x.getDay()+6)%7))}
+var THIS=monday(today()),wk=THIS,mo=new Date(today().getFullYear(),today().getMonth(),1);
+// 某週在 8 週循環裡是第幾週（0–7）；沒設定開始日期時為 null
+function cyc(m){var d=d0(st.value);if(!d)return null;var w=Math.round((m-monday(d))/DAY/7);return((w%8)+8)%8}
+function row(m){var o=R.ov[iso(m)];if(o)return o;var c=cyc(m);return c==null?null:R.w[c]}
+function holIn(m){var a=iso(m),b=iso(add(m,4));return H.filter(function(h){return h[0]>=a&&h[0]<=b}).sort(function(p,q){return p[0]<q[0]?-1:1})}
 function hTxt(h){var x=d0(h[0]);return fmt(x)+"（"+WD[x.getDay()]+"）"+h[1]}
+function names(s){return String(s||"").split("、").map(function(n){return n.trim()}).filter(Boolean)}
 function heading(){
  $("rule").innerHTML=R.rule.filter(function(x){return x.trim()}).map(function(x){return '<span'+(x.indexOf("→")>=0?' class="flow"':'')+'>'+E(x)+'</span>'}).join("");
  $("foot").textContent=R.foot;
 }
-function show(i){cur=(i+8)%8;$("wkno").textContent="第 "+(cur+1)+" 週";
- var a=monOf(cur),r="";
- if(a){var b=new Date(a.getTime()+4*864e5);r=fmt(a)+"（一）～ "+fmt(b)+"（五）"+(cur===calc()?"・本週":"")}
- else r=MGR?"設定下方的開始日期後，會自動顯示本週":"管理者設定開始日期後，會自動顯示本週";
- $("range").textContent=r;
- $("cur").innerHTML=S.map(function(s,j){return '<div class="sh" style="--bg2:'+s[4]+';--c:'+s[3]+'"><i>'+s[2]+'</i><b>'+s[0]+'</b><em>'+s[1]+'</em><div class="who">'+R.w[cur][j].split("、").filter(function(n){return n.trim()}).map(function(n){return "<span>"+E(n.trim())+"</span>"}).join("")+'</div></div>'}).join("");
- $("curh").innerHTML=holIn(a).map(function(h){return "<div>🎌 "+E(hTxt(h))+" 放假</div>"}).join("");
- table();
+// 本週卡片（可往前、往後一週）
+function week(){
+ var n=Math.round((wk-THIS)/DAY/7);
+ $("wkno").textContent=n===0?"本週":n===1?"下週":n===-1?"上週":fmt(wk)+" 那週";
+ $("range").textContent=fmt(wk)+"（一）～ "+fmt(add(wk,4))+"（五）";
+ var r=row(wk);
+ $("cur").innerHTML=r?S.map(function(s,j){return '<div class="sh" style="--bg2:'+s[4]+';--c:'+s[3]+'"><i>'+s[2]+'</i><b>'+s[0]+'</b><em>'+s[1]+'</em><div class="who">'+names(r[j]).map(function(n){return "<span>"+E(n)+"</span>"}).join("")+'</div></div>'}).join(""):'<p class="hint2">'+(MGR?"請先設定下方的開始日期":"管理者設定開始日期後，就會顯示值班人員")+'</p>';
+ $("curh").innerHTML=holIn(wk).map(function(h){return "<div>🎌 "+E(hTxt(h))+" 放假</div>"}).join("");
 }
-function table(){
- var on=st.value?calc():-1;
- $("tb").innerHTML=R.w.map(function(w,i){var a=monOf(i),hs=holIn(a);
-  return '<tr'+(i===on?' class="on"':'')+'><td>第 '+(i+1)+' 週'+(i===on?' 👈':'')+(a?'<small>'+fmt(a)+'～'+fmt(new Date(a.getTime()+4*864e5))+'</small>':'')+hs.map(function(h){return '<span class="hb">🎌 '+E(hTxt(h))+'</span>'}).join("")+'</td>'+
-  w.map(function(x,j){return "<td>"+(EDIT?'<input data-i="'+i+'" data-j="'+j+'" value="'+E(x)+'" aria-label="第 '+(i+1)+' 週 '+S[j][0]+'">':E(x))+"</td>"}).join("")+"</tr>"}).join("")}
+// 這個月有上班日（週一到週五）的每一週
+function monthWeeks(){var out=[],m=monday(mo),end=new Date(mo.getFullYear(),mo.getMonth()+1,1);
+ while(m<end){if(add(m,4)>=mo)out.push(m);m=add(m,7)}return out}
+function month(){
+ $("mlab").textContent=mo.getFullYear()+" 年 "+(mo.getMonth()+1)+" 月";
+ var ws=monthWeeks();
+ if(!st.value){$("tb").innerHTML='<tr><td colspan="6" style="padding:18px 4px;color:var(--sub);font-weight:400">'+(MGR?"請先在「本週」卡片下方設定第 1 週的開始日期":"管理者設定開始日期後，就會顯示每月班表")+'</td></tr>';return}
+ $("tb").innerHTML=ws.map(function(m){var r=row(m),on=+m===+THIS,k=iso(m),hs=holIn(m);
+  return '<tr'+(on?' class="on"':'')+'><td>'+fmt(m)+'～'+fmt(add(m,4))+(on?' 👈':'')+(R.ov[k]&&EDIT?'<small>（本週已單獨修改）</small>':'')+hs.map(function(h){return '<span class="hb">🎌 '+E(hTxt(h))+'</span>'}).join("")+'</td>'+
+  r.map(function(x,j){return "<td>"+(EDIT?'<input data-k="'+k+'" data-j="'+j+'" value="'+E(x)+'" aria-label="'+fmt(m)+' 那週 '+S[j][0]+'">':E(x))+"</td>"}).join("")+"</tr>"}).join("")}
+// 8 週輪值循環（只在編輯時出現）
+function cycle(){
+ $("cyc").hidden=!EDIT;if(!EDIT)return;
+ $("tb2").innerHTML=R.w.map(function(w,i){return '<tr><td>第 '+(i+1)+' 週</td>'+w.map(function(x,j){return '<td><input data-i="'+i+'" data-j="'+j+'" value="'+E(x)+'" aria-label="循環第 '+(i+1)+' 週 '+S[j][0]+'"></td>'}).join("")+"</tr>"}).join("")}
 function hols(){
  if(EDIT){
   $("hlist").innerHTML='<p class="etip">只要列「上班日要放假」的日子（含補假）</p><div id="hrows">'+H.map(hRow).join("")+'</div><div style="text-align:center;margin-top:8px"><button type="button" class="addh" id="addh">＋ 新增假日</button></div><div style="text-align:center;margin-top:16px"><button type="button" class="addh" id="brs">↺ 班表與假日全部還原預設</button></div>';
   $("addh").onclick=function(){$("hrows").insertAdjacentHTML("beforeend",hRow(["",""]))};
+  var rs=0;$("brs").onclick=function(){if(!rs){rs=1;this.textContent="再按一次確認還原";return}
+   R=clone(DEF);H=clone(HDEF);try{KV.removeItem(KR);KV.removeItem(KH)}catch(e){}setEdit(false)};
   return}
- var t=today(),up=H.filter(function(h){var x=d0(h[0]);return x&&x>=t}).sort(function(p,q){return p[0]<q[0]?-1:1});
- var d=d0(st.value);
- $("hlist").innerHTML=up.length?'<ul class="hl">'+up.map(function(h){var x=d0(h[0]),wn="";
-  if(d){var w=Math.floor((x-d)/864e5/7);wn="第 "+((((w%8)+8)%8)+1)+" 週"}
-  return '<li><span class="dt">'+x.getFullYear()+"/"+fmt(x)+"（"+WD[x.getDay()]+'）</span><span class="nm">'+E(h[1])+'</span><span class="wn">'+wn+'</span></li>'}).join("")+'</ul>':'<p class="hint2">目前沒有即將到來的國定假日資料'+(MGR?"，可按「✏️ 編輯」新增":"")+'</p>'}
+ var t=iso(today()),up=H.filter(function(h){return h[0]>=t}).sort(function(p,q){return p[0]<q[0]?-1:1});
+ $("hlist").innerHTML=up.length?'<ul class="hl">'+up.map(function(h){var x=d0(h[0]);
+  return '<li><span class="dt">'+x.getFullYear()+"/"+fmt(x)+"（"+WD[x.getDay()]+'）</span><span class="nm">'+E(h[1])+'</span></li>'}).join("")+'</ul>':'<p class="hint2">目前沒有即將到來的國定假日資料'+(MGR?"，可按「✏️ 編輯」新增":"")+'</p>'}
 function hRow(h){return '<div class="he"><input type="date" value="'+E(h[0])+'" aria-label="日期"><input type="text" value="'+E(h[1])+'" placeholder="假日名稱" aria-label="假日名稱"><button type="button" onclick="this.parentNode.remove()" aria-label="刪除">✕</button></div>'}
 function bar(){
+ $("pbtn").style.display=EDIT?"none":"";
  if(!MGR){$("ebtn").innerHTML="";return}
  $("ebtn").innerHTML=EDIT?'<button type="button" class="sv" id="bsv">💾 儲存</button> <button type="button" id="bcx">取消</button>':'<button type="button" class="ed" id="bed">✏️ 編輯</button>';
- $("pbtn").style.display=EDIT?"none":"";
  if(!EDIT){$("bed").onclick=function(){setEdit(true)};return}
  $("bsv").onclick=save;
- $("bcx").onclick=function(){R=load(KR,DEF);H=load(KH,HDEF);setEdit(false)};
- var rs=0;if($("brs"))$("brs").onclick=function(){if(!rs){rs=1;this.textContent="再按一次確認還原";return}
-  R=JSON.parse(JSON.stringify(DEF));H=JSON.parse(JSON.stringify(HDEF));
-  try{KV.removeItem(KR);KV.removeItem(KH)}catch(e){}setEdit(false)};
+ $("bcx").onclick=function(){loadAll();setEdit(false)};
 }
+function all(){week();month();cycle();hols()}
 function setEdit(on){EDIT=on;$("etip").hidden=!on;
  if(on){
   $("rule").innerHTML='<textarea class="etx" id="erule" rows="3" aria-label="上方說明（一行一個）">'+E(R.rule.join("\n"))+'</textarea>';
   $("foot").innerHTML='<textarea class="etx" id="efoot" rows="4" aria-label="輪值原則">'+E(R.foot)+'</textarea>';
  }else heading();
- show(cur);hols();bar();
+ all();bar();
 }
+function clean(v){return v.replace(/[,，、\s]+/g,"、").replace(/^、|、$/g,"")}
+// 先讀月表目前的值（儲存循環前），再更新循環，最後把和循環不同的週記成單獨修改
+function readMonth(){var o={};document.querySelectorAll("#tb input").forEach(function(x){(o[x.dataset.k]=o[x.dataset.k]||[])[+x.dataset.j]=clean(x.value)});return o}
+function keepMonth(o){Object.keys(o).forEach(function(k){var c=cyc(d0(k)),base=R.w[c];
+ if(o[k].join("|")===base.join("|"))delete R.ov[k];else R.ov[k]=o[k]})}
 function save(){
- document.querySelectorAll("#tb input").forEach(function(x){R.w[+x.dataset.i][+x.dataset.j]=x.value.replace(/[,，、\s]+/g,"、").replace(/^、|、$/g,"")});
+ var o=readMonth(),old=clone(R.w);
+ document.querySelectorAll("#tb2 input").forEach(function(x){R.w[+x.dataset.i][+x.dataset.j]=clean(x.value)});
+ // 循環改了，但月表那格沒動 → 跟著新的循環走
+ Object.keys(o).forEach(function(k){var c=cyc(d0(k));o[k]=o[k].map(function(v,j){return !R.ov[k]&&v===old[c][j]?R.w[c][j]:v})});
+ keepMonth(o);
  R.rule=$("erule").value.split("\n").map(function(x){return x.trim()}).filter(Boolean);
  R.foot=$("efoot").value.trim();
  var nh=[];document.querySelectorAll("#hrows .he").forEach(function(r){var v=r.querySelectorAll("input");if(v[0].value&&v[1].value.trim())nh.push([v[0].value,v[1].value.trim()])});
@@ -1735,15 +1768,19 @@ function save(){
  try{KV.setItem(KR,JSON.stringify(R));KV.setItem(KH,JSON.stringify(H))}catch(e){alert("儲存失敗，請再試一次");return}
  setEdit(false);
 }
-$("th").innerHTML="<tr><th>週次</th>"+S.map(function(s){return '<th style="--c:'+s[3]+'"><span></span>'+s[0]+"<em>"+s[1]+"</em></th>"}).join("")+"</tr>";
+// 編輯中換月份時，先把這個月改過的格子記下來
+function flip(n){if(EDIT&&st.value)keepMonth(readMonth());mo=new Date(mo.getFullYear(),mo.getMonth()+n,1);month()}
+var TH="<tr><th>週次</th>"+S.map(function(s){return '<th style="--c:'+s[3]+'"><span></span>'+s[0]+"<em>"+s[1]+"</em></th>"}).join("")+"</tr>";
+$("th").innerHTML=TH;$("th2").innerHTML=TH;
 st.value=(window.KV&&KV.getItem(K))||"";
-st.addEventListener("change",function(){if(window.KV)KV.setItem(K,st.value);show(calc());hols()});
-$("prev").onclick=function(){show(cur-1)};$("next").onclick=function(){show(cur+1)};
+st.addEventListener("change",function(){if(window.KV)KV.setItem(K,st.value);all()});
+$("prev").onclick=function(){wk=add(wk,-7);week()};$("next").onclick=function(){wk=add(wk,7);week()};
+$("mprev").onclick=function(){flip(-1)};$("mnext").onclick=function(){flip(1)};
 // 只有管理者（admin）與主管（supervisor）看得到編輯功能；雲端規則也只允許他們寫入值班表資料
 function role(cb){try{var SF=window.parent&&window.parent!==window&&window.parent.__SF;if(SF&&SF.gate)return SF.gate(function(u){cb(u||{})})}catch(e){}cb({})}
 $("setw").style.display="none";
-heading();show(calc());hols();
-role(function(u){MGR=u.role==="admin"||u.role==="supervisor";$("setw").style.display=MGR?"":"none";bar();show(cur);hols()});
+heading();all();bar();
+role(function(u){MGR=u.role==="admin"||u.role==="supervisor";$("setw").style.display=MGR?"":"none";all();bar()});
 })();
 <\/script>
 <script type="module">parent.__startApp(window);<\/script>
