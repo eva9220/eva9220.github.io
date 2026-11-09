@@ -41,11 +41,12 @@ service cloud.firestore {
                          || (isManager() && id.matches('docs_staff_.*'));
     }
 
-    // kv：一般資料所有成員可讀寫；課程內容（ccEdits 開頭）只有管理者與主管可寫
+    // kv：一般資料所有成員可讀寫；
+    // 課程內容（ccEdits 開頭）與值班表（duty 開頭：人員、國定假日、開始日期）只有管理者與主管可寫
     match /kv/{id} {
       allow read: if isMember();
-      allow write: if (isMember() && !id.matches('ccEdits.*'))
-                   || (isManager() && id.matches('ccEdits.*'));
+      allow write: if (isMember() && !id.matches('(ccEdits|duty).*'))
+                   || (isManager() && id.matches('(ccEdits|duty).*'));
     }
 
     // 請假交接單 leaves：
