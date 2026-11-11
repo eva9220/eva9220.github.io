@@ -31,6 +31,7 @@ button.mgr{border-color:#d2a35c;color:#7a5a1c}
 .sec{background:#fff;border-radius:18px;padding:14px;margin-bottom:14px;box-shadow:0 3px 0 var(--line)}
 .sec h2{font-size:16px;margin:0 0 10px;color:#5f5a52}
 .sec.kid{border-left:7px solid #b9a3d3}
+.sec.sup{border-left:7px solid #d2a35c}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .grid .full{grid-column:1/-1}
 .grid label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--sub)}
@@ -42,6 +43,10 @@ canvas.sig{width:100%;max-width:340px;height:140px;border:1.5px dashed #bbb;bord
 .sigs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .ro input,.ro select,.ro textarea{background:#f4f1ea;color:#555}
 .note{font-size:13px;color:var(--sub);background:#fff8e6;border-radius:12px;padding:8px 12px;margin-bottom:12px}
+.msg{font-size:14px;color:#2f6b45;background:#e2f0e6;border-radius:12px;padding:8px 12px;margin:8px 0}
+.msg:empty{display:none}
+details.roster{background:#fff;border-radius:16px;padding:12px 14px;margin-bottom:14px;box-shadow:0 3px 0 var(--line)}
+details.roster summary{cursor:pointer;font-weight:600;color:#7a5a1c}
 @media (max-width:560px){.grid{grid-template-columns:1fr}.sigs{grid-template-columns:1fr}}
 @media print{
   .top,.bar,.no-print,.note{display:none!important}
@@ -61,6 +66,17 @@ canvas.sig{width:100%;max-width:340px;height:140px;border:1.5px dashed #bbb;bord
       <select id="selTeacher"></select>
       <button class="primary" id="btnNew">＋ 新增假單</button>
     </div>
+    <details class="roster no-print" id="rosterBox" hidden>
+      <summary>幼兒名單設定（管理者）</summary>
+      <div class="bar" style="margin-top:10px">
+        <input type="date" id="rDate">
+        <select id="rCls"></select>
+      </div>
+      <div class="lbl">每行一位：代號 姓名（例：L01 江尚騰）。沒有設定的日期會使用預設名單。</div>
+      <textarea id="rText" style="min-height:120px"></textarea>
+      <div class="bar" style="margin:8px 0 0"><button class="primary" id="rSave">儲存名單</button></div>
+      <p class="msg" id="rMsg" role="status"></p>
+    </details>
     <div class="sum" id="sum"></div>
     <div id="list"></div>
   </section>
@@ -72,6 +88,7 @@ canvas.sig{width:100%;max-width:340px;height:140px;border:1.5px dashed #bbb;bord
     </div>
     <div class="note no-print" id="roNote" hidden></div>
     <form id="form" onsubmit="return false"></form>
+    <p class="msg" id="msg" role="status"></p>
     <div class="bar no-print">
       <button id="btnDraft">儲存草稿</button>
       <button class="primary" id="btnSubmit">送出</button>
@@ -85,10 +102,13 @@ canvas.sig{width:100%;max-width:340px;height:140px;border:1.5px dashed #bbb;bord
 <script type="module">
 import { SF } from "./cloud.js";
 
-// ===== 設定：班級、老師、幼兒（之後新增班級或老師只要改這裡）=====
+// ===== 設定：班級、老師、預設幼兒（之後新增班級或老師只要改這裡）=====
+// 幼兒的姓名與每天實際名單，由管理者在列表頁的「幼兒名單設定」填寫（存在雲端）。
+// 沒有設定的日期，會使用這裡的預設代號。
 const CLASSES = [
-  { name: "嫩芽班", teachers: ["陳慈敏"], kids: [{ id: "L01" }] }
+  { name: "嫩芽班", teachers: ["陳慈敏"], kids: [{ id: "L01" }, { id: "L02" }, { id: "L03" }, { id: "L04" }] }
 ];
+const IDENTITIES = ["托育人員", "主管人員"];
 const TYPES = ["事假", "病假", "特休", "其他"];
 const KID_FIELDS = [
   { k: "meal", t: "radio", l: "飲食食慾狀況", o: ["正常", "量多", "量少"] },
@@ -104,32 +124,105 @@ const KID_FIELDS = [
   { k: "shoes", t: "radio", l: "穿鞋", o: ["是", "否"] },
   { k: "note", t: "area", l: "其它說明" }
 ];
+// 主管人員請假單的欄位
+const SUP_TEXT = [
+  { k: "dailyMed", l: "核對藥品" },
+  { k: "dailyRoll", l: "全園幼兒點名" },
+  { k: "contactStaff", l: "托育人員請假聯絡人" },
+  { k: "dutyAgent", l: "值班代理人" },
+  { k: "noticeInternal", l: "內部公告者" },
+  { k: "noticeParent", l: "家長告知者" }
+];
+const SUP_AREA = [
+  { k: "vpTasks", l: "副主任：交辦事務" },
+  { k: "adminTasks", l: "行政：交辦事務" },
+  { k: "relayNote", l: "代班交接注意事項" }
+];
 
 // ===== 狀態 =====
-let ME = null, IS_MGR = false, ITEMS = [], unsub = null, EDIT = null;
+let ME = null, IS_MGR = false, ITEMS = [], unsub = null, EDIT = null, MY_SIG = "";
+const ROSTER = {};       // key -> kids 陣列（null = 雲端沒有這天的名單）
+const ROSTER_SUB = {};   // key -> 已訂閱
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const today = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
 const setPath = (o, p, v) => { const a = p.split("."); let c = o; a.slice(0, -1).forEach((k) => { c[k] = c[k] || {}; c = c[k]; }); c[a[a.length - 1]] = v; };
 const getPath = (o, p) => p.split(".").reduce((c, k) => (c == null ? undefined : c[k]), o);
-const currentClass = () => CLASSES.find((c) => c.name === $("selCls").value) || CLASSES[0];
+const classOf = (name) => CLASSES.find((c) => c.name === name) || CLASSES[0];
+const currentClass = () => classOf($("selCls").value);
 
 // ===== 啟動：登入與權限 =====
 SF.gate((u) => {
   ME = u;
   IS_MGR = u.role === "admin" || u.role === "supervisor";
-  $("selCls").innerHTML = CLASSES.map((c) => `<option>${esc(c.name)}</option>`).join("");
+  const opts = CLASSES.map((c) => `<option>${esc(c.name)}</option>`).join("");
+  $("selCls").innerHTML = opts;
+  $("rCls").innerHTML = opts;
   fillTeachers();
   $("selCls").onchange = () => { fillTeachers(); renderList(); };
   $("selTeacher").onchange = renderList;
   $("btnNew").onclick = () => openEdit(null);
   $("btnBack").onclick = backToList;
   $("btnDraft").onclick = () => save("草稿");
-  $("btnSubmit").onclick = () => { if (confirm("送出後將無法再修改，確定送出？")) save("已送出"); };
+  // 送出要按兩次：第一次只提示，5 秒內再按一次才真的送出（不用 confirm，部分瀏覽器會直接略過）
+  let armed = false, armT = null;
+  $("btnSubmit").onclick = () => {
+    if (!armed) {
+      armed = true;
+      $("btnSubmit").textContent = "確定送出";
+      toast("再按一次「確定送出」即送出，送出後無法再修改");
+      clearTimeout(armT);
+      armT = setTimeout(() => { armed = false; $("btnSubmit").textContent = "送出"; }, 5000);
+      return;
+    }
+    armed = false; clearTimeout(armT);
+    $("btnSubmit").textContent = "送出";
+    save("已送出");
+  };
   $("btnReviewed").onclick = toggleReviewed;
   $("btnPrint").onclick = () => window.print();
+  // 表單內的日期、身分、班級變動時，重新排版（幼兒名單會依日期切換）
+  $("form").addEventListener("change", (e) => {
+    const p = e.target.dataset && e.target.dataset.p;
+    if (p === "start" || p === "identity" || p === "cls") refreshForm();
+  });
+  $("form").addEventListener("click", onSigClick);
+  setupRosterEditor();
   subscribe();
+  // 代理人固定簽名：存在自己的 profiles 文件，新假單會自動帶入
+  SF.watchDoc("profiles", ME.email, (val) => {
+    const next = (val && val.sig) || "";
+    const changed = next !== MY_SIG;
+    MY_SIG = next;
+    if (changed && EDIT && !$("editView").hidden && editable() && !EDIT.data.sigAgent) refreshForm();
+  });
 });
+
+async function onSigClick(e) {
+  const clr = e.target.closest("[data-sigclear]");
+  if (clr) {
+    const cv = document.querySelector(`canvas[data-sig="${clr.dataset.sigclear}"]`);
+    if (cv) { cv.getContext("2d").clearRect(0, 0, cv.width, cv.height); cv.dataset.dirty = "1"; }
+    return;
+  }
+  const sv = e.target.closest("[data-sigsave]");
+  if (sv) {
+    const cv = document.querySelector(`canvas[data-sig="${sv.dataset.sigsave}"]`);
+    if (!cv || cv.dataset.dirty !== "1") return toast("請先在方框內簽名");
+    try {
+      await SF.set("profiles", ME.email, { sig: cv.toDataURL("image/png"), updatedAt: new Date().toISOString() });
+      toast("已存為固定簽名，之後新假單會自動帶入");
+    } catch (err) {
+      toast("儲存失敗，請確認網路後再試");
+    }
+  }
+}
+
+function sigTools(ro) {
+  if (ro) return "";
+  return `<div class="bar" style="margin:6px 0 0"><button type="button" data-sigclear="sigAgent">清除簽名</button><button type="button" class="primary" data-sigsave="sigAgent">存為我的固定簽名</button></div>
+    <p class="lbl">存好後，之後新假單會自動帶入，不用每次重簽。</p>`;
+}
 
 function fillTeachers() {
   const c = currentClass();
@@ -142,6 +235,62 @@ function subscribe() {
   unsub = IS_MGR
     ? SF.watch("leaves", (items) => { ITEMS = items; renderList(); })
     : SF.watchWhere("leaves", "owner", ME.email, (items) => { ITEMS = items; renderList(); });
+}
+
+// ===== 幼兒名單（依日期）=====
+const rosterKey = (cls, date) => cls + "__" + date;
+function loadRoster(cls, date) {
+  if (!cls || !date) return;
+  const key = rosterKey(cls, date);
+  if (ROSTER_SUB[key]) return;
+  ROSTER_SUB[key] = SF.watchDoc("rosters", key, (val) => {
+    const changed = (ROSTER[key] || null) !== (val && Array.isArray(val.kids) ? val.kids : null);
+    ROSTER[key] = val && Array.isArray(val.kids) ? val.kids : null;
+    if (changed && EDIT && EDIT.data.cls === cls && EDIT.data.start === date && !$("editView").hidden) refreshForm();
+  });
+}
+// 目前這張假單要顯示的幼兒：已送出的用送出當時的名單；草稿用當天最新名單
+function kidsFor(d) {
+  if (d.status === "已送出" && Array.isArray(d.kidList)) return d.kidList;
+  const key = rosterKey(d.cls, d.start);
+  if (d.start && ROSTER[key]) return ROSTER[key];
+  return classOf(d.cls).kids;
+}
+const kidLabel = (k) => (k.name ? `${k.name}（${k.id}）` : k.id);
+
+function setupRosterEditor() {
+  if (!IS_MGR) return;
+  $("rosterBox").hidden = false;
+  $("rDate").value = today();
+  const showRoster = () => {
+    const cls = $("rCls").value, date = $("rDate").value;
+    loadRoster(cls, date);
+    const kids = ROSTER[rosterKey(cls, date)] || classOf(cls).kids;
+    $("rText").value = kids.map((k) => (k.name ? `${k.id} ${k.name}` : k.id)).join("\n");
+  };
+  $("rDate").onchange = showRoster;
+  $("rCls").onchange = showRoster;
+  $("rSave").onclick = async () => {
+    const cls = $("rCls").value, date = $("rDate").value;
+    if (!date) return toast("請先選日期", "rMsg");
+    const kids = $("rText").value.split("\n").map((l) => l.trim()).filter(Boolean).map((l) => {
+      const [id, ...rest] = l.split(/\s+/);
+      return { id, name: rest.join(" ") };
+    });
+    if (!kids.length) return toast("名單不能是空的", "rMsg");
+    await SF.set("rosters", rosterKey(cls, date), { cls, date, kids, updatedAt: new Date().toISOString() });
+    toast("名單已儲存", "rMsg");
+  };
+  showRoster();
+}
+
+// 畫面上的提示訊息（不用 alert，避免部分環境不顯示）
+let msgT = null;
+function toast(text, id = "msg") {
+  const el = $(id);
+  el.textContent = text;
+  clearTimeout(msgT);
+  msgT = setTimeout(() => { el.textContent = ""; }, 5000);
 }
 
 function statusTag(it) {
@@ -159,7 +308,7 @@ function renderList() {
   $("list").innerHTML = rows.map((it) => `
     <button class="item" data-id="${esc(it.id)}">
       <b>${esc(it.name || "（未填姓名）")}・${esc(it.type || "")}</b> ${statusTag(it)}
-      <small>${esc(it.teacher || "")}｜${esc(it.start || "")} ～ ${esc(it.end || "")}｜建立 ${esc((it.createdAt || "").slice(0, 10))}</small>
+      <small>${esc(it.identity || "托育人員")}｜${esc(it.teacher || "")}｜${esc(it.start || "")} ～ ${esc(it.end || "")}｜建立 ${esc((it.createdAt || "").slice(0, 10))}</small>
     </button>`).join("") || `<p style="color:#8a7d68;text-align:center">還沒有假單，按「＋ 新增假單」開始。</p>`;
   document.querySelectorAll("#list .item").forEach((b) => { b.onclick = () => openEdit(b.dataset.id); });
 }
@@ -168,10 +317,12 @@ function renderList() {
 function blank() {
   return {
     cls: $("selCls").value, teacher: $("selTeacher").value || currentClass().teachers[0],
-    owner: ME.email, status: "草稿", reviewed: false,
+    owner: ME.email, status: "草稿", reviewed: false, identity: "托育人員",
     date: today(), name: "", start: "", end: "", area: "", type: "事假",
-    agent: "", agentQual: [], agentId: "", afterNote: "", generalNote: "",
-    kids: {}, sigAgent: "", sigChief: ""
+    agent: "", agentQual: [], agentId: "", afterNote: "",
+    kids: {}, sigAgent: "", sigChief: "",
+    dailyMed: "", dailyRoll: "", contactStaff: "", dutyAgent: "",
+    noticeInternal: "", noticeParent: "", vpTasks: "", adminTasks: "", relayNote: ""
   };
 }
 
@@ -215,18 +366,30 @@ function inputHTML(path, f, val, ro) {
   return `<input type="text" data-p="${path}" value="${esc(val)}"${dis}>`;
 }
 
+// 保留目前畫面上的輸入，再重新排版（切換身分、日期時使用）
+function refreshForm() {
+  if (!EDIT || !$("form").children.length) return;
+  if (editable()) EDIT.data = { ...EDIT.data, ...collect() };
+  renderForm();
+}
+
 function renderForm() {
   const d = EDIT.data, ro = !editable();
-  const c = CLASSES.find((x) => x.name === d.cls) || currentClass();
+  const isSup = d.identity === "主管人員";
+  const kids = kidsFor(d);
+  if (d.start) loadRoster(d.cls, d.start);
+  EDIT.kidsNow = kids;
+
   const basic = `
     <div class="sec">
       <h2>基本資料</h2>
       <div class="grid">
         <label>交接日期<input type="date" data-p="date" value="${esc(d.date)}"${ro ? " disabled" : ""}></label>
+        <label>身分<select data-p="identity"${ro ? " disabled" : ""}>${IDENTITIES.map((x) => `<option${x === (d.identity || "托育人員") ? " selected" : ""}>${x}</option>`).join("")}</select></label>
         <label>請假人姓名<input type="text" data-p="name" value="${esc(d.name)}"${ro ? " disabled" : ""}></label>
         <label>班級<select data-p="cls"${ro ? " disabled" : ""}>${CLASSES.map((x) => `<option${x.name === d.cls ? " selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
         <label>假別<select data-p="type"${ro ? " disabled" : ""}>${TYPES.map((x) => `<option${x === d.type ? " selected" : ""}>${x}</option>`).join("")}</select></label>
-        <label>請假日期（起）<input type="date" data-p="start" value="${esc(d.start)}"${ro ? " disabled" : ""}></label>
+        <label>請假日期（起）<span style="font-size:12px">下方幼兒名單會依這天顯示</span><input type="date" data-p="start" value="${esc(d.start)}"${ro ? " disabled" : ""}></label>
         <label>請假日期（迄）<input type="date" data-p="end" value="${esc(d.end)}"${ro ? " disabled" : ""}></label>
         <label class="full">打掃區域<input type="text" data-p="area" value="${esc(d.area)}"${ro ? " disabled" : ""}></label>
         <label>代理人<input type="text" data-p="agent" value="${esc(d.agent)}"${ro ? " disabled" : ""}></label>
@@ -240,38 +403,71 @@ function renderForm() {
       </div>
     </div>`;
 
-  const kids = c.kids.map((kid) => {
-    const kd = (d.kids && d.kids[kid.id]) || {};
-    return `<div class="sec kid"><h2>幼兒 ${esc(kid.id)} 交接事項</h2><div class="grid">
-      ${KID_FIELDS.map((f) => {
-        const p = `kids.${kid.id}.${f.k}`;
-        const cls = f.t === "area" || f.t === "checks" || f.t === "radio" ? "full" : "";
-        return `<div class="${cls}"><div class="lbl">${esc(f.l)}</div>${inputHTML(p, f, kd[f.k], ro)}</div>`;
-      }).join("")}
-    </div></div>`;
-  }).join("");
-
-  const tail = `
+  const rules = `
     <div class="sec">
-      <h2>其他交接事項</h2>
-      <div class="lbl">代理人代班事後交接</div>
+      <h2>📋 請假職務代理人規定如下</h2>
+      <ol style="margin:0;padding-left:22px;font-size:14px;color:#5f5a52">
+        <li>本請假職務代理交接單請於請假前七天交接並填寫完畢。</li>
+        <li>其請假人應於請假前交由行政／及部門主管機構核備交由主任簽章。</li>
+        <li>主管簽章並影印留存。</li>
+        <li>公開告知相關人員。</li>
+        <li>填寫完畢在請假前三天讓代理人（需含早晚值及打掃）實際了解物品擺放位置。</li>
+        <li>以下幼兒交接事項說明請每一欄清楚填寫。</li>
+      </ol>
+    </div>`;
+
+  let body = "";
+  if (isSup) {
+    body = `
+    <div class="sec sup"><h2>📆 每日事務</h2><div class="grid">
+      ${SUP_TEXT.slice(0, 4).map((f) => `<label>${esc(f.l)}<input type="text" data-p="${f.k}" value="${esc(d[f.k])}"${ro ? " disabled" : ""}></label>`).join("")}
+    </div></div>
+    <div class="sec sup"><h2>⚡ 突發狀況</h2><div class="grid">
+      ${SUP_TEXT.slice(4).map((f) => `<label>${esc(f.l)}<input type="text" data-p="${f.k}" value="${esc(d[f.k])}"${ro ? " disabled" : ""}></label>`).join("")}
+    </div></div>
+    ${SUP_AREA.map((f) => `<div class="sec sup"><h2>${esc(f.l)}</h2>${inputHTML(f.k, { t: "area" }, d[f.k], ro)}</div>`).join("")}
+    <div class="sec">
+      <h2>✍️ 簽名</h2>
+      <div class="lbl">代理人簽名</div>
+      <canvas class="sig" data-sig="sigAgent" width="480" height="200"></canvas>
+      ${sigTools(ro)}
+      ${ro ? "" : `<p class="lbl" style="margin-top:8px">請直接在方框內簽名（手機可用手指）</p>`}
+    </div>`;
+  } else {
+    const kidSecs = kids.map((kid) => {
+      const kd = (d.kids && d.kids[kid.id]) || {};
+      return `<div class="sec kid"><h2>幼兒 ${esc(kidLabel(kid))} 交接事項</h2><div class="grid">
+        ${KID_FIELDS.map((f) => {
+          const p = `kids.${kid.id}.${f.k}`;
+          const cls = f.t === "area" || f.t === "checks" || f.t === "radio" ? "full" : "";
+          return `<div class="${cls}"><div class="lbl">${esc(f.l)}</div>${inputHTML(p, f, kd[f.k], ro)}</div>`;
+        }).join("")}
+      </div></div>`;
+    }).join("");
+    body = `
+    <div class="sec">
+      <h2>📝 代理人代班事後交接</h2>
       ${inputHTML("afterNote", { t: "area" }, d.afterNote, ro)}
-      <div class="lbl" style="margin-top:10px">其他需交接事項</div>
-      ${inputHTML("generalNote", { t: "area" }, d.generalNote, ro)}
     </div>
     <div class="sec">
-      <h2>簽名</h2>
+      <h2>✍️ 簽名</h2>
       <div class="sigs">
-        <div><div class="lbl">代理人簽名</div><canvas class="sig" data-sig="sigAgent" width="480" height="200"></canvas></div>
+        <div><div class="lbl">代理人簽名</div><canvas class="sig" data-sig="sigAgent" width="480" height="200"></canvas>${sigTools(ro)}</div>
         <div><div class="lbl">主任簽名</div><canvas class="sig" data-sig="sigChief" width="480" height="200"></canvas></div>
       </div>
       ${ro ? "" : `<p class="lbl" style="margin-top:8px">請直接在方框內簽名（手機可用手指）</p>`}
     </div>`;
+    body = kidSecs + body;
+  }
 
-  $("form").innerHTML = basic + kids + tail;
+  $("form").innerHTML = basic + rules + body;
   $("form").classList.toggle("ro", ro);
 
-  document.querySelectorAll("canvas[data-sig]").forEach((cv) => initSig(cv, d[cv.dataset.sig], ro));
+  document.querySelectorAll("canvas[data-sig]").forEach((cv) => {
+    const k = cv.dataset.sig;
+    const useMine = k === "sigAgent" && !d.sigAgent && !!MY_SIG && !ro;
+    initSig(cv, useMine ? MY_SIG : d[k], ro, useMine);
+  });
 
   $("stateTag").innerHTML = EDIT.id === null
     ? `<span class="tag new">新假單</span>`
@@ -284,12 +480,15 @@ function renderForm() {
   $("btnReviewed").textContent = d.reviewed ? "取消已閱" : "標示已閱";
 }
 
-function initSig(cv, existing, ro) {
+function initSig(cv, existing, ro, fromProfile) {
   const ctx = cv.getContext("2d");
   ctx.lineWidth = 3; ctx.lineCap = "round"; ctx.strokeStyle = "#2b3a4a";
   if (existing) {
     const img = new Image();
-    img.onload = () => ctx.drawImage(img, 0, 0, cv.width, cv.height);
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0, cv.width, cv.height);
+      if (fromProfile) cv.dataset.dirty = "1";   // 固定簽名會被一起存進這張假單
+    };
     img.src = existing;
   }
   if (ro) { cv.style.pointerEvents = "none"; return; }
@@ -310,7 +509,7 @@ function initSig(cv, existing, ro) {
   ["pointerup", "pointercancel"].forEach((ev) => cv.addEventListener(ev, () => { drawing = false; }));
 }
 
-// 收集表單內容（只有可編輯時才會用到）
+// 收集表單內容
 function collect() {
   const out = {};
   const form = $("form");
@@ -340,6 +539,7 @@ async function save(status) {
     ...EDIT.data, ...fields,
     owner: EDIT.data.owner || ME.email,            // 建立者不會被改掉
     reviewed: EDIT.data.reviewed || false,         // 只能由管理者標示已閱
+    kidList: EDIT.kidsNow || [],                   // 送出當時的幼兒名單
     status,
     updatedAt: now,
     createdAt: EDIT.data.createdAt || now
@@ -354,7 +554,7 @@ async function save(status) {
   }
   EDIT.data = data;
   renderForm();
-  alert(status === "已送出" ? "已送出" : "已儲存草稿");
+  toast(status === "已送出" ? "已送出" : "已儲存草稿");
 }
 
 async function toggleReviewed() {
