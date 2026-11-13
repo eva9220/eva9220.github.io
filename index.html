@@ -1184,6 +1184,9 @@ main{position:relative;max-width:720px;margin:0 auto;padding:6px 4px;overflow-x:
   .grid2 .sec{margin:8mm 4mm}
   .deco{position:absolute;left:0;right:0;bottom:2mm;max-width:none;padding:0 4mm}.deco svg{height:17mm}
 }
+.edb{text-align:center;margin:12px 0 0}.eb{font:inherit;font-size:15px;border:1.5px solid var(--blue);color:var(--blue);background:#fff;border-radius:99px;padding:6px 16px;cursor:pointer}
+#feeEdit{max-width:560px;margin:14px auto 0}#feeEdit .fr{border:1.5px dashed #c9d6e2;border-radius:14px;padding:8px;margin:0 0 8px;display:grid;grid-template-columns:1fr 1fr;gap:6px}#feeEdit input,#feeEdit textarea{font:inherit;font-size:15px;border:1.5px solid #c9d6e2;border-radius:10px;padding:6px 8px;min-width:0;box-sizing:border-box;width:100%}#feeEdit .fr .w{grid-column:1/-1}#feeEdit .fr .bt{grid-column:1/-1;display:flex;gap:6px;justify-content:flex-end}#feeEdit .bt button,#feeEdit .ac button{font:inherit;font-size:14px;border:1.5px solid #c9d6e2;background:#fff;border-radius:99px;padding:3px 12px;cursor:pointer}#feeEdit label{font-size:13px;color:var(--sub)}#feeEdit .ac{display:flex;gap:8px;justify-content:center;margin:8px 0}
+@media print{.edb,#feeEdit{display:none!important}}
 </style>
 </head>
 <body>
@@ -1194,12 +1197,14 @@ main{position:relative;max-width:720px;margin:0 auto;padding:6px 4px;overflow-x:
 
   <section class="sec" id="fee">
     <h2>收費</h2>
-    <div class="rows">
+    <div class="rows" id="feeRows">
       <b>註冊費</b><span class="num">18,000</span><small>元<em>每學期（6 個月）一次</em></small>
       <b>月費</b><span class="num">16,415</span><small>元／月</small>
       <b>餐點費</b><span class="num">2,000</span><small>元／月</small>
     </div>
-    <p class="note">其他相關細項於現場說明</p>
+    <p class="note" id="feeNote">其他相關細項於現場說明</p>
+    <div id="feeEdit" hidden></div>
+    <p class="edb"><button type="button" class="eb" id="feeEd" hidden>✏️ 編輯收費項目</button></p>
   </section>
 
   <div class="grid2">
@@ -1236,6 +1241,24 @@ main{position:relative;max-width:720px;margin:0 auto;padding:6px 4px;overflow-x:
     </div>
   </section>
 </main><div class="deco"><svg viewBox="0 0 140 110"><rect x="27.5" y="86" width="5" height="24" rx="2" fill="#8a5a44"/><rect x="7.0" y="40" width="46" height="52" rx="23.0" fill="#a9d8e6" opacity=".75"/><rect x="55.5" y="74" width="5" height="36" rx="2" fill="#8a5a44"/><rect x="38.0" y="10" width="40" height="70" rx="20.0" fill="#d6ea7a" opacity=".75"/><rect x="75.5" y="80" width="5" height="30" rx="2" fill="#8a5a44"/><rect x="57.0" y="22" width="42" height="64" rx="21.0" fill="#9fdccf" opacity=".75"/><rect x="107.5" y="80" width="5" height="30" rx="2" fill="#8a5a44"/><rect x="92.0" y="36" width="36" height="50" rx="18.0" fill="#c4e872" opacity=".75"/></svg><svg viewBox="0 0 120 120"><path d="M38 72q-6 20 4 46M78 62q4 26-6 56M30 90q4 14-2 28" stroke="#e58b8f" stroke-width="1.5" fill="none"/><path d="M40 70C14 52 14 22 34 20c9-1 14 6 16 12c3-7 9-13 18-11c18 4 14 32-28 49z" fill="#f2b3bd" opacity=".85"/><ellipse cx="80" cy="40" rx="20" ry="23" fill="#ec8b80" opacity=".9"/><ellipse cx="28" cy="78" rx="17" ry="19" fill="#f5dca8" opacity=".9"/></svg></div>
+<script type="text/plain" data-app>
+(function(){var K="notice:fee",$=function(i){return document.getElementById(i)};
+var DEF={rows:[["註冊費","18,000","元","每學期（6 個月）一次"],["月費","16,415","元／月",""],["餐點費","2,000","元／月",""]],note:"其他相關細項於現場說明"};
+var D=null;try{D=JSON.parse(KV.getItem(K))}catch(e){}if(!D||!Array.isArray(D.rows))D=JSON.parse(JSON.stringify(DEF));
+function E(t){return String(t==null?"":t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;")}
+function view(){$("feeRows").innerHTML=D.rows.map(function(r){return"<b>"+E(r[0])+'</b><span class="num">'+E(r[1])+"</span><small>"+E(r[2])+(r[3]?"<em>"+E(r[3])+"</em>":"")+"</small>"}).join("");$("feeNote").textContent=D.note||"";$("feeNote").style.display=D.note?"":"none"}
+var tm;function save(){clearTimeout(tm);tm=setTimeout(function(){KV.setItem(K,JSON.stringify(D))},300);view()}
+function edit(){$("feeEdit").innerHTML=D.rows.map(function(r,i){return'<div class="fr"><label>名稱<input data-r="'+i+'" data-c="0" value="'+E(r[0])+'"></label><label>金額<input data-r="'+i+'" data-c="1" inputmode="numeric" value="'+E(r[1])+'"></label><label>單位<input data-r="'+i+'" data-c="2" placeholder="元／月" value="'+E(r[2])+'"></label><label>說明（選填）<input data-r="'+i+'" data-c="3" value="'+E(r[3])+'"></label><div class="bt">'+(i?'<button type="button" data-up="'+i+'">↑ 上移</button>':"")+'<button type="button" data-del="'+i+'">✕ 刪除</button></div></div>'}).join("")+'<div class="ac"><button type="button" id="feeAdd">＋ 新增項目</button></div><label>下方說明<textarea id="feeNt" rows="2">'+E(D.note)+'</textarea></label><div class="ac"><button type="button" id="feeOk">✓ 完成</button></div>'}
+$("feeEd").hidden=false;view();
+$("feeEd").onclick=function(){var h=$("feeEdit").hidden;$("feeEdit").hidden=!h;this.textContent=h?"✓ 完成編輯":"✏️ 編輯收費項目";if(h)edit()};
+$("feeEdit").addEventListener("input",function(e){var t=e.target;if(t.id==="feeNt"){D.note=t.value;return save()}if(t.dataset.r==null)return;D.rows[+t.dataset.r][+t.dataset.c]=t.value;save()});
+$("feeEdit").addEventListener("click",function(e){var t=e.target;
+ if(t.id==="feeAdd"){D.rows.push(["","","元",""]);save();edit();var ins=$("feeEdit").querySelectorAll('[data-c="0"]');ins[ins.length-1].focus()}
+ else if(t.id==="feeOk"){$("feeEd").click()}
+ else if(t.dataset.del!=null){var i=+t.dataset.del;if(!confirm("確定刪除「"+(D.rows[i][0]||"這一項")+"」？"))return;D.rows.splice(i,1);save();edit()}
+ else if(t.dataset.up!=null){var j=+t.dataset.up,x=D.rows[j];D.rows[j]=D.rows[j-1];D.rows[j-1]=x;save();edit()}});
+})();
+<\/script>
 <script type="module">parent.__startApp(window);<\/script>
 </body>
 </html>
