@@ -1187,6 +1187,25 @@ main{position:relative;max-width:720px;margin:0 auto;padding:6px 4px;overflow-x:
 .edb{text-align:center;margin:12px 0 0}.eb{font:inherit;font-size:15px;border:1.5px solid var(--blue);color:var(--blue);background:#fff;border-radius:99px;padding:6px 16px;cursor:pointer}
 #feeEdit,.lsEdit{max-width:560px;margin:14px auto 0}.lsEdit .fr{border:1.5px dashed #c9d6e2;border-radius:14px;padding:8px;margin:0 0 8px;display:grid;grid-template-columns:1fr 1fr;gap:6px}.lsEdit input,.lsEdit textarea{font:inherit;font-size:15px;border:1.5px solid #c9d6e2;border-radius:10px;padding:6px 8px;min-width:0;box-sizing:border-box;width:100%}.lsEdit .bt{grid-column:1/-1;display:flex;gap:6px;justify-content:flex-end}.lsEdit .bt button,.lsEdit .ac button{font:inherit;font-size:14px;border:1.5px solid #c9d6e2;background:#fff;border-radius:99px;padding:3px 12px;cursor:pointer}.lsEdit label{font-size:13px;color:var(--sub)}.lsEdit .ac{display:flex;gap:8px;justify-content:center;margin:8px 0}#feeEdit .fr{border:1.5px dashed #c9d6e2;border-radius:14px;padding:8px;margin:0 0 8px;display:grid;grid-template-columns:1fr 1fr;gap:6px}#feeEdit input,#feeEdit textarea{font:inherit;font-size:15px;border:1.5px solid #c9d6e2;border-radius:10px;padding:6px 8px;min-width:0;box-sizing:border-box;width:100%}#feeEdit .fr .w{grid-column:1/-1}#feeEdit .fr .bt{grid-column:1/-1;display:flex;gap:6px;justify-content:flex-end}#feeEdit .bt button,#feeEdit .ac button{font:inherit;font-size:14px;border:1.5px solid #c9d6e2;background:#fff;border-radius:99px;padding:3px 12px;cursor:pointer}#feeEdit label{font-size:13px;color:var(--sub)}#feeEdit .ac{display:flex;gap:8px;justify-content:center;margin:8px 0}
 @media print{.edb,#feeEdit,.lsEdit{display:none!important}}
+.hd2,.deco2{display:none}
+/* 列印兩頁：第 1 頁收費、代辦品、補助；第 2 頁教學特色 */
+@media print{
+  body{height:594mm}
+  .deco{top:277mm;bottom:auto}.deco.deco2{display:flex;top:574mm}
+  .sec{margin:12.5mm 4mm}.grid2 .sec{margin:12.5mm 4mm}
+  .hd{padding-top:8mm}.hd h1{font-size:32pt}.hd p{font-size:14pt}
+  .sec h2{font-size:26pt;margin-bottom:3mm}
+  #fee{padding:9mm 7mm}.rows{gap:3mm 6mm;max-width:none;justify-content:center;grid-template-columns:auto auto auto}.rows b{font-size:19pt}.rows .num{font-size:25pt}.rows small{font-size:16pt}.rows small em{font-size:12pt}.note{font-size:14pt;margin-top:5mm}
+  .grid2 .sec{padding:8mm 6mm 9mm}.intro{font-size:13.5pt;line-height:1.55}.list li{font-size:15pt;padding:2mm 1mm}.list li.tot{padding:2mm 4mm}.list li.tot span:last-child{font-size:17pt}
+  .hd2{display:block;break-before:page;padding-top:14mm}
+  #course{margin:16mm 4mm 0;padding:12mm 8mm 16mm;min-height:192mm;box-sizing:border-box;display:flex;flex-direction:column}
+  #course .feat{flex:1;min-height:140mm;align-content:space-evenly}
+  #course h2{font-size:34pt;margin-bottom:12mm}
+  #course .feat{display:grid;grid-template-columns:1fr 1fr;gap:13mm 12mm;justify-items:center;padding:0 6mm}
+  #course .feat div{font-size:24pt;padding:8mm 12mm;border-width:1.2mm;min-width:58mm;text-align:center;box-sizing:border-box}
+  #course .feat div:last-child:nth-child(odd){grid-column:1/-1}
+  #course .feat div:after{width:7mm;height:7mm;bottom:-4mm;border-width:1.2mm}
+}
 </style>
 </head>
 <body>
@@ -1234,6 +1253,7 @@ main{position:relative;max-width:720px;margin:0 auto;padding:6px 4px;overflow-x:
     </section>
   </div>
 
+  <div class="hd hd2"><h1>初晴之森托嬰中心</h1><p>SUNNY FOREST INFANT CARE CENTER</p></div>
   <section class="sec" id="course">
     <h2>教學特色 🎨</h2>
     <div class="feat" id="ftList">
@@ -1306,6 +1326,7 @@ box.addEventListener("click",function(e){var t=e.target;
  else if(t.dataset.up!=null){var j=+t.dataset.up,x=D.rows[j];D.rows[j]=D.rows[j-1];D.rows[j-1]=x;save();edit()}});
 })();
 <\/script>
+<script>(function(){var d=document.querySelector(".deco");if(d){var c=d.cloneNode(true);c.classList.add("deco2");d.parentNode.appendChild(c)}})();<\/script>
 <script type="module">parent.__startApp(window);<\/script>
 </body>
 </html>
