@@ -15,8 +15,8 @@ body{margin:0;background:#efeae0;color:var(--ink);font:16px/1.5 "Noto Sans TC","
 .hint{text-align:center;color:#8a7d68;font-size:13px;margin:10px 12px 0}
 .wrap{overflow-x:auto;padding:14px 10px}
 /* A4 紙張 */
-.sheet{width:210mm;min-height:297mm;margin:0 auto;background:var(--cream);box-shadow:0 4px 18px rgba(0,0,0,.12);display:flex;flex-direction:column;overflow:hidden}
-.hd{flex-shrink:0;position:relative;background:var(--g);color:#fff;padding:9mm 10mm 8mm;display:flex;align-items:center;gap:6mm;overflow:hidden}
+.sheet{width:297mm;min-height:210mm;margin:0 auto;background:var(--cream);box-shadow:0 4px 18px rgba(0,0,0,.12);display:flex;flex-direction:column;overflow:hidden}
+.hd{flex-shrink:0;position:relative;background:var(--g);color:#fff;padding:5mm 10mm 5mm;display:flex;align-items:center;gap:6mm;overflow:hidden}
 .hd:before{content:"";position:absolute;right:16mm;top:-20mm;width:40mm;height:40mm;border-radius:50%;background:rgba(236,197,107,.22)}
 .hd:after{content:"";position:absolute;right:24mm;top:-14mm;width:24mm;height:24mm;border-radius:50%;background:rgba(236,197,107,.55)}
 .hd .wave{position:absolute;left:0;right:0;bottom:0;height:5mm;width:100%}
@@ -26,18 +26,18 @@ body{margin:0;background:#efeae0;color:var(--ink);font:16px/1.5 "Noto Sans TC","
 .meta{position:relative;z-index:1;margin-left:auto;font-size:11pt;white-space:nowrap;align-self:flex-end}
 .meta i{display:inline-block;border-bottom:1px solid #fff;width:13mm;margin:0 1mm}
 .meta i.s{width:9mm}
-.body{padding:7mm 8mm 4mm;flex:1}
-table{width:100%;border-collapse:collapse;table-layout:fixed;background:#fff}
-th{background:var(--g);color:#fff;font-size:9.5pt;font-weight:700;padding:2.6mm 1mm;line-height:1.3;border-left:1px solid var(--g2)}
+.body{padding:4mm 8mm 3mm;flex:1 1 0;min-height:0;display:flex;flex-direction:column}
+table{width:100%;flex:1;border-collapse:collapse;table-layout:fixed;background:#fff}
+th{background:var(--g);color:#fff;font-size:11.5pt;font-weight:700;padding:2.2mm 1mm;line-height:1.3;border-left:1px solid var(--g2)}
 th:first-child{border-left:0}
-td{border:1px solid var(--ln);vertical-align:middle;padding:0;font-size:9pt;height:15.2mm}
+td{border:1px solid var(--ln);vertical-align:middle;padding:0;font-size:11pt;height:15mm}
 tbody tr:nth-child(even) td{background:var(--gl)}
-td.n{text-align:center;color:#55604f;font-size:10pt}
-.dt{display:flex;flex-direction:column;justify-content:space-around;height:100%;padding:1mm 1.5mm;color:#55604f;font-size:8.5pt}
+td.n{text-align:center;color:#55604f;font-size:12pt}
+.dt{display:flex;flex-direction:column;justify-content:space-around;height:100%;padding:1mm 2mm;color:#55604f;font-size:10.5pt}
 .dt .ymd{text-align:right;letter-spacing:0;word-spacing:3.2mm}
 .ck{display:inline-flex;align-items:center;gap:.8mm;white-space:nowrap}
 .ck:before{content:"";width:2.8mm;height:2.8mm;border:1px solid #55604f;border-radius:.6mm;background:#fff}
-.cls{display:flex;flex-direction:column;justify-content:center;gap:.4mm;padding:0 2.5mm;line-height:1.25;font-size:8.5pt;color:#55604f;height:100%}
+.cls{display:flex;flex-direction:column;justify-content:center;gap:.3mm;padding:0 3mm;line-height:1.15;font-size:9.5pt;color:#55604f;height:100%}
 .cls .ck span{font-size:7pt;color:#8a9284}
 td.nt{position:relative}td.nt:after{content:"";position:absolute;left:0;right:0;top:50%;border-top:1px solid var(--ln)}
 .ft{flex-shrink:0;display:flex;justify-content:space-between;align-items:center;background:#e4e8df;padding:4mm 10mm;font-size:10pt;font-weight:700;color:var(--ink)}
@@ -51,45 +51,46 @@ td.nt{position:relative}td.nt:after{content:"";position:absolute;left:0;right:0;
 .sheet+.sheet{margin-top:14px}
 td input,td textarea{font:inherit;color:var(--ink);border:0;background:transparent;outline:0;padding:0;margin:0}
 td input:focus,td textarea:focus{background:#fff8dc}
-td input.f{width:100%;height:100%;min-height:14mm;padding:0 1mm;font-size:9.5pt;text-align:center}
-.dt .ymd{display:flex;justify-content:center;align-items:baseline;gap:.3mm;word-spacing:0;font-size:8pt}
-.dt .ymd input{width:4.6mm;min-width:0;text-align:center;font-size:8.5pt;border-bottom:1px dotted #b9c2b2}
-.dt .ymd input.y{width:6.6mm}
+td input.f{width:100%;height:100%;min-height:10mm;padding:0 1.5mm;font-size:12pt;text-align:center}
+.dt .ymd{display:flex;justify-content:center;align-items:baseline;gap:.5mm;word-spacing:0;font-size:10pt}
+.dt .ymd input{width:7.5mm;min-width:0;text-align:center;font-size:11pt;border-bottom:1px dotted #b9c2b2}
+.dt .ymd input.y{width:10mm}
 .dt label,.cls label{display:inline-flex;align-items:center;gap:.8mm;white-space:nowrap;cursor:pointer}
-.dt input[type=checkbox],.cls input[type=checkbox]{appearance:none;-webkit-appearance:none;width:2.8mm;height:2.8mm;border:1px solid #55604f;border-radius:.6mm;background:#fff;position:relative;flex:none}
+.dt input[type=checkbox],.cls input[type=checkbox]{appearance:none;-webkit-appearance:none;width:3.6mm;height:3.6mm;border:1px solid #55604f;border-radius:.6mm;background:#fff;position:relative;flex:none}
 .dt input[type=checkbox]:checked:after,.cls input[type=checkbox]:checked:after{content:"✓";position:absolute;left:0;right:0;top:-1.3mm;text-align:center;font-size:9pt;font-weight:700;color:#3f4a3b}
 td.nt{padding:0}
-td.nt input{display:block;width:100%;height:50%;min-height:7mm;padding:0 1.5mm;font-size:8.5pt}
+td.nt input{display:block;width:100%;height:50%;min-height:5mm;padding:0 2mm;font-size:11pt}
 .meta b{display:inline-block;min-width:11mm;text-align:center;border-bottom:1px solid #fff;margin:0 1mm;font-weight:400}
 .ft input{font:inherit;font-weight:400;width:32mm;border:0;border-bottom:1px solid var(--ink);background:transparent;outline:0;margin-left:2mm;color:var(--ink)}
 @media print{.tools{display:none!important}.sheet+.sheet{margin-top:0;break-before:page}td input:focus{background:transparent}.bar{display:none!important}}
 @media print{
-  @page{size:A4 portrait;margin:0}
+  @page{size:A4 landscape;margin:0}
   html,body{background:#fff!important;padding:0!important;margin:0!important}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .bar,.hint{display:none!important}
   .wrap{padding:0;overflow:visible}
-  .sheet{box-shadow:none;width:210mm;height:297mm;min-height:0;margin:0;break-inside:avoid}
+  .sheet{box-shadow:none;width:100%;height:100vh;min-height:0;margin:0;break-inside:avoid}
+  td{height:auto}
 }
 </style>
 </head>
 <body>
 <div class="bar"><a href="guide.html">← 入園指南</a><b>參觀預約登記</b><input type="month" id="mo"><span id="st"></span><button type="button" onclick="window.print()">🖨️ 列印</button></div>
-<p class="hint">直接點格子輸入，會自動儲存。選月份切換不同月的登記表；每 15 位一頁。</p>
-<div class="wrap" id="wrap"></div><div class="tools"><button type="button" id="add">＋ 新增一頁（15 列）</button><button type="button" id="del">－ 刪除最後一頁</button></div>
+<p class="hint">直接點格子輸入，會自動儲存。選月份切換不同月的登記表；每 10 位一頁（A4 橫式）。</p>
+<div class="wrap" id="wrap"></div><div class="tools"><button type="button" id="add">＋ 新增一頁（10 列）</button><button type="button" id="del">－ 刪除最後一頁</button></div>
 <script type="text/plain" data-app>
 (function(){
 var $=function(i){return document.getElementById(i)},mo=$("mo"),now=new Date();
 mo.value=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0");
-var F=["p","ph","c","by","bm","bd","due","ey","em","ed","k1","k2","k3","ag","n1","n2"],D;
+var PER=10,F=["p","ph","c","by","bm","bd","due","ey","em","ed","k1","k2","k3","ag","n1","n2"],D;
 function key(){return "visit:"+mo.value}
-function load(){try{D=JSON.parse(KV.getItem(key())||"null")}catch(e){D=null}if(!D||!D.rows)D={rows:[],who:""};var n=Math.max(15,Math.ceil(D.rows.length/15)*15);while(D.rows.length<n)D.rows.push({});render()}
+function load(){try{D=JSON.parse(KV.getItem(key())||"null")}catch(e){D=null}if(!D||!D.rows)D={rows:[],who:""};var n=Math.max(PER,Math.ceil(D.rows.length/PER)*PER);while(D.rows.length<n)D.rows.push({});render()}
 var tm;function save(){$("st").textContent="儲存中…";clearTimeout(tm);tm=setTimeout(function(){KV.setItem(key(),JSON.stringify({rows:D.rows,who:D.who}));$("st").textContent="✓ 已儲存"},400)}
 function E(v){return String(v==null?"":v).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")}
 function ti(i,f,c,ph){return '<input class="'+(c||"")+'" data-i="'+i+'" data-f="'+f+'" value="'+E(D.rows[i][f])+'"'+(ph?' inputmode="numeric"':'')+'>'}
 function cb(i,f,t){return '<label><input type="checkbox" data-i="'+i+'" data-f="'+f+'"'+(D.rows[i][f]?" checked":"")+'>'+t+'</label>'}
-function render(){var ym=mo.value.split("-"),pages=Math.ceil(D.rows.length/15),h="";
-for(var pg=0;pg<pages;pg++){var r="";for(var j=0;j<15;j++){var i=pg*15+j;
+function render(){var ym=mo.value.split("-"),pages=Math.ceil(D.rows.length/PER),h="";
+for(var pg=0;pg<pages;pg++){var r="";for(var j=0;j<PER;j++){var i=pg*PER+j;
 r+='<tr><td class="n">'+(i+1)+'</td><td>'+ti(i,"p","f")+'</td><td>'+ti(i,"ph","f",1)+'</td><td><div class="dt"><div class="ymd">'+ti(i,"vm","",1)+'月'+ti(i,"vd","",1)+'日</div></div></td><td>'+ti(i,"c","f")+'</td>'+
 '<td><div class="dt"><div class="ymd">'+ti(i,"by","y",1)+'年'+ti(i,"bm","",1)+'月'+ti(i,"bd","",1)+'日</div>'+cb(i,"due","預產期")+'</div></td>'+
 '<td><div class="dt"><div class="ymd">'+ti(i,"ey","y",1)+'年'+ti(i,"em","",1)+'月'+ti(i,"ed","",1)+'日</div><div></div></div></td>'+
@@ -101,8 +102,8 @@ var WAVE='<svg class="wave" viewBox="0 0 200 10" preserveAspectRatio="none"><pat
 var COLS='<colgroup><col style="width:4.5%"><col style="width:9.5%"><col style="width:13.5%"><col style="width:8%"><col style="width:9.5%"><col style="width:14%"><col style="width:11%"><col style="width:10%"><col style="width:6.5%"><col></colgroup><thead><tr><th>#</th><th>家長姓名</th><th>聯絡電話</th><th>參觀<br>日期</th><th>孩子姓名</th><th>出生日／<br>預產期</th><th>預計<br>就讀日期</th><th>班別</th><th>年紀</th><th>備註（家長<br>參觀感受）</th></tr></thead>';
 $("wrap").addEventListener("input",function(e){var t=e.target;if(t.classList.contains("who")){D.who=t.value;document.querySelectorAll(".who").forEach(function(x){if(x!==t)x.value=t.value});return save()}var i=t.dataset.i,f=t.dataset.f;if(i==null)return;D.rows[+i][f]=t.type==="checkbox"?t.checked:t.value;save()});
 mo.addEventListener("change",load);
-$("add").onclick=function(){for(var j=0;j<15;j++)D.rows.push({});render();save()};
-$("del").onclick=function(){var last=D.rows.slice(-15);if(last.some(function(r){return Object.keys(r).some(function(k){return r[k]})})&&!confirm("最後一頁有資料，確定刪除？"))return;D.rows.splice(-15);render();save()};
+$("add").onclick=function(){for(var j=0;j<PER;j++)D.rows.push({});render();save()};
+$("del").onclick=function(){var last=D.rows.slice(-PER);if(last.some(function(r){return Object.keys(r).some(function(k){return r[k]})})&&!confirm("最後一頁有資料，確定刪除？"))return;D.rows.splice(-PER);render();save()};
 load();
 })();
 </script>
