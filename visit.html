@@ -83,7 +83,7 @@ td.n{font-size:13pt!important;font-weight:700}
 td input.f{display:block;width:100%;height:auto;min-height:7mm;padding:0 2mm;font-size:12pt;text-align:left}
 td .ymd{display:flex;align-items:baseline;gap:.6mm;padding:0 2mm;font-size:10.5pt;color:#55604f;white-space:nowrap}
 td .ymd input{width:7mm;min-width:0;text-align:center;font-size:11.5pt;border-bottom:1px dotted #b9c2b2}
-td .ymd input.y{width:10mm}
+td .ymd input.y{width:10mm}td .ymd input.tm{width:13mm;margin-left:.5mm}
 td .ymd label{margin-left:2mm;font-size:9.5pt}
 td .cls{flex-direction:row!important;justify-content:flex-start!important;gap:1.5mm!important;padding:1mm 1.5mm 0!important;font-size:9.5pt!important;height:auto!important}
 td .ymd input[type=checkbox]{appearance:none;-webkit-appearance:none;width:3.6mm;height:3.6mm;border:1px solid #55604f;border-radius:.6mm;background:#fff;position:relative;flex:none}
@@ -101,7 +101,7 @@ td .ymd input[type=checkbox]:checked:after{content:"✓";position:absolute;left:
 .qk .full{margin-top:8px}
 #q_ok{font:inherit;font-size:16px;border:0;border-radius:99px;padding:8px 26px;background:var(--g);color:#fff;cursor:pointer}
 #q_msg{color:var(--g);font-size:14px}
-@media print{.qk{display:none!important}}
+@media print{.qk{display:none!important}.sheet{zoom:1!important}}
 </style>
 </head>
 <body>
@@ -122,18 +122,21 @@ function cb(i,f,t){return '<label><input type="checkbox" data-i="'+i+'" data-f="
 function render(){var ym=mo.value.split("-"),pages=Math.ceil(D.rows.length/PER),h="";
 for(var pg=0;pg<pages;pg++){var r="";for(var j=0;j<PER;j++){var i=pg*PER+j;
 var R0=D.rows[i];if(R0.n2){R0.n1=((R0.n1||"")+" "+R0.n2).trim();delete R0.n2}var z=j%2?' class="z"':'',L=function(t){return'<span class="lb">'+t+'</span>'};
-r+='<tr'+(j%2?' class="z a"':' class="a"')+'><td class="n" rowspan="2">'+(i+1)+'</td><td>'+L("家長姓名")+ti(i,"p","f")+'</td><td>'+L("聯絡電話")+ti(i,"ph","f",1)+'</td><td>'+L("參觀日期")+'<div class="ymd">'+ti(i,"vm","",1)+'月'+ti(i,"vd","",1)+'日</div></td><td>'+L("孩子姓名")+ti(i,"c","f")+'</td><td>'+L("出生日／預產期")+'<div class="ymd">'+ti(i,"by","y",1)+'年'+ti(i,"bm","",1)+'月'+ti(i,"bd","",1)+'日 '+cb(i,"due","預產期")+'</div></td></tr>'+
+r+='<tr'+(j%2?' class="z a"':' class="a"')+'><td class="n" rowspan="2">'+(i+1)+'</td><td>'+L("家長姓名")+ti(i,"p","f")+'</td><td>'+L("聯絡電話")+ti(i,"ph","f",1)+'</td><td>'+L("參觀日期／時間")+'<div class="ymd">'+ti(i,"vm","",1)+'月'+ti(i,"vd","",1)+'日 '+ti(i,"vt","tm")+'</div></td><td>'+L("孩子姓名")+ti(i,"c","f")+'</td><td>'+L("出生日／預產期")+'<div class="ymd">'+ti(i,"by","y",1)+'年'+ti(i,"bm","",1)+'月'+ti(i,"bd","",1)+'日 '+cb(i,"due","預產期")+'</div></td></tr>'+
 '<tr'+(j%2?' class="z b"':' class="b"')+'><td>'+L("預計就讀日期")+'<div class="ymd">'+ti(i,"ey","y",1)+'年'+ti(i,"em","",1)+'月'+ti(i,"ed","",1)+'日</div></td><td>'+L("班別")+'<div class="cls">'+cb(i,"k1","嫩芽")+cb(i,"k2","花曦")+cb(i,"k3","晴空")+'</div></td><td>'+L("年紀")+ti(i,"ag","f")+'</td><td>'+L("目前有無入托")+'<div class="cls">'+cb(i,"t1","有")+cb(i,"t2","無")+'</div></td><td>'+L("備註（家長參觀感受）")+ti(i,"n1","f")+'</td></tr>'}
 h+='<div class="sheet"><div class="hd"><div class="org"><small>臺南市私立</small><h1>初晴之森托嬰中心</h1></div><div class="pill">家長預約登記表</div><div class="meta"><b>'+ym[0]+'</b>年<b>'+(+ym[1])+'</b>月　第<b>'+(pg+1)+'</b>頁</div>'+WAVE+'</div><div class="body"><table>'+COLS+'<tbody>'+r+'</tbody></table></div></div>'}
 $("wrap").innerHTML=h;$("del").style.display=pages>1?"":"none"}
 var WAVE='<svg class="wave" viewBox="0 0 200 10" preserveAspectRatio="none"><path d="M0 6 C40 0 80 10 120 5 S180 2 200 6 V10 H0Z" fill="#6f8667"/></svg>';
-var COLS='<colgroup><col style="width:6%"><col style="width:17%"><col style="width:20%"><col style="width:12.5%"><col style="width:14.5%"><col></colgroup>';
+var COLS='<colgroup><col style="width:6%"><col style="width:16%"><col style="width:19%"><col style="width:18%"><col style="width:13%"><col></colgroup>';
 $("wrap").addEventListener("input",function(e){var t=e.target;if(t.classList.contains("who")){D.who=t.value;document.querySelectorAll(".who").forEach(function(x){if(x!==t)x.value=t.value});return save()}var i=t.dataset.i,f=t.dataset.f;if(i==null)return;D.rows[+i][f]=t.type==="checkbox"?t.checked:t.value;save()});
 mo.addEventListener("change",load);
+// 手機上整張表縮放到螢幕寬度，不會被切掉（可以兩指放大）；列印時不縮放
+function fit(){var w=$("wrap"),sh=w.querySelectorAll(".sheet");if(!sh.length)return;var avail=w.clientWidth-20,full=794,z=Math.min(1,avail/full);sh.forEach(function(x){x.style.zoom=z<1?z:""})}
+window.addEventListener("resize",fit);new MutationObserver(fit).observe($("wrap"),{childList:true});
 // ===== 快速登記：接電話時填這裡，自動填進對應月份的下一個空白列 =====
 (function(){var q=document.createElement("div");q.className="qk";
  var td=function(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
- q.innerHTML='<h3>⚡ 快速登記</h3><div class="g2"><label>家長姓名<input id="q_p"></label><label>聯絡電話<input id="q_ph" type="tel" inputmode="tel"></label><label>參觀日期<input id="q_v" type="date"></label><label>孩子姓名<input id="q_c"></label><label>出生日／預產期<input id="q_b" type="date"></label><label class="ck2"><input id="q_due" type="checkbox"> 這是預產期</label><label>預計就讀<input id="q_e" type="date"></label><label>年紀（自動算）<input id="q_ag" placeholder="填出生日會自動算"></label></div>'+
+ q.innerHTML='<h3>⚡ 快速登記</h3><div class="g2"><label>家長姓名<input id="q_p"></label><label>聯絡電話<input id="q_ph" type="tel" inputmode="tel"></label><label>參觀日期<input id="q_v" type="date"></label><label>參觀時間<input id="q_vt" type="time" step="900"></label><label>孩子姓名<input id="q_c"></label><label>出生日／預產期<input id="q_b" type="date"></label><label class="ck2"><input id="q_due" type="checkbox"> 這是預產期</label><label>預計就讀<input id="q_e" type="date"></label><label>年紀（自動算）<input id="q_ag" placeholder="填出生日會自動算"></label></div>'+
   '<div class="rw"><span>班別</span><label class="chip"><input type="checkbox" id="q_k1">嫩芽班</label><label class="chip"><input type="checkbox" id="q_k2">花曦班</label><label class="chip"><input type="checkbox" id="q_k3">晴空班</label></div>'+
   '<div class="rw"><span>目前有無入托</span><label class="chip"><input type="radio" name="q_t" value="t1">有</label><label class="chip"><input type="radio" name="q_t" value="t2">無</label></div>'+
   '<label class="full">備註<input id="q_n"></label><div class="rw" style="margin-top:8px"><button type="button" id="q_ok">登記</button><span id="q_msg"></span></div>';
@@ -144,12 +147,12 @@ mo.addEventListener("change",load);
  function roc(s){var a=(s||"").split("-");return a.length<3?["","",""]:[String(+a[0]-1911),String(+a[1]),String(+a[2])]}
  $("q_ok").onclick=function(){var p=$("q_p").value.trim(),ph=$("q_ph").value.trim(),c=$("q_c").value.trim();if(!p&&!ph){alert("請至少填家長姓名或電話");return}
   var v=$("q_v").value||td(),ym=v.slice(0,7),b=roc($("q_b").value),e=roc($("q_e").value),vv=roc(v),t=document.querySelector('input[name=q_t]:checked');
-  var row={p:p,ph:ph,vm:vv[1],vd:vv[2],c:c,by:b[0],bm:b[1],bd:b[2],due:$("q_due").checked,ey:e[0],em:e[1],ed:e[2],k1:$("q_k1").checked,k2:$("q_k2").checked,k3:$("q_k3").checked,ag:$("q_ag").value.trim(),n1:$("q_n").value.trim()};
+  var row={p:p,ph:ph,vm:vv[1],vd:vv[2],vt:$("q_vt").value,c:c,by:b[0],bm:b[1],bd:b[2],due:$("q_due").checked,ey:e[0],em:e[1],ed:e[2],k1:$("q_k1").checked,k2:$("q_k2").checked,k3:$("q_k3").checked,ag:$("q_ag").value.trim(),n1:$("q_n").value.trim()};
   if(t)row[t.value]=true;Object.keys(row).forEach(function(k){if(row[k]===""||row[k]===false)delete row[k]});
   var k="visit:"+ym,X=null;try{X=JSON.parse(KV.getItem(k)||"null")}catch(x){}if(!X||!X.rows)X={rows:[],who:""};
   var i=X.rows.findIndex(function(r){return!r||!Object.keys(r).some(function(f){return r[f]})});if(i<0){i=X.rows.length;for(var j=0;j<PER;j++)X.rows.push({})}
   X.rows[i]=row;KV.setItem(k,JSON.stringify(X));
-  q.querySelectorAll("input").forEach(function(x){if(x.type==="checkbox"||x.type==="radio")x.checked=false;else if(x.id!=="q_v")x.value=""});
+  q.querySelectorAll("input").forEach(function(x){if(x.type==="checkbox"||x.type==="radio")x.checked=false;else if(x.id!=="q_v"&&x.id!=="q_vt")x.value=""});
   mo.value=ym;load();$("q_msg").textContent="✓ 已登記在 "+ym.replace("-","年")+"月 第 "+(i+1)+" 位（第 "+(Math.floor(i/PER)+1)+" 頁）";
   var el=document.querySelector('[data-i="'+i+'"]');if(el)el.closest("tr").scrollIntoView({behavior:"smooth",block:"center"})};
 })();
