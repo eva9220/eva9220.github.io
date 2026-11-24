@@ -1397,7 +1397,7 @@ td.nt input{display:block;width:100%;height:50%;min-height:5mm;padding:0 2mm;fon
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .bar,.hint{display:none!important}
   .wrap{padding:0;overflow:visible}
-  .sheet{box-shadow:none;width:100%;height:100vh;min-height:0;margin:0;break-inside:avoid}
+  .sheet{box-shadow:none;width:210mm;height:296mm;min-height:0;margin:0;break-inside:avoid;zoom:1!important}
   td{height:auto}
   .body{padding:0}table{border-left:0;border-right:0}tbody td:first-child{border-left:0}tbody td:last-child{border-right:0}
 }
@@ -1442,8 +1442,8 @@ var $=function(i){return document.getElementById(i)},mo=$("mo"),now=new Date();
 mo.value=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0");
 var QS=new URLSearchParams(location.search);if(/^\d{4}-\d{2}$/.test(QS.get("mo")||""))mo.value=QS.get("mo");
 // 在首頁（index.html）的框架裡列印會被切掉，改開單獨的登記表頁面再列印
-window.vprint=function(){var was=dirty;flush();if(window.top!==window){try{var u=new URL("visit.html?print=1&mo="+mo.value,window.top.location.href).href;$("st").textContent=was?"儲存中，馬上開啟列印頁…":"開啟列印頁…";setTimeout(function(){window.top.location.href=u},was?2500:300);return}catch(e){}}window.print()};
-if(QS.get("print")==="1")setTimeout(function(){window.print()},900);
+window.vprint=function(){var was=dirty;flush();if(window.top!==window){try{var u=new URL("visit.html?print=1&mo="+mo.value,window.top.location.href).href;$("st").textContent=was?"儲存中，馬上開啟列印頁…":"開啟列印頁…";setTimeout(function(){window.top.location.href=u},was?2500:300);return}catch(e){}}unfit();window.print()};
+if(QS.get("print")==="1")setTimeout(function(){unfit();window.print()},900);
 var PER=10,F=["p","ph","c","by","bm","bd","due","ey","em","ed","k1","k2","k3","ag","n1","n2"],D;
 function key(){return "visit:"+mo.value}
 function load(){try{D=JSON.parse(KV.getItem(key())||"null")}catch(e){D=null}if(!D||!D.rows)D={rows:[],who:""};var n=Math.max(PER,Math.ceil(D.rows.length/PER)*PER);while(D.rows.length<n)D.rows.push({});render()}
@@ -1472,7 +1472,9 @@ function months(){var el=$("mlist");if(!el){el=document.createElement("p");el.id
 document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("[data-mo]");if(!a)return;e.preventDefault();flush();mo.value=a.dataset.mo;load()});
 // 手機上整張表縮放到螢幕寬度，不會被切掉（可以兩指放大）；列印時不縮放
 function fit(){var w=$("wrap"),sh=w.querySelectorAll(".sheet");if(!sh.length)return;var avail=w.clientWidth-20,full=794,z=Math.min(1,avail/full);sh.forEach(function(x){x.style.zoom=z<1?z:""})}
-window.addEventListener("resize",fit);new MutationObserver(fit).observe($("wrap"),{childList:true});
+window.addEventListener("resize",fit);
+// 列印前取消螢幕縮放（iPhone 列印會沿用螢幕上的縮放，表格會被擠壓切掉）
+function unfit(){document.querySelectorAll(".sheet").forEach(function(x){x.style.zoom=""})}window.addEventListener("beforeprint",unfit);window.addEventListener("afterprint",fit);try{matchMedia("print").addEventListener("change",function(e){e.matches?unfit():fit()})}catch(e){}new MutationObserver(fit).observe($("wrap"),{childList:true});
 // ===== 快速登記：接電話時填這裡，自動填進對應月份的下一個空白列 =====
 (function(){var q=document.createElement("div");q.className="qk";
  var td=function(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
