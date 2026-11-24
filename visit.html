@@ -167,8 +167,8 @@ function cardsHtml(){var out="",n=0;D.rows.forEach(function(r,i){if(!r||!(r.p||r
  return'<div class="cards">'+(out||'<p class="hint">這個月還沒有登記資料，用上面的「快速登記」新增。</p>')+'</div>'}
 
 // ===== 年齡（依今天實際天數）與預計就讀時的月齡、班級 =====
-var CLS=[["嫩芽班",0,11,"k1"],["花曦班",12,20,"k2"],["晴空班",21,99,"k3"]];
-try{var C0=JSON.parse(KV.getItem("visit:classes")||"null");if(C0&&C0.length===3)C0.forEach(function(c,k){CLS[k][1]=+c[1];CLS[k][2]=+c[2]})}catch(e){}
+var CLS=[["嫩芽班",0,11,"k1"],["花曦班",12,20,"k2"],["晴空班",21,36,"k3"]];
+try{var C0=JSON.parse(KV.getItem("visit:classes")||"null");if(C0&&C0.length===3&&!(C0[2][1]==21&&C0[2][2]==99))C0.forEach(function(c,k){CLS[k][1]=+c[1];CLS[k][2]=+c[2]})}catch(e){}
 function ad(y,m,d){y=+y;m=+m;d=+d;if(!y||!m||!d)return null;if(y<1000)y+=1911;return new Date(y,m-1,d)}
 function today0(){var t=new Date();return new Date(t.getFullYear(),t.getMonth(),t.getDate())}
 function diff(a,b){if(!a||!b||b<a)return null;var m=(b.getFullYear()-a.getFullYear())*12+b.getMonth()-a.getMonth();if(b.getDate()<a.getDate())m--;var x=new Date(a.getFullYear(),a.getMonth()+m,a.getDate());return{m:m,d:Math.round((b-x)/864e5)}}
@@ -183,8 +183,8 @@ function auto(i){var r=D.rows[i],o=info(r),ch=false;if(!o)return false;var a=o.n
  if(o.cls)CLS.forEach(function(c){var v=c===o.cls;if(!!r[c[3]]!==v){if(v)r[c[3]]=true;else delete r[c[3]];ch=true}});return ch}
 function upd(i){document.querySelectorAll('[data-ag="'+i+'"]').forEach(function(x){var h=agHtml(i,!!x.dataset.sm);if(h)x.outerHTML=h});CLS.forEach(function(c){document.querySelectorAll('[data-i="'+i+'"][data-f="'+c[3]+'"]').forEach(function(x){x.checked=!!D.rows[i][c[3]]})})}
 function clsNote(){return'班級月齡（依預計就讀日期自動勾選）：'+CLS.map(function(c){return c[0]+" "+c[1]+(c[2]>=99?" 個月以上":"～"+c[2]+" 個月")}).join("、")+' <a href="#" id="clsed" style="color:#57704f">修改</a>'}
-document.addEventListener("click",function(e){if(!e.target.closest||!e.target.closest("#clsed"))return;e.preventDefault();var s=prompt("各班月齡，格式：最小-最大（晴空班最大可填 99 表示以上）\n依序 嫩芽班、花曦班、晴空班，用逗號分開",CLS.map(function(c){return c[1]+"-"+c[2]}).join(", "));if(!s)return;
- var P=s.split(/[,，、]/).map(function(x){var m=x.trim().match(/^(\d+)\s*[-~～]\s*(\d+)$/);return m?[+m[1],+m[2]]:null});if(P.length!==3||P.some(function(x){return!x})){alert("格式不對，例如：0-11, 12-20, 21-99");return}
+document.addEventListener("click",function(e){if(!e.target.closest||!e.target.closest("#clsed"))return;e.preventDefault();var s=prompt("各班月齡，格式：最小-最大\n依序 嫩芽班、花曦班、晴空班，用逗號分開",CLS.map(function(c){return c[1]+"-"+c[2]}).join(", "));if(!s)return;
+ var P=s.split(/[,，、]/).map(function(x){var m=x.trim().match(/^(\d+)\s*[-~～]\s*(\d+)$/);return m?[+m[1],+m[2]]:null});if(P.length!==3||P.some(function(x){return!x})){alert("格式不對，例如：0-11, 12-20, 21-36");return}
  P.forEach(function(x,k){CLS[k][1]=x[0];CLS[k][2]=x[1]});KV.setItem("visit:classes",JSON.stringify(CLS.map(function(c){return[c[0],c[1],c[2]]})));var any=false;D.rows.forEach(function(r,i){if(auto(i))any=true});if(any)save();render()});
 var WAVE='<svg class="wave" viewBox="0 0 200 10" preserveAspectRatio="none"><path d="M0 6 C40 0 80 10 120 5 S180 2 200 6 V10 H0Z" fill="#6f8667"/></svg>';
 var COLS='<colgroup><col style="width:6%"><col style="width:16%"><col style="width:19%"><col style="width:18%"><col style="width:13%"><col></colgroup>';
