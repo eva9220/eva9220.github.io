@@ -1449,6 +1449,9 @@ td .ymd input[type=checkbox]:checked:after{content:"✓";position:absolute;left:
  .vg input[type=checkbox]{width:18px;height:18px;accent-color:var(--g)}
 }
 @media print{.cards{display:none!important}}
+
+.agx{display:flex;flex-direction:column;padding:.3mm 2mm 0;font-size:9pt;line-height:1.3;color:#55604f}.agx.sm{font-size:8.5pt;white-space:nowrap;line-height:1.35}.agx b{color:var(--ink);font-weight:700}
+.vg .agx{padding:2px 0;font-size:14px;line-height:1.5}
 </style>
 </head>
 <body>
@@ -1472,11 +1475,11 @@ window.addEventListener("pagehide",flush);
 function E(v){return String(v==null?"":v).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")}
 function ti(i,f,c,ph){return '<input class="'+(c||"")+'" data-i="'+i+'" data-f="'+f+'" value="'+E(D.rows[i][f])+'"'+(ph?' inputmode="numeric"':'')+'>'}
 function cb(i,f,t){return '<label><input type="checkbox" data-i="'+i+'" data-f="'+f+'"'+(D.rows[i][f]?" checked":"")+'>'+t+'</label>'}
-function render(){var ym=mo.value.split("-"),pages=Math.ceil(D.rows.length/PER),h="";
+function render(){var ym=mo.value.split("-"),pages=Math.ceil(D.rows.length/PER),h="",chg=false;D.rows.forEach(function(r,i){if(auto(i))chg=true});if(chg)save();
 for(var pg=0;pg<pages;pg++){var r="";for(var j=0;j<PER;j++){var i=pg*PER+j;
 var R0=D.rows[i];if(R0.n2){R0.n1=((R0.n1||"")+" "+R0.n2).trim();delete R0.n2}var z=j%2?' class="z"':'',L=function(t){return'<span class="lb">'+t+'</span>'};
 r+='<tr'+(j%2?' class="z a"':' class="a"')+'><td class="n" rowspan="2">'+(i+1)+'</td><td>'+L("家長姓名")+ti(i,"p","f")+'</td><td>'+L("聯絡電話")+ti(i,"ph","f",1)+'</td><td>'+L("參觀日期／時間")+'<div class="ymd">'+ti(i,"vm","",1)+'月'+ti(i,"vd","",1)+'日 '+ti(i,"vt","tm")+'</div></td><td>'+L("孩子姓名")+ti(i,"c","f")+'</td><td>'+L("出生日／預產期")+'<div class="ymd">'+ti(i,"by","y",1)+'年'+ti(i,"bm","",1)+'月'+ti(i,"bd","",1)+'日 '+cb(i,"due","預產期")+'</div></td></tr>'+
-'<tr'+(j%2?' class="z b"':' class="b"')+'><td>'+L("預計就讀日期")+'<div class="ymd">'+ti(i,"ey","y",1)+'年'+ti(i,"em","",1)+'月'+ti(i,"ed","",1)+'日</div></td><td>'+L("班別")+'<div class="cls">'+cb(i,"k1","嫩芽")+cb(i,"k2","花曦")+cb(i,"k3","晴空")+'</div></td><td>'+L("年紀")+ti(i,"ag","f")+'</td><td>'+L("目前有無入托")+'<div class="cls">'+cb(i,"t1","有")+cb(i,"t2","無")+'</div></td><td>'+L("備註（家長參觀感受）")+ti(i,"n1","f")+'</td></tr>'}
+'<tr'+(j%2?' class="z b"':' class="b"')+'><td>'+L("預計就讀日期")+'<div class="ymd">'+ti(i,"ey","y",1)+'年'+ti(i,"em","",1)+'月'+ti(i,"ed","",1)+'日</div></td><td>'+L("班別")+'<div class="cls">'+cb(i,"k1","嫩芽")+cb(i,"k2","花曦")+cb(i,"k3","晴空")+'</div></td><td>'+L("年紀")+(agHtml(i,1)||ti(i,"ag","f"))+'</td><td>'+L("目前有無入托")+'<div class="cls">'+cb(i,"t1","有")+cb(i,"t2","無")+'</div></td><td>'+L("備註（家長參觀感受）")+ti(i,"n1","f")+'</td></tr>'}
 h+='<div class="sheet"><div class="hd"><div class="org"><small>臺南市私立</small><h1>初晴之森托嬰中心</h1></div><div class="pill">家長預約登記表</div><div class="meta"><b>'+ym[0]+'</b>年<b>'+(+ym[1])+'</b>月　第<b>'+(pg+1)+'</b>頁</div>'+WAVE+'</div><div class="body"><table>'+COLS+'<tbody>'+r+'</tbody></table></div></div>'}
 $("wrap").innerHTML=h+cardsHtml();months();$("del").style.display=pages>1?"":"none"}
 
@@ -1486,19 +1489,40 @@ function cardsHtml(){var out="",n=0;D.rows.forEach(function(r,i){if(!r||!(r.p||r
  '<label>家長姓名'+ti(i,"p","t")+'</label><label>聯絡電話'+ti(i,"ph","t",1)+'</label>'+
  '<label>參觀日期／時間<span class="ymd">'+ti(i,"vm","",1)+'月'+ti(i,"vd","",1)+'日'+ti(i,"vt","tm")+'</span></label><label>孩子姓名'+ti(i,"c","t")+'</label>'+
  '<label>出生日／預產期<span class="ymd">'+ti(i,"by","y",1)+'年'+ti(i,"bm","",1)+'月'+ti(i,"bd","",1)+'日</span>'+cb(i,"due","預產期")+'</label><label>預計就讀日期<span class="ymd">'+ti(i,"ey","y",1)+'年'+ti(i,"em","",1)+'月'+ti(i,"ed","",1)+'日</span></label>'+
- '<label>年紀'+ti(i,"ag","t")+'</label><label>目前有無入托<span class="ck3">'+cb(i,"t1","有")+cb(i,"t2","無")+'</span></label>'+
+ '<label>年紀'+(agHtml(i)||ti(i,"ag","t"))+'</label><label>目前有無入托<span class="ck3">'+cb(i,"t1","有")+cb(i,"t2","無")+'</span></label>'+
  '<label class="w2">班別<span class="ck3">'+cb(i,"k1","嫩芽班")+cb(i,"k2","花曦班")+cb(i,"k3","晴空班")+'</span></label>'+
  '<label class="w2">備註（家長參觀感受）'+ti(i,"n1","t")+'</label></div></div>'});
  return'<div class="cards">'+(out||'<p class="hint">這個月還沒有登記資料，用上面的「快速登記」新增。</p>')+'</div>'}
+
+// ===== 年齡（依今天實際天數）與預計就讀時的月齡、班級 =====
+var CLS=[["嫩芽班",0,11,"k1"],["花曦班",12,20,"k2"],["晴空班",21,99,"k3"]];
+try{var C0=JSON.parse(KV.getItem("visit:classes")||"null");if(C0&&C0.length===3)C0.forEach(function(c,k){CLS[k][1]=+c[1];CLS[k][2]=+c[2]})}catch(e){}
+function ad(y,m,d){y=+y;m=+m;d=+d;if(!y||!m||!d)return null;if(y<1000)y+=1911;return new Date(y,m-1,d)}
+function today0(){var t=new Date();return new Date(t.getFullYear(),t.getMonth(),t.getDate())}
+function diff(a,b){if(!a||!b||b<a)return null;var m=(b.getFullYear()-a.getFullYear())*12+b.getMonth()-a.getMonth();if(b.getDate()<a.getDate())m--;var x=new Date(a.getFullYear(),a.getMonth()+m,a.getDate());return{m:m,d:Math.round((b-x)/864e5)}}
+function ageTxt(o){if(!o)return"";var y=Math.floor(o.m/12),m=o.m%12;return(y?y+"歲":"")+(m||!y?m+"個月":"")+(o.d?o.d+"天":"")}
+function clsOf(m){for(var k=0;k<CLS.length;k++)if(m>=CLS[k][1]&&m<=CLS[k][2])return CLS[k];return null}
+function info(r){var b=ad(r.by,r.bm,r.bd);if(!b)return null;var t=today0(),e=ad(r.ey,r.em,r.ed),o={};
+ o.now=b>t?"未出生（還有 "+Math.round((b-t)/864e5)+" 天）":ageTxt(diff(b,t))||"0天";
+ if(e){var de=diff(b,e);o.enr=de?ageTxt(de)||"0天":"未出生";o.cls=de?clsOf(de.m):null}return o}
+function agHtml(i,sm){var o=info(D.rows[i]);if(!o)return null;var nw=sm?o.now.replace(/（.*$/,""):o.now;return'<div class="agx'+(sm?' sm':'')+'" data-ag="'+i+'"'+(sm?' data-sm="1"':'')+'><span>今天 <b>'+nw+'</b></span>'+(o.enr?'<span>入托時 <b>'+o.enr+'</b>'+(o.cls&&!sm?'・'+o.cls[0]:'')+'</span>':'')+'</div>'}
+// 依預計就讀日期自動勾班級；年紀欄存今天的年齡
+function auto(i){var r=D.rows[i],o=info(r),ch=false;if(!o)return false;var a=o.now.replace(/（.*$/,"");if(r.ag!==a){r.ag=a;ch=true}
+ if(o.cls)CLS.forEach(function(c){var v=c===o.cls;if(!!r[c[3]]!==v){if(v)r[c[3]]=true;else delete r[c[3]];ch=true}});return ch}
+function upd(i){document.querySelectorAll('[data-ag="'+i+'"]').forEach(function(x){var h=agHtml(i,!!x.dataset.sm);if(h)x.outerHTML=h});CLS.forEach(function(c){document.querySelectorAll('[data-i="'+i+'"][data-f="'+c[3]+'"]').forEach(function(x){x.checked=!!D.rows[i][c[3]]})})}
+function clsNote(){return'班級月齡（依預計就讀日期自動勾選）：'+CLS.map(function(c){return c[0]+" "+c[1]+(c[2]>=99?" 個月以上":"～"+c[2]+" 個月")}).join("、")+' <a href="#" id="clsed" style="color:#57704f">修改</a>'}
+document.addEventListener("click",function(e){if(!e.target.closest||!e.target.closest("#clsed"))return;e.preventDefault();var s=prompt("各班月齡，格式：最小-最大（晴空班最大可填 99 表示以上）\n依序 嫩芽班、花曦班、晴空班，用逗號分開",CLS.map(function(c){return c[1]+"-"+c[2]}).join(", "));if(!s)return;
+ var P=s.split(/[,，、]/).map(function(x){var m=x.trim().match(/^(\d+)\s*[-~～]\s*(\d+)$/);return m?[+m[1],+m[2]]:null});if(P.length!==3||P.some(function(x){return!x})){alert("格式不對，例如：0-11, 12-20, 21-99");return}
+ P.forEach(function(x,k){CLS[k][1]=x[0];CLS[k][2]=x[1]});KV.setItem("visit:classes",JSON.stringify(CLS.map(function(c){return[c[0],c[1],c[2]]})));var any=false;D.rows.forEach(function(r,i){if(auto(i))any=true});if(any)save();render()});
 var WAVE='<svg class="wave" viewBox="0 0 200 10" preserveAspectRatio="none"><path d="M0 6 C40 0 80 10 120 5 S180 2 200 6 V10 H0Z" fill="#6f8667"/></svg>';
 var COLS='<colgroup><col style="width:6%"><col style="width:16%"><col style="width:19%"><col style="width:18%"><col style="width:13%"><col></colgroup>';
-$("wrap").addEventListener("input",function(e){var t=e.target;if(t.classList.contains("who")){D.who=t.value;document.querySelectorAll(".who").forEach(function(x){if(x!==t)x.value=t.value});return save()}var i=t.dataset.i,f=t.dataset.f;if(i==null)return;D.rows[+i][f]=t.type==="checkbox"?t.checked:t.value;document.querySelectorAll('[data-i="'+i+'"][data-f="'+f+'"]').forEach(function(x){if(x===t)return;if(x.type==="checkbox")x.checked=t.checked;else x.value=t.value});save()});
+$("wrap").addEventListener("input",function(e){var t=e.target;if(t.classList.contains("who")){D.who=t.value;document.querySelectorAll(".who").forEach(function(x){if(x!==t)x.value=t.value});return save()}var i=t.dataset.i,f=t.dataset.f;if(i==null)return;D.rows[+i][f]=t.type==="checkbox"?t.checked:t.value;if(/^(by|bm|bd|ey|em|ed)$/.test(f)){auto(+i);upd(+i)}document.querySelectorAll('[data-i="'+i+'"][data-f="'+f+'"]').forEach(function(x){if(x===t)return;if(x.type==="checkbox")x.checked=t.checked;else x.value=t.value});save()});
 mo.addEventListener("change",function(){flush();load()});
 // 列出前後幾個月有登記資料的月份，點一下切換（快速登記會依參觀日期放到那個月）
 function months(){var el=$("mlist");if(!el){el=document.createElement("p");el.id="mlist";el.className="hint";$("wrap").parentNode.insertBefore(el,$("wrap"))}var b=mo.value.split("-").map(Number),out=[];
  for(var d=-6;d<=6;d++){var y=b[0],m=b[1]+d;while(m<1){m+=12;y--}while(m>12){m-=12;y++}var k=y+"-"+String(m).padStart(2,"0"),X=null;try{X=JSON.parse(KV.getItem("visit:"+k)||"null")}catch(e){}
   var n=X&&X.rows?X.rows.filter(function(r){return r&&(r.p||r.ph||r.c)}).length:0;if(n)out.push('<a href="#" data-mo="'+k+'" style="color:#57704f;font-weight:'+(k===mo.value?'800':'400')+'">'+y+'年'+m+'月（'+n+' 位）</a>')}
- el.innerHTML=out.length?"📅 有登記資料的月份："+out.join("、"):"";}
+ el.innerHTML=(out.length?"📅 有登記資料的月份："+out.join("、")+"<br>":"")+clsNote();}
 document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("[data-mo]");if(!a)return;e.preventDefault();flush();mo.value=a.dataset.mo;load()});
 // 手機上整張表縮放到螢幕寬度，不會被切掉（可以兩指放大）；列印時不縮放
 function fit(){return;var w=$("wrap"),sh=w.querySelectorAll(".sheet");if(!sh.length)return;var avail=w.clientWidth-20,full=794,z=Math.min(1,avail/full);sh.forEach(function(x){x.style.zoom=z<1?z:""})}
@@ -1508,12 +1532,12 @@ function unfit(){document.querySelectorAll(".sheet").forEach(function(x){x.style
 // ===== 快速登記：接電話時填這裡，自動填進對應月份的下一個空白列 =====
 (function(){var q=document.createElement("div");q.className="qk";
  var td=function(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
- q.innerHTML='<h3>⚡ 快速登記</h3><div class="g2"><label>家長姓名<input id="q_p"></label><label>聯絡電話<input id="q_ph" type="tel" inputmode="tel"></label><label>參觀日期<input id="q_v" type="date"></label><label>參觀時間<input id="q_vt" type="time" step="900"></label><label>孩子姓名<input id="q_c"></label><label>出生日／預產期<input id="q_b" type="date"></label><label class="ck2"><input id="q_due" type="checkbox"> 這是預產期</label><label>預計就讀<input id="q_e" type="date"></label><label>年紀（自動算）<input id="q_ag" placeholder="填出生日會自動算"></label></div>'+
+ q.innerHTML='<h3>⚡ 快速登記</h3><div class="g2"><label>家長姓名<input id="q_p"></label><label>聯絡電話<input id="q_ph" type="tel" inputmode="tel"></label><label>參觀日期<input id="q_v" type="date"></label><label>參觀時間<input id="q_vt" type="time" step="900"></label><label>孩子姓名<input id="q_c"></label><label>出生日／預產期<input id="q_b" type="date"></label><label class="ck2"><input id="q_due" type="checkbox"> 這是預產期</label><label>預計就讀<input id="q_e" type="date"></label><label>今天年紀（自動算）<input id="q_ag" placeholder="填出生日會自動算"></label></div>'+
   '<div class="rw"><span>班別</span><label class="chip"><input type="checkbox" id="q_k1">嫩芽班</label><label class="chip"><input type="checkbox" id="q_k2">花曦班</label><label class="chip"><input type="checkbox" id="q_k3">晴空班</label></div>'+
   '<div class="rw"><span>目前有無入托</span><label class="chip"><input type="radio" name="q_t" value="t1">有</label><label class="chip"><input type="radio" name="q_t" value="t2">無</label></div>'+
   '<label class="full">備註<input id="q_n"></label><div class="rw" style="margin-top:8px"><button type="button" id="q_ok">登記</button><span id="q_msg"></span></div>';
  $("wrap").parentNode.insertBefore(q,$("wrap"));$("q_v").value=td();
- function ag(){var b=$("q_b").value,v=$("q_v").value||td();if(!b)return;if($("q_due").checked||b>v){$("q_ag").value="未出生";return}
+ function ag(){var b=$("q_b").value,v=td();if(!b)return;if($("q_due").checked||b>v){$("q_ag").value="未出生";return}
   var B=b.split("-").map(Number),V=v.split("-").map(Number),m=(V[0]-B[0])*12+(V[1]-B[1])-(V[2]<B[2]?1:0);$("q_ag").value=m<12?m+"個月":Math.floor(m/12)+"歲"+(m%12?m%12+"個月":"")}
  ["q_b","q_v","q_due"].forEach(function(id){$(id).addEventListener("change",ag)});
  function roc(s){var a=(s||"").split("-");return a.length<3?["","",""]:[String(+a[0]-1911),String(+a[1]),String(+a[2])]}
