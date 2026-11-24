@@ -105,13 +105,17 @@ td .ymd input[type=checkbox]:checked:after{content:"✓";position:absolute;left:
 </style>
 </head>
 <body>
-<div class="bar"><a href="guide.html">← 入園指南</a><b>參觀預約登記</b><input type="month" id="mo"><span id="st"></span><button type="button" onclick="window.print()">🖨️ 列印</button></div>
+<div class="bar"><a href="guide.html">← 入園指南</a><b>參觀預約登記</b><input type="month" id="mo"><span id="st"></span><button type="button" onclick="vprint()">🖨️ 列印</button></div>
 <p class="hint">直接點格子輸入，會自動儲存。選月份切換不同月的登記表；每 10 位一頁（A4 直式，每位兩行）。</p>
 <div class="wrap" id="wrap"></div><div class="tools"><button type="button" id="add">＋ 新增一頁（10 列）</button><button type="button" id="del">－ 刪除最後一頁</button></div>
 <script type="text/plain" data-app>
 (function(){
 var $=function(i){return document.getElementById(i)},mo=$("mo"),now=new Date();
 mo.value=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0");
+var QS=new URLSearchParams(location.search);if(/^\d{4}-\d{2}$/.test(QS.get("mo")||""))mo.value=QS.get("mo");
+// 在首頁（index.html）的框架裡列印會被切掉，改開單獨的登記表頁面再列印
+window.vprint=function(){if(window.top!==window){try{window.top.location.href=new URL("visit.html?print=1&mo="+mo.value,window.top.location.href).href;return}catch(e){}}window.print()};
+if(QS.get("print")==="1")setTimeout(function(){window.print()},900);
 var PER=10,F=["p","ph","c","by","bm","bd","due","ey","em","ed","k1","k2","k3","ag","n1","n2"],D;
 function key(){return "visit:"+mo.value}
 function load(){try{D=JSON.parse(KV.getItem(key())||"null")}catch(e){D=null}if(!D||!D.rows)D={rows:[],who:""};var n=Math.max(PER,Math.ceil(D.rows.length/PER)*PER);while(D.rows.length<n)D.rows.push({});render()}
