@@ -186,7 +186,7 @@ function render(){if(tab===null){$("app").innerHTML='<p class="sub">請選擇項
   
 if(tab===1)h+='<div class="card"><h3>📝 備註（會印在下方）</h3><textarea id="mn" rows="3">'+E(qdata().note||"")+'</textarea></div>'}
  if(tab===2)h+='<div class="card"><h3>⚠️ 注意事項（會印在物品表下方，三班共用）</h3><textarea id="nn" rows="5" placeholder="例如：所有物品請貼上姓名貼">'+E(S.nnote||"")+'</textarea></div>';
- h+='<div class="bar" style="flex-wrap:wrap"><button class="b" id="xl">📊 Excel</button><button class="b" id="pp">🖨️ 列印</button><button class="b" id="pf">📄 PDF</button><button class="b" id="wd">📝 Word</button></div><p class="note">資料只存在這支手機的瀏覽器，請匯出 Word 備份；這是公開網站，請勿填幼兒個資。</p>';
+ h+='<div class="bar" style="flex-wrap:wrap"><button class="b" id="xl">📊 Excel</button><button class="b" id="pp">🖨️ 列印</button><button class="b" id="pf">📄 PDF</button><button class="b" id="pi">🖼️ 圖片</button><button class="b" id="wd">📝 Word</button></div><p class="note">資料只存在這支手機的瀏覽器，請匯出 Word 備份；這是公開網站，請勿填幼兒個資。</p>';
  $("app").innerHTML=h;fit()}
 var MHD=["早餐","午餐","點心","7-12個月","12個月以上","寶寶粥 7-12個月","營養午餐 12個月以上","7-12個月","12個月以上"];
 function ML(){if(S.mhl&&S.mhl[3]==="6-12個月")S.mhl[3]="7-12個月";if(S.mhl&&S.mhl.length===8){S.mhl.splice(7,0,"7-12個月")}return S.mhl&&S.mhl.length===9?S.mhl:MHD.slice()}
@@ -308,7 +308,7 @@ document.body.addEventListener("click",function(e){var t=e.target;if(t.tagName==
  else if(t.id==="ca"){var v=$("cu").value.trim();if(v){data().push([v,""]);save();render()}}
  else if(t.dataset.d!==undefined){if(t.dataset.ok){data().splice(+t.dataset.d,1);save();render()}else{t.dataset.ok=1;t.textContent="確認?"}}
  else if(t.id==="add"){data().push(tab===0?["","","",""]:["",""]);save();render()}
- else if(t.id==="xl"){var c=cur();Promise.resolve(mkXlsx(c.t.replace(/　/g," "),c.h,tab===2?c.r.map(function(r){var x=r.slice();x[2]=(x[2]||"")+(x[3]?"（有附照片）":"");return x}):c.r)).then(function(b){return saveBlob(b,c.t.replace(/　/g,"")+".xlsx")})}else if(t.id==="pp"){showPv();setTimeout(function(){try{window.print()}catch(x){}},400)}else if(t.id==="pf"){showPv();sharePdf()}else if(t.id==="cl")$("ov").style.display="none";
+ else if(t.id==="xl"){var c=cur();Promise.resolve(mkXlsx(c.t.replace(/　/g," "),c.h,tab===2?c.r.map(function(r){var x=r.slice();x[2]=(x[2]||"")+(x[3]?"（有附照片）":"");return x}):c.r)).then(function(b){return saveBlob(b,c.t.replace(/　/g,"")+".xlsx")})}else if(t.id==="pp"){showPv();setTimeout(function(){try{window.print()}catch(x){}},400)}else if(t.id==="pf"){showPv();sharePdf()}else if(t.id==="pi"){showPv();sharePdf(true)}else if(t.id==="cl")$("ov").style.display="none";
  else if(t.id==="sp")sharePdf()
  else if(t.id==="si")sharePdf(true);else if(t.id==="dp"){try{window.print()}catch(x){alert("這裡不能直接列印，請截圖或匯出 Word")}}
  else if(t.id==="wd"){var c=cur();wordOpt().then(function(o){var rr=tab===0?c.r.map(function(r){var x=r.slice();x[0]=String(x[0]).replace(/[–-]/,"\n｜\n");return x}):tab===2?c.r.map(function(r){var x=r.slice();x[2]={t:r[2]||"",img:r[3]?[r[3]]:[],w:{s:2.5,m:4,l:7}[r[4]||"m"]};return x}):c.r;return mkDoc("初晴之森托嬰中心　"+c.t,c.h,rr,c.w,o)}).then(function(b){return saveBlob(b,c.t.replace(/　/g,"")+".docx")})}});
