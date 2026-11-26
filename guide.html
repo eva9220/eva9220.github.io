@@ -222,7 +222,8 @@ async function sharePdf(img){var btn=$(img?"si":"sp"),lb0=btn.textContent;btn.te
  // 暫時套用列印樣式，讓 PDF 和列印看到的一樣
  document.querySelectorAll("style").forEach(function(el){var t=el.textContent;if(t.indexOf("@media print")>-1){mr.push([el,t]);el.textContent=t.replace(/@media print\s*\{/g,"@media print,screen{")}});var fx=document.createElement("style");fx.textContent="body>iframe.html2canvas-container:not(#x){display:block!important}";document.head.appendChild(fx);mr.push([fx,null]);
  ov.style.width="210mm";ov.scrollTop=0;window.scrollTo(0,0);await new Promise(function(r){setTimeout(r,120)});
- var cv=await html2canvas(ov,{scale:2,backgroundColor:"#fff",windowWidth:800,scrollX:0,scrollY:0});
+ // foreignObject 用瀏覽器自己排版，標題、表頭文字不會往上偏；瀏覽器不支援時 html2canvas 會自動改用一般方式
+ var cv=await html2canvas(ov,{scale:2,backgroundColor:"#fff",windowWidth:800,scrollX:0,scrollY:0,foreignObjectRendering:true});
  mr.forEach(function(m){if(m[1]==null)m[0].remove();else m[0].textContent=m[1]});mr=[];ov.style.width=ow;ov.scrollTop=st;
  if(img){var nm=cur().t.replace(/　/g,"").replace(/\s+/g,"")+".jpg",ib=await new Promise(function(r){cv.toBlob(r,"image/jpeg",.92)}),fi=new File([ib],nm,{type:"image/jpeg"});pdfReady(ib,nm,fi);return}
  var P=new jspdf.jsPDF("p","mm","a4"),iw=210,ih=cv.height*iw/cv.width;if(ih>297){iw=iw*297/ih;ih=297}

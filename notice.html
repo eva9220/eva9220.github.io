@@ -81,6 +81,7 @@ main{position:relative;max-width:720px;margin:0 auto;padding:6px 4px;overflow-x:
   #course .feat div:last-child:nth-child(odd){grid-column:1/-1}
   #course .feat div:after{width:7mm;height:7mm;bottom:-4mm;border-width:1.2mm}
 }
+.bar{flex-wrap:wrap}
 </style>
 </head>
 <body>
@@ -202,6 +203,44 @@ box.addEventListener("click",function(e){var t=e.target;
 })();
 </script>
 <script>(function(){var d=document.querySelector(".deco");if(d){var c=d.cloneNode(true);c.classList.add("deco2");d.parentNode.appendChild(c)}})();</script>
+<script>
+// 存成 PDF／圖片：套用列印版面（A4 兩頁）拍成圖，做好後跳出預覽
+(function(){
+function ld(u){return new Promise(function(r,j){var s=document.createElement("script");s.src=u;s.onload=r;s.onerror=j;document.head.appendChild(s)})}
+function fname(n){return"入園須知"+n}
+function dlBlob(bl,name){var a=document.createElement("a");a.href=URL.createObjectURL(bl);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){a.remove()},500)}
+async function shot(){if(!window.html2canvas)await ld("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js");
+ var mr=[];document.querySelectorAll("style").forEach(function(el){var t=el.textContent;if(t.indexOf("@media print")>-1){mr.push([el,t]);el.textContent=t.replace(/@media print\s*\{/g,"@media print,screen{")}});
+ var fx=document.createElement("style");fx.textContent="body>iframe.html2canvas-container:not(#x){display:block!important}#nprv{display:none!important}";document.head.appendChild(fx);
+ var sy=window.scrollY;window.scrollTo(0,0);await new Promise(function(r){setTimeout(r,150)});
+ var W=Math.round(210*96/25.4),H=Math.round(594*96/25.4),h2=document.querySelector(".hd2"),om=h2?h2.style.marginTop:"";
+ // 螢幕上不會自動換頁：把第 2 頁推到 297mm 的位置
+ if(h2){var tp=h2.getBoundingClientRect().top+window.scrollY,need=H/2-tp;if(need>0)h2.style.marginTop=need+"px"}
+ try{
+  return await html2canvas(document.body,{scale:2,backgroundColor:"#fff",width:W,height:H,windowWidth:W,windowHeight:H,scrollX:0,scrollY:0,foreignObjectRendering:true})}
+ finally{mr.forEach(function(m){m[0].textContent=m[1]});fx.remove();if(h2)h2.style.marginTop=om;window.scrollTo(0,sy)}}
+function half(cv,k){var h=Math.floor(cv.height/2),c=document.createElement("canvas");c.width=cv.width;c.height=h;c.getContext("2d").drawImage(cv,0,k*h,cv.width,h,0,0,cv.width,h);return c}
+function toBlob(c,t,q){return new Promise(function(r){c.toBlob(r,t,q)})}
+function panel(items,title){var o=document.getElementById("nprv");if(o)o.remove();var d=document.createElement("div");d.id="nprv";
+ d.style.cssText="position:fixed;inset:0;z-index:99999;background:rgba(40,36,32,.55);display:flex;align-items:center;justify-content:center;padding:12px";
+ var mob=matchMedia("(pointer:coarse)").matches,files=items.map(function(x){return new File([x.bl],x.name,{type:x.bl.type})}),can=mob&&navigator.canShare&&navigator.canShare({files:files});
+ var bs="display:block;width:100%;margin:8px 0 0;border:0;border-radius:99px;padding:10px;font:inherit;font-size:16px;cursor:pointer;text-decoration:none;box-sizing:border-box;text-align:center";
+ var box=document.createElement("div");box.style.cssText="background:#fff;border:3px solid #4d4a47;border-radius:20px;padding:14px 16px;width:min(420px,94vw);max-height:92vh;overflow:auto;text-align:center;font:16px/1.6 sans-serif;color:#4d4a47";
+ var h='<b>✅ '+title+' 做好了</b>';
+ items.forEach(function(x,k){x.u=URL.createObjectURL(x.bl);h+=(x.img?'<img src="'+x.u+'" style="display:block;max-width:100%;max-height:48vh;margin:10px auto 0;border:1px solid #eadfd2;border-radius:8px">':'')+'<a href="'+x.u+'" download="'+x.name+'" data-k="'+k+'" style="'+bs+';background:'+(k?'#f3e6c2;color:#4d4a47':'#86ab98;color:#fff')+'">⬇️ 下載'+(items.length>1?'第 '+(k+1)+' 頁':'')+'（'+x.name+'）</a>'});
+ if(can)h+='<button id="nsh" style="'+bs+';background:#7d9cc4;color:#fff">📤 分享／儲存'+(items[0].img?'到相簿':'到「檔案」')+'</button>';
+ h+='<button id="ncl" style="'+bs+';background:none;color:#8c857d">關閉</button>';box.innerHTML=h;d.appendChild(box);document.body.appendChild(d);
+ box.querySelectorAll("a[data-k]").forEach(function(a){a.onclick=function(e){if(window.top!==window){e.preventDefault();dlBlob(items[+a.dataset.k].bl,items[+a.dataset.k].name)}}});
+ if(can)box.querySelector("#nsh").onclick=function(){navigator.share({files:files}).catch(function(){})};
+ box.querySelector("#ncl").onclick=function(){d.remove()}}
+async function run(kind,btn){var lb=btn.textContent;btn.textContent="製作中…";btn.disabled=true;try{var cv=await shot(),p1=half(cv,0),p2=half(cv,1);
+ if(kind==="img"){panel([{bl:await toBlob(p1,"image/jpeg",.92),name:fname("-1.jpg"),img:1},{bl:await toBlob(p2,"image/jpeg",.92),name:fname("-2.jpg"),img:1}],"圖片")}
+ else{if(!window.jspdf)await ld("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");var P=new jspdf.jsPDF("p","mm","a4");P.addImage(p1.toDataURL("image/jpeg",.92),"JPEG",0,0,210,297);P.addPage();P.addImage(p2.toDataURL("image/jpeg",.92),"JPEG",0,0,210,297);
+  panel([{bl:P.output("blob"),name:fname(".pdf")}],"PDF")}}
+ catch(e){console.error(e);alert("無法製作（需要連上網路）。請改用「列印」→ 儲存為 PDF")}finally{btn.textContent=lb;btn.disabled=false}}
+var bar=document.querySelector(".bar");if(bar){var pr=bar.querySelector("button");["pdf","img"].forEach(function(k){var b=document.createElement("button");b.type="button";b.textContent=k==="pdf"?"📄 PDF":"🖼️ 圖片";b.onclick=function(){run(k,b)};bar.insertBefore(b,pr)})}
+})();
+</script>
 <script type="module">import { startApp } from "./cloud.js"; startApp();</script>
 </body>
 </html>
