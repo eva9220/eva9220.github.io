@@ -223,7 +223,10 @@ async function sharePdf(img){var btn=$(img?"si":"sp"),lb0=btn.textContent;btn.te
  document.querySelectorAll("style").forEach(function(el){var t=el.textContent;if(t.indexOf("@media print")>-1){mr.push([el,t]);el.textContent=t.replace(/@media print\s*\{/g,"@media print,screen{")}});var fx=document.createElement("style");fx.textContent="body>iframe.html2canvas-container:not(#x){display:block!important}";document.head.appendChild(fx);mr.push([fx,null]);
  ov.style.width="210mm";ov.scrollTop=0;window.scrollTo(0,0);await new Promise(function(r){setTimeout(r,120)});
  // foreignObject 用瀏覽器自己排版，標題、表頭文字不會往上偏；瀏覽器不支援時 html2canvas 會自動改用一般方式
- var cv=await html2canvas(ov,{scale:2,backgroundColor:"#fff",windowWidth:800,scrollX:0,scrollY:0,foreignObjectRendering:true});
+ // iPad／iPhone 的 Safari 在這種模式下會漏掉圖片（例如 LOGO）：先記下複本裡圖片的位置，做好後再畫上去
+ var IMS=[],RW=0;
+ var cv=await html2canvas(ov,{scale:2,backgroundColor:"#fff",windowWidth:800,scrollX:0,scrollY:0,foreignObjectRendering:true,onclone:function(d){var o=d.getElementById("ov");if(!o)return;var R=o.getBoundingClientRect();RW=R.width;d.querySelectorAll("#ov img").forEach(function(im){var r=im.getBoundingClientRect(),cs=d.defaultView.getComputedStyle(im);if(r.width&&r.height&&cs.visibility!=="hidden"&&cs.display!=="none")IMS.push([im.currentSrc||im.src,r.left-R.left,r.top-R.top+o.scrollTop,r.width,r.height])})}});
+ try{var cx=cv.getContext("2d"),kk=RW?cv.width/RW:2;cx.setTransform(1,0,0,1,0,0);for(var q=0;q<IMS.length;q++){var it=IMS[q],ig=await new Promise(function(r){var i=new Image();i.onload=function(){r(i)};i.onerror=function(){r(null)};i.src=it[0]});if(ig)cx.drawImage(ig,it[1]*kk,it[2]*kk,it[3]*kk,it[4]*kk)}}catch(x){console.error(x)}
  mr.forEach(function(m){if(m[1]==null)m[0].remove();else m[0].textContent=m[1]});mr=[];ov.style.width=ow;ov.scrollTop=st;
  if(img){var nm=cur().t.replace(/　/g,"").replace(/\s+/g,"")+".jpg",ib=await new Promise(function(r){cv.toBlob(r,"image/jpeg",.92)}),fi=new File([ib],nm,{type:"image/jpeg"});pdfReady(ib,nm,fi);return}
  var P=new jspdf.jsPDF("p","mm","a4"),iw=210,ih=cv.height*iw/cv.width;if(ih>297){iw=iw*297/ih;ih=297}
