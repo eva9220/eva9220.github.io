@@ -865,11 +865,11 @@ function ld(u){return new Promise(function(r,j){var s=document.createElement("sc
 function pdfReady(bl,name,f){var old=document.getElementById("pdfok");if(old)old.remove();var u=URL.createObjectURL(bl),d=document.createElement("div");d.id="pdfok";
  d.style.cssText="position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:99999;background:#fff;border:3px solid #4d4a47;border-radius:20px;padding:16px 18px;width:min(320px,90vw);text-align:center;font:16px/1.6 sans-serif;color:#4d4a47;box-shadow:0 8px 30px rgba(0,0,0,.3)";
  var bs="display:block;width:100%;margin:8px 0 0;border:0;border-radius:99px;padding:10px;font:inherit;font-size:16px;cursor:pointer;text-decoration:none;box-sizing:border-box";
- var can=navigator.canShare&&navigator.canShare({files:[f]});
- d.innerHTML='<b>✅ PDF 做好了</b><div style="font-size:13px;color:#8c857d;margin-top:2px">'+name.replace(/</g,"&lt;")+'</div>'+(can?'<button id="pk1" style="'+bs+';background:#86ab98;color:#fff">📤 分享／儲存到「檔案」</button>':'')+'<a id="pk2" href="'+u+'" target="_blank" rel="noopener" style="'+bs+';background:#f3e6c2;color:#4d4a47">📄 開啟 PDF</a><button id="pk3" style="'+bs+';background:#eee;color:#4d4a47">⬇️ 下載</button><button id="pk4" style="'+bs+';background:none;color:#8c857d">關閉</button>';
+ var can=navigator.canShare&&navigator.canShare({files:[f]}),pc=!matchMedia("(pointer:coarse)").matches;
+ d.innerHTML='<b>✅ PDF 做好了</b><div style="font-size:13px;color:#8c857d;margin-top:2px">'+name.replace(/</g,"&lt;")+'</div>'+(pc?'<button id="pk0" style="'+bs+';background:#86ab98;color:#fff">⬇️ 下載 PDF 到電腦</button>':'')+(can&&!pc?'<button id="pk1" style="'+bs+';background:#86ab98;color:#fff">📤 分享／儲存到「檔案」</button>':'')+'<a id="pk2" href="'+u+'" target="_blank" rel="noopener" style="'+bs+';background:#f3e6c2;color:#4d4a47">📄 開啟 PDF</a><button id="pk3" style="'+bs+';background:#eee;color:#4d4a47">⬇️ 下載</button><button id="pk4" style="'+bs+';background:none;color:#8c857d">關閉</button>';
  document.body.appendChild(d);
  if(can)d.querySelector("#pk1").onclick=function(){navigator.share({files:[f]}).then(function(){d.remove()}).catch(function(){})};
- d.querySelector("#pk3").onclick=function(){saveBlob(bl,name)};d.querySelector("#pk4").onclick=function(){d.remove();setTimeout(function(){URL.revokeObjectURL(u)},60000)}}
+ d.querySelector("#pk3").onclick=function(){saveBlob(bl,name)};if(pc)d.querySelector("#pk0").onclick=function(){saveBlob(bl,name);d.remove()};if(pc)d.querySelector("#pk3").style.display="none";d.querySelector("#pk4").onclick=function(){d.remove();setTimeout(function(){URL.revokeObjectURL(u)},60000)}}
 async function sharePdf(){var btn=$("sp");btn.textContent="製作中…";var mr=[],ov=$("ov"),ow=ov.style.width,st=ov.scrollTop;try{
  if(!window.html2canvas)await ld("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js");
  if(!window.jspdf)await ld("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");
@@ -881,7 +881,8 @@ async function sharePdf(){var btn=$("sp");btn.textContent="製作中…";var mr=
  var P=new jspdf.jsPDF("p","mm","a4"),iw=210,ih=cv.height*iw/cv.width;if(ih>297){iw=iw*297/ih;ih=297}
  P.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",(210-iw)/2,0,iw,ih);
  var name=cur().t.replace(/　/g,"").replace(/\s+/g,"")+".pdf",bl=P.output("blob"),f=new File([bl],name,{type:"application/pdf"}),done=false;
- if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f]});done=true}catch(x){if(x&&x.name==="AbortError")done=true}}
+ var mob=matchMedia("(pointer:coarse)").matches;
+ if(mob&&navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f]});done=true}catch(x){if(x&&x.name==="AbortError")done=true}}
  if(!done)pdfReady(bl,name,f)
 }catch(e){console.error(e);alert("無法製作 PDF（需要連上網路）。請改用「列印」→ 儲存為 PDF")}
 finally{mr.forEach(function(m){if(m[1]==null)m[0].remove();else m[0].textContent=m[1]});ov.style.width=ow}
