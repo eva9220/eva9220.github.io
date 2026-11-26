@@ -1506,6 +1506,9 @@ td .ymd input[type=checkbox]:checked:after{content:"✓";position:absolute;left:
 
 .agx{display:flex;flex-direction:column;padding:.3mm 2mm 0;font-size:9pt;line-height:1.3;color:#55604f}.agx.sm{font-size:8.5pt;white-space:nowrap;line-height:1.35}.agx b{color:var(--ink);font-weight:700}
 .vg .agx{padding:2px 0;font-size:14px;line-height:1.5}
+
+/* 電腦畫面：表格撐寬，字不會被擋住（列印仍是 A4） */
+@media screen and (min-width:821px){.sheet{width:min(1240px,100%)!important;min-height:0!important}.sheet .body{flex:1 0 auto!important}.wrap{overflow-x:visible}}
 </style>
 </head>
 <body>
@@ -1535,7 +1538,7 @@ var R0=D.rows[i];if(R0.n2){R0.n1=((R0.n1||"")+" "+R0.n2).trim();delete R0.n2}var
 r+='<tr'+(j%2?' class="z a"':' class="a"')+'><td class="n" rowspan="2">'+(i+1)+'</td><td>'+L("家長姓名")+ti(i,"p","f")+'</td><td>'+L("聯絡電話")+ti(i,"ph","f",1)+'</td><td>'+L("參觀日期／時間")+'<div class="ymd">'+ti(i,"vm","",1)+'月'+ti(i,"vd","",1)+'日 '+ti(i,"vt","tm")+'</div></td><td>'+L("孩子姓名")+ti(i,"c","f")+'</td><td>'+L("出生日／預產期")+'<div class="ymd">'+ti(i,"by","y",1)+'年'+ti(i,"bm","",1)+'月'+ti(i,"bd","",1)+'日 '+cb(i,"due","預產期")+'</div></td></tr>'+
 '<tr'+(j%2?' class="z b"':' class="b"')+'><td>'+L("預計就讀日期")+'<div class="ymd">'+ti(i,"ey","y",1)+'年'+ti(i,"em","",1)+'月'+ti(i,"ed","",1)+'日</div></td><td>'+L("班別")+'<div class="cls">'+cb(i,"k1","嫩芽")+cb(i,"k2","花曦")+cb(i,"k3","晴空")+'</div></td><td>'+L("年紀")+(agHtml(i,1)||ti(i,"ag","f"))+'</td><td>'+L("目前有無入托")+'<div class="cls">'+cb(i,"t1","有")+cb(i,"t2","無")+'</div></td><td>'+L("備註（家長參觀感受）")+ti(i,"n1","f")+'</td></tr>'}
 h+='<div class="sheet"><div class="hd"><div class="org"><small>臺南市私立</small><h1>初晴之森托嬰中心</h1></div><div class="pill">家長預約登記表</div><div class="meta"><b>'+ym[0]+'</b>年<b>'+(+ym[1])+'</b>月　第<b>'+(pg+1)+'</b>頁</div>'+WAVE+'</div><div class="body"><table>'+COLS+'<tbody>'+r+'</tbody></table></div></div>'}
-$("wrap").innerHTML=h+cardsHtml();months();$("del").style.display=pages>1?"":"none"}
+$("wrap").innerHTML=h+cardsHtml();fitTxt();months();$("del").style.display=pages>1?"":"none"}
 
 // 手機畫面：每位家長一張卡片（列印時仍用 A4 表格）
 function cardsHtml(){var out="",n=0;D.rows.forEach(function(r,i){if(!r||!(r.p||r.ph||r.c||r.n1))return;n++;
@@ -1556,7 +1559,7 @@ function today0(){var t=new Date();return new Date(t.getFullYear(),t.getMonth(),
 function diff(a,b){if(!a||!b||b<a)return null;var m=(b.getFullYear()-a.getFullYear())*12+b.getMonth()-a.getMonth();if(b.getDate()<a.getDate())m--;var x=new Date(a.getFullYear(),a.getMonth()+m,a.getDate());return{m:m,d:Math.round((b-x)/864e5)}}
 function ageTxt(o){if(!o)return"";var y=Math.floor(o.m/12),m=o.m%12;return(y?y+"歲":"")+(m||!y?m+"個月":"")+(o.d?o.d+"天":"")}
 function clsOf(m){for(var k=0;k<CLS.length;k++)if(m>=CLS[k][1]&&m<=CLS[k][2])return CLS[k];return null}
-function info(r){var b=ad(r.by,r.bm,r.bd);if(!b)return null;var t=today0(),e=ad(r.ey,r.em,r.ed),o={};
+function info(r){var b=ad(r.by,r.bm,r.bd);if(!b)return null;var t=today0(),e=ad(r.ey,r.em,r.ed||(r.ey&&r.em?1:0)),o={};
  o.now=b>t?"未出生（還有 "+Math.round((b-t)/864e5)+" 天）":ageTxt(diff(b,t))||"0天";
  if(e){var de=diff(b,e);o.enr=de?ageTxt(de)||"0天":"未出生";o.cls=de?clsOf(de.m):null}return o}
 function agHtml(i,sm){var o=info(D.rows[i]);if(!o)return null;var nw=sm?o.now.replace(/（.*$/,""):o.now;return'<div class="agx'+(sm?' sm':'')+'" data-ag="'+i+'"'+(sm?' data-sm="1"':'')+'><span>今天 <b>'+nw+'</b></span>'+(o.enr?'<span>入托時 <b>'+o.enr+'</b>'+(o.cls&&!sm?'・'+o.cls[0]:'')+'</span>':'')+'</div>'}
@@ -1568,6 +1571,10 @@ function clsNote(){return'班級月齡（依預計就讀日期自動勾選）：
 document.addEventListener("click",function(e){if(!e.target.closest||!e.target.closest("#clsed"))return;e.preventDefault();var s=prompt("各班月齡，格式：最小-最大\n依序 嫩芽班、花曦班、晴空班，用逗號分開",CLS.map(function(c){return c[1]+"-"+c[2]}).join(", "));if(!s)return;
  var P=s.split(/[,，、]/).map(function(x){var m=x.trim().match(/^(\d+)\s*[-~～]\s*(\d+)$/);return m?[+m[1],+m[2]]:null});if(P.length!==3||P.some(function(x){return!x})){alert("格式不對，例如：0-11, 12-20, 21-36");return}
  P.forEach(function(x,k){CLS[k][1]=x[0];CLS[k][2]=x[1]});KV.setItem("visit:classes",JSON.stringify(CLS.map(function(c){return[c[0],c[1],c[2]]})));var any=false;D.rows.forEach(function(r,i){if(auto(i))any=true});if(any)save();render()});
+// 字太長時縮小，列印才不會被擋住
+function fitTxt(){var cx=(fitTxt.c=fitTxt.c||document.createElement("canvas")).getContext("2d");document.querySelectorAll(".sheet td input.f").forEach(function(x){x.style.fontSize="";var v=x.value||"";if(v.length<5)return;var cs=getComputedStyle(x),px=parseFloat(cs.fontSize),room=x.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight)-2;if(room<=0)return;
+ while(px>7){cx.font=cs.fontWeight+" "+px+"px "+cs.fontFamily;if(cx.measureText(v).width<=room*.86)break;px-=.5}x.style.fontSize=px+"px"})}
+window.addEventListener("beforeprint",fitTxt);
 var WAVE='<svg class="wave" viewBox="0 0 200 10" preserveAspectRatio="none"><path d="M0 6 C40 0 80 10 120 5 S180 2 200 6 V10 H0Z" fill="#6f8667"/></svg>';
 var COLS='<colgroup><col style="width:6%"><col style="width:16%"><col style="width:19%"><col style="width:18%"><col style="width:13%"><col></colgroup>';
 $("wrap").addEventListener("input",function(e){var t=e.target;if(t.classList.contains("who")){D.who=t.value;document.querySelectorAll(".who").forEach(function(x){if(x!==t)x.value=t.value});return save()}var i=t.dataset.i,f=t.dataset.f;if(i==null)return;D.rows[+i][f]=t.type==="checkbox"?t.checked:t.value;if(/^(by|bm|bd|ey|em|ed)$/.test(f)){auto(+i);upd(+i)}document.querySelectorAll('[data-i="'+i+'"][data-f="'+f+'"]').forEach(function(x){if(x===t)return;if(x.type==="checkbox")x.checked=t.checked;else x.value=t.value});save()});
