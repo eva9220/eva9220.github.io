@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>活動登記｜初晴之森托嬰中心</title>
+<style>
+:root{--g:#57704f;--g2:#6f8667;--gl:#f3f5ef;--ln:#c9d1c3;--ink:#3f4a3b;--y:#ecc56b;--p:#e7a3b1;--bad:#c4513e}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#efeae0;color:var(--ink);font:16px/1.5 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;padding-bottom:40px}
+.bar{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;background:#f3e6c2;border-bottom:3px solid #d8c48c}
+.bar a,.bar button{font:inherit;font-size:14px;color:#4d4a47;text-decoration:none;border:2px solid #4d4a47;border-radius:99px;padding:4px 14px;background:#fff;cursor:pointer}
+.bar b{font-size:18px;letter-spacing:.08em;flex:1 0 auto}
+.bar button.g{background:var(--g);border-color:var(--g);color:#fff}
+#st{font-size:12px;color:var(--g)}
+main{max-width:760px;margin:0 auto;padding:12px}
+.card{background:#fff;border-radius:18px;padding:12px 14px;margin:0 0 12px;box-shadow:0 3px 0 #d8c48c}
+.card h3{margin:0 0 8px;font-size:17px;color:var(--g);display:flex;align-items:center;gap:8px}
+.card h3 small{font-weight:400;color:#8a9284;font-size:13px}
+.g2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+label{display:flex;flex-direction:column;font-size:12px;color:#7a8473;gap:2px;min-width:0}
+input,select,textarea{font:inherit;font-size:15px;color:var(--ink);border:1.5px solid var(--ln);border-radius:10px;padding:6px 8px;background:#fbfcf9;min-width:0;width:100%}
+input[type=date],input[type=time]{-webkit-appearance:none;appearance:none;min-height:36px}
+.full{grid-column:1/-1}
+.b{font:inherit;font-size:14px;border:1.5px solid var(--ln);border-radius:99px;padding:6px 14px;background:#fff;color:var(--ink);cursor:pointer}
+.b.g{background:var(--g);border-color:var(--g);color:#fff;font-size:16px;padding:8px 24px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.msg{color:var(--g);font-size:14px}
+.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.sum div{background:var(--gl);border-radius:12px;padding:8px 10px;font-size:14px}
+.sum b{display:block;font-size:18px}
+.sum .full2{background:#f8e1dc;color:var(--bad)}
+.it{border-top:1px dashed var(--ln);padding:10px 0}
+.it:first-child{border-top:0}
+.it .t{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.it .t b{font-size:16px}
+.it small{color:#7a8473;font-size:13px}
+.tag{display:inline-block;font-size:12px;border-radius:99px;padding:0 8px;background:#e4ebe0;color:var(--g)}
+.tag.r{background:#f8e1dc;color:var(--bad)}
+.it .ops{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.it .ops select{width:auto;font-size:13px;padding:3px 6px}
+.it .ops .b{font-size:13px;padding:3px 10px}
+a.tel{color:inherit}
+.hint{font-size:13px;color:#8a7d68;margin:4px 0 0}
+/* 簽到表（列印） */
+#prt{display:none}
+@media print{
+ @page{size:A4 portrait;margin:12mm}
+ body{background:#fff;padding:0}
+ .bar,main{display:none!important}
+ #prt{display:block}
+ .ps{break-after:page}.ps:last-child{break-after:auto}
+ .ps h1{font-size:18pt;text-align:center;margin:0 0 2mm;letter-spacing:.1em}
+ .ps p{text-align:center;margin:0 0 4mm;font-size:11pt}
+ .ps table{width:100%;border-collapse:collapse;table-layout:fixed}
+ .ps th,.ps td{border:1px solid #333;padding:2mm 1.5mm;font-size:10.5pt;text-align:left;vertical-align:middle;word-break:break-all}
+ .ps th{background:#e4ebe0;text-align:center;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .ps td{height:11mm}
+ .ps td.c{text-align:center}
+}
+</style>
+</head>
+<body>
+<div class="bar"><a href="guide.html">← 入園指南</a><b>活動登記</b><span id="st"></span><button type="button" id="pr" class="g">🖨️ 列印簽到表</button></div>
+<main id="app"><p class="hint">載入中…</p></main>
+<div id="prt"></div>
+<script type="text/plain" data-app>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var E=function(v){return String(v==null?"":v).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")};
+var WK="日一二三四五六";
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function pad(n){return String(n).padStart(2,"0")}
+// 活動清單存在 event:list，每個活動的登記資料存在 event:<id>
+var L=null,cur=null,D=null,ui={sess:"",editSet:false,msg:""};
+try{L=JSON.parse(KV.getItem("event:list")||"null")}catch(e){}
+if(!L||!L.length){L=[{id:"e20261220",name:"親子體驗日",date:"2026-12-20",sess:["09:30–11:00"],cap:10,place:"初晴之森托嬰中心",note:"請穿著輕便服裝，可攜帶寶寶的水杯與尿布"}];KV.setItem("event:list",JSON.stringify(L))}
+cur=L.slice().sort(function(a,b){return a.date<b.date?1:-1})[0];
+var tm,dirty=false;function flush(){if(!dirty)return;clearTimeout(tm);dirty=false;KV.setItem("event:"+cur.id,JSON.stringify(D));$("st").textContent="✓ 已儲存"}
+function saveD(){$("st").textContent="儲存中…";dirty=true;clearTimeout(tm);tm=setTimeout(flush,300)}
+function saveL(){KV.setItem("event:list",JSON.stringify(L))}
+function loadD(){try{D=JSON.parse(KV.getItem("event:"+cur.id)||"null")}catch(e){D=null}if(!D||!D.rows)D={rows:[]}}
+loadD();
+function dt(s){var p=String(s||"").split("-");return p.length<3?null:new Date(+p[0],+p[1]-1,+p[2])}
+function dLabel(s){var d=dt(s);return d?(d.getMonth()+1)+"/"+d.getDate()+"（"+WK[d.getDay()]+"）":""}
+function ageAt(b,at){var a=dt(b),t=dt(at);if(!a||!t)return"";if(a>t)return"未出生";var m=(t.getFullYear()-a.getFullYear())*12+t.getMonth()-a.getMonth();if(t.getDate()<a.getDate())m--;var y=Math.floor(m/12),mm=m%12;return(y?y+"歲":"")+(mm||!y?mm+"個月":"")}
+var ST=["已登記","已提醒","已報到","取消"];
+function live(){return D.rows.filter(function(r){return r.st!=="取消"})}
+function stat(s){var R=live().filter(function(r){return !s||r.sess===s});return{n:R.length,ad:R.reduce(function(a,r){return a+(+r.ad||0)},0),ch:R.reduce(function(a,r){return a+(+r.ch||0)},0),in:R.filter(function(r){return r.st==="已報到"}).length}}
+function sessOpts(sel){return cur.sess.map(function(s){var k=stat(s),full=cur.cap&&k.n>=cur.cap;return'<option value="'+E(s)+'"'+(s===sel?' selected':'')+'>'+E(s)+'（'+k.n+(cur.cap?'／'+cur.cap:'')+' 組'+(full?'・已滿':'')+'）</option>'}).join("")}
+function render(){var h="";
+ h+='<div class="card"><h3>📅 活動 <select id="evsel" style="width:auto;flex:1">'+L.map(function(e){return'<option value="'+e.id+'"'+(e===cur?' selected':'')+'>'+E(e.date.replace(/-/g,"/"))+' '+E(e.name)+'</option>'}).join("")+'</select><button class="b" id="evnew">＋ 新活動</button></h3>'+
+  '<p style="margin:0;font-size:15px"><b>'+E(cur.name)+'</b>　'+dLabel(cur.date)+'　'+E(cur.sess.join("、"))+'　'+(cur.cap?'每場 '+cur.cap+' 組':'')+'</p>'+(cur.place?'<p class="hint">地點：'+E(cur.place)+'</p>':'')+
+  (ui.editSet?'<div class="g2" style="margin-top:8px"><label class="full">活動名稱<input id="s_name" value="'+E(cur.name)+'"></label><label>日期<input id="s_date" type="date" value="'+E(cur.date)+'"></label><label>每場名額（組，0＝不限）<input id="s_cap" type="number" inputmode="numeric" value="'+E(cur.cap)+'"></label><label class="full">場次時段（一行一場）<textarea id="s_sess" rows="3">'+E(cur.sess.join("\n"))+'</textarea></label><label class="full">地點<input id="s_place" value="'+E(cur.place)+'"></label><label class="full">提醒家長事項<textarea id="s_note" rows="2">'+E(cur.note)+'</textarea></label></div><div class="row"><button class="b g" id="setok">儲存設定</button><button class="b" id="setno">取消</button><button class="b" id="evdel" style="margin-left:auto;color:var(--bad)">刪除這個活動</button></div>':'<div class="row"><button class="b" id="setup">✏️ 修改活動設定</button></div>')+'</div>';
+ // 統計
+ var all=stat();h+='<div class="card"><h3>📊 報名狀況 <small>（不含取消）</small></h3><div class="sum">'+cur.sess.map(function(s){var k=stat(s),full=cur.cap&&k.n>=cur.cap;return'<div class="'+(full?'full2':'')+'">'+E(s)+'<b>'+k.n+(cur.cap?' / '+cur.cap:'')+' 組</b>大人 '+k.ad+'・小孩 '+k.ch+(k.in?'・已報到 '+k.in:'')+(full?'<br>已額滿':'')+'</div>'}).join("")+(cur.sess.length>1?'<div>合計<b>'+all.n+' 組</b>大人 '+all.ad+'・小孩 '+all.ch+'</div>':'')+'</div></div>';
+ // 快速登記
+ var s0=ui.sess||cur.sess[0]||"";h+='<div class="card"><h3>⚡ 快速登記</h3><div class="g2">'+(cur.sess.length>1?'<label class="full">場次<select id="q_s">'+sessOpts(s0)+'</select></label>':'')+
+  '<label>家長姓名<input id="q_p"></label><label>聯絡電話<input id="q_ph" type="tel" inputmode="tel"></label><label>孩子姓名<input id="q_c"></label><label>孩子出生日<input id="q_b" type="date"></label>'+
+  '<label>大人人數<input id="q_ad" type="number" inputmode="numeric" value="1" min="0"></label><label>小孩人數<input id="q_ch" type="number" inputmode="numeric" value="1" min="0"></label>'+
+  '<label class="full">過敏／特殊需求<input id="q_al" placeholder="例如：蛋過敏、需要推車停放"></label><label class="full">備註（從哪裡知道活動、是否參觀過…）<input id="q_n"></label></div>'+
+  '<div class="row"><button class="b g" id="q_ok">登記</button><span class="msg" id="q_msg">'+(ui.msg||"")+'</span></div></div>';
+ // 名單
+ var R=D.rows.map(function(r,i){return[r,i]}).sort(function(a,b){return(a[0].st==="取消")-(b[0].st==="取消")||(a[0].sess<b[0].sess?-1:a[0].sess>b[0].sess?1:a[1]-b[1])});
+ h+='<div class="card"><h3>👪 報名名單 <small>'+D.rows.length+' 筆</small></h3>'+(R.length?R.map(function(x,k){var r=x[0],i=x[1],ag=ageAt(r.b,cur.date);return'<div class="it"><div class="t"><b>'+(k+1)+'. '+E(r.p||"（未填）")+'</b>'+(r.c?'<span>・'+E(r.c)+(ag?'（活動當天 '+E(ag)+'）':'')+'</span>':'')+(cur.sess.length>1?'<span class="tag">'+E(r.sess)+'</span>':'')+(r.st==="取消"?'<span class="tag r">取消</span>':r.st==="已報到"?'<span class="tag">✓ 已報到</span>':'')+'</div>'+
+  '<small>'+(r.ph?'📞 <a class="tel" href="tel:'+E(String(r.ph).replace(/[^\d+]/g,""))+'">'+E(r.ph)+'</a>　':'')+'大人 '+E(r.ad||0)+'・小孩 '+E(r.ch||0)+(r.al?'　<span style="color:var(--bad)">⚠️ '+E(r.al)+'</span>':'')+(r.n?'　'+E(r.n):'')+'</small>'+
+  '<div class="ops"><select data-st="'+i+'">'+ST.map(function(s){return'<option'+(s===r.st?' selected':'')+'>'+s+'</option>'}).join("")+'</select>'+(cur.sess.length>1?'<select data-ss="'+i+'">'+sessOpts(r.sess)+'</select>':'')+'<button class="b" data-cp="'+i+'">📋 複製提醒訊息</button><button class="b" data-del="'+i+'">刪除</button></div></div>'}).join(""):'<p class="hint">還沒有人報名，用上面的「快速登記」新增。</p>')+'</div>';
+ $("app").innerHTML=h;prt()}
+function msgOf(r){return(r.p||"家長")+"您好：\n提醒您報名了初晴之森托嬰中心「"+cur.name+"」\n📅 "+dLabel(cur.date)+" "+(r.sess||cur.sess[0]||"")+"\n📍 "+(cur.place||"")+(cur.note?"\n"+cur.note:"")+"\n期待與您和"+(r.c||"寶寶")+"見面！如需取消或更改請回覆告知，謝謝 😊"}
+// 簽到表：每個場次一頁，名單後面補空白列
+function prt(){var h="";cur.sess.forEach(function(s){var R=D.rows.filter(function(r){return r.sess===s&&r.st!=="取消"}),n=Math.max(R.length+4,12),rows="";
+ for(var i=0;i<n;i++){var r=R[i];rows+='<tr><td class="c">'+(i+1)+'</td><td>'+(r?E(r.p):"")+'</td><td>'+(r?E(r.ph):"")+'</td><td>'+(r?E(r.c)+(ageAt(r.b,cur.date)?'<br><small>'+E(ageAt(r.b,cur.date))+'</small>':''):"")+'</td><td class="c">'+(r?E(r.ad||0)+"／"+E(r.ch||0):"")+'</td><td>'+(r?E(r.al||""):"")+'</td><td></td></tr>'}
+ h+='<div class="ps"><h1>初晴之森托嬰中心　'+E(cur.name)+'　簽到表</h1><p>'+E(cur.date.replace(/-/g,"/"))+'（'+(dt(cur.date)?WK[dt(cur.date).getDay()]:"")+'）　場次 '+E(s)+(cur.place?'　地點 '+E(cur.place):'')+'</p><table><colgroup><col style="width:7%"><col style="width:15%"><col style="width:17%"><col style="width:17%"><col style="width:11%"><col style="width:16%"><col></colgroup><tr><th>#</th><th>家長姓名</th><th>電話</th><th>孩子姓名／年齡</th><th>大人／小孩</th><th>過敏／特殊需求</th><th>簽到</th></tr>'+rows+'</table></div>'});$("prt").innerHTML=h}
+document.addEventListener("change",function(e){var t=e.target;
+ if(t.id==="evsel"){flush();cur=L.filter(function(x){return x.id===t.value})[0];loadD();ui={sess:"",editSet:false,msg:""};render();return}
+ if(t.id==="q_s"){ui.sess=t.value;return}
+ if(t.dataset.st!=null){D.rows[+t.dataset.st].st=t.value;saveD();render();return}
+ if(t.dataset.ss!=null){D.rows[+t.dataset.ss].sess=t.value;saveD();render();return}});
+document.addEventListener("click",function(e){var t=e.target.closest("button");if(!t)return;
+ if(t.id==="pr"){prt();window.print();return}
+ if(t.id==="setup"){ui.editSet=true;render();return}
+ if(t.id==="setno"){ui.editSet=false;render();return}
+ if(t.id==="setok"){var ss=$("s_sess").value.split(/\n/).map(function(x){return x.trim()}).filter(Boolean);if(!$("s_name").value.trim()||!$("s_date").value||!ss.length){alert("請填活動名稱、日期和至少一個場次");return}
+  var old=cur.sess.slice();cur.name=$("s_name").value.trim();cur.date=$("s_date").value;cur.cap=+$("s_cap").value||0;cur.sess=ss;cur.place=$("s_place").value.trim();cur.note=$("s_note").value.trim();
+  // 場次名稱改了：原本第 N 場的報名跟著改到新的第 N 場
+  D.rows.forEach(function(r){var k=old.indexOf(r.sess);if(k>-1&&ss[k]&&ss.indexOf(r.sess)<0)r.sess=ss[k]});saveL();saveD();ui.editSet=false;render();return}
+ if(t.id==="evnew"){var nm=prompt("活動名稱","親子活動");if(!nm)return;var d0=new Date(),id="e"+uid();var e2={id:id,name:nm.trim(),date:d0.getFullYear()+"-"+pad(d0.getMonth()+1)+"-"+pad(d0.getDate()),sess:["09:30–11:00"],cap:10,place:cur.place||"",note:""};L.push(e2);saveL();cur=e2;loadD();ui={sess:"",editSet:true,msg:""};render();return}
+ if(t.id==="evdel"){if(L.length<2){alert("至少要保留一個活動");return}if(!confirm("刪除「"+cur.name+"」和它的 "+D.rows.length+" 筆報名資料？刪除後無法復原"))return;KV.removeItem&&KV.removeItem("event:"+cur.id);L=L.filter(function(x){return x!==cur});saveL();cur=L[0];loadD();ui={sess:"",editSet:false,msg:""};render();return}
+ if(t.id==="q_ok"){var p=$("q_p").value.trim(),ph=$("q_ph").value.trim();if(!p&&!ph){alert("請至少填家長姓名或電話");return}
+  var s=$("q_s")?$("q_s").value:(cur.sess[0]||""),k=stat(s);if(cur.cap&&k.n>=cur.cap&&!confirm(s+" 已經額滿（"+k.n+"／"+cur.cap+" 組），還要登記嗎？"))return;
+  var dup=D.rows.filter(function(r){return r.st!=="取消"&&((ph&&r.ph===ph)||(p&&r.p===p))})[0];if(dup&&!confirm((p||ph)+" 已經報名過了，還要再登記一次嗎？"))return;
+  var r={id:uid(),sess:s,p:p,ph:ph,c:$("q_c").value.trim(),b:$("q_b").value,ad:+$("q_ad").value||0,ch:+$("q_ch").value||0,al:$("q_al").value.trim(),n:$("q_n").value.trim(),st:"已登記",at:new Date().toISOString().slice(0,10)};
+  D.rows.push(r);saveD();ui.sess=s;ui.msg="✓ 已登記 "+(p||ph)+"（"+s+"，第 "+live().filter(function(x){return x.sess===s}).length+" 組）";render();var f=$("q_p");if(f)f.focus();return}
+ if(t.dataset.cp!=null){var txt=msgOf(D.rows[+t.dataset.cp]);var ok=function(){t.textContent="✓ 已複製";setTimeout(function(){t.textContent="📋 複製提醒訊息"},1500)};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(ok,function(){prompt("請複製這段訊息",txt)});else prompt("請複製這段訊息",txt);return}
+ if(t.dataset.del!=null){var r2=D.rows[+t.dataset.del];if(!confirm("刪除 "+(r2.p||r2.ph)+" 的報名？（只是不來的話，建議把狀態改成「取消」）"))return;D.rows.splice(+t.dataset.del,1);saveD();render();return}});
+window.addEventListener("pagehide",flush);
+render();
+})();
+</script>
+<script type="module">import { startApp } from "./cloud.js"; startApp();</script>
+</body>
+</html>
