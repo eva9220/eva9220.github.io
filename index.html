@@ -1457,7 +1457,10 @@ function pad(n){return String(n).padStart(2,"0")}
 // 活動清單存在 event:list，每個活動的登記資料存在 event:<id>
 var L=null,cur=null,D=null,ui={sess:"",editSet:false,msg:""};
 try{L=JSON.parse(KV.getItem("event:list")||"null")}catch(e){}
-if(!L||!L.length){L=[{id:"e20261220",name:"親子體驗日",date:"2026-12-20",sess:["09:30–11:00"],cap:10,place:"初晴之森托嬰中心",note:"請穿著輕便服裝，可攜帶寶寶的水杯與尿布"}];KV.setItem("event:list",JSON.stringify(L))}
+var EV0={id:"e20261220",name:"初晴初見 親子體驗日",date:"2026-12-20",sess:["14:00–16:00"],cap:10,place:"初晴之森托嬰中心（臺南市安平區國平路167巷26號）",note:"報到時間 13:50–14:00，對象為 0–2 歲寶寶家庭。活動有繪本故事、親子律動、感官探索、戶外體驗，參加就送精美好禮，當日報名另有專屬優惠。請穿著輕便服裝，可攜帶寶寶的水杯與尿布。報名專線 06-2953111"};
+if(!L||!L.length){L=[EV0];KV.setItem("event:list",JSON.stringify(L))}
+// 之前先建好的預設活動（還沒改過設定）換成海報上的正式資料
+else L.forEach(function(e,k){if(e.id==="e20261220"&&e.name==="親子體驗日"&&e.sess.join()==="09:30–11:00"&&e.place==="初晴之森托嬰中心"){L[k]=Object.assign({},EV0,{cap:e.cap});KV.setItem("event:list",JSON.stringify(L))}});
 cur=L.slice().sort(function(a,b){return a.date<b.date?1:-1})[0];
 var tm,dirty=false;function flush(){if(!dirty)return;clearTimeout(tm);dirty=false;KV.setItem("event:"+cur.id,JSON.stringify(D));$("st").textContent="✓ 已儲存"}
 function saveD(){$("st").textContent="儲存中…";dirty=true;clearTimeout(tm);tm=setTimeout(flush,300)}
